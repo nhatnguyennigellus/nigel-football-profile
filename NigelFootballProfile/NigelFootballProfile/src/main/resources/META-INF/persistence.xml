@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="NigelFootballProfile" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>nigel.footballprofile.entity.Championship</class>
+		<class>nigel.footballprofile.entity.Country</class>
+		<class>nigel.footballprofile.entity.City</class>
+		<class>nigel.footballprofile.entity.Stadium</class>
+		<class>nigel.footballprofile.entity.Team</class>
+		<class>nigel.footballprofile.entity.State</class>
+		<class>nigel.footballprofile.entity.TeamPlayer</class>
+		<class>nigel.footballprofile.entity.Player</class>
+		<class>nigel.footballprofile.entity.Scorer</class>
+		<class>nigel.footballprofile.entity.Match</class>
+		<class>nigel.footballprofile.entity.MatchTeam</class>
+		<class>nigel.footballprofile.entity.WorkLog</class>
+		<class>nigel.footballprofile.entity.StandingsData</class>
+		<properties>
+			<property name="hibernate.connection.charSet" value="UTF-8" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nigelfootballprofile" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.password" value="123456" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+</persistence>
