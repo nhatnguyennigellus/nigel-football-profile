@@ -113,17 +113,17 @@ public class ChampionshipDAO implements DAOInterface<Championship, Integer> {
 	 * Oct 24, 2015 12:54:24 PM
 	 * @author Nigellus
 	 */
-	public List<Championship> getListByShortName(String shortName) {
-		List<Championship> list = null;
+	public Championship getListByShortName(String shortName) {
+		Championship champ = null;
 
 		try {
 			TypedQuery<Championship> query = em.createQuery(
 					"SELECT c FROM Championship c WHERE c.shortName = ?1", Championship.class);
 			query.setParameter(1, shortName);
-			list = query.getResultList();
+			champ = query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return list;
+		return champ;
 	}
 }
