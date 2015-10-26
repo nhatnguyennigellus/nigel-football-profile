@@ -16,7 +16,7 @@
 	href="<c:url value='/resources/css/bootstrap.min.css'/> ">
 
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/bootstrap.css'/> ">
+	href="<c:url value='/resources/css/bootstrap-admin.css'/> ">
 
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/jquery.dataTables.css' />">
@@ -24,7 +24,7 @@
 	href="<c:url value='/resources/css/dataTables.bootstrap.css' />">
 
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/sb-admin.css'/> ">
+	href="<c:url value='/resources/css/sb-admin-1.css'/> ">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/> ">
 <style>
@@ -63,7 +63,7 @@
 	<div id="wrapper">
 
 		<!-- Navigation -->
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-inverse navbar-fixed-top" id="admin" role="navigation">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"

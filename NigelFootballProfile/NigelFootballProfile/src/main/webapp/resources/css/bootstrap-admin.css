@@ -4874,8 +4874,8 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 }
 
 .navbar-inverse {
-	background-color: #004603;
-	border-color: #003903;
+	background-color: #a60000;
+	border-color: #4E0000;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4885,7 +4885,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus
 	{
 	color: #fff;
-	background-color: #004603;
+	background-color: #bf0000;
 }
 
 .navbar-inverse .navbar-text {

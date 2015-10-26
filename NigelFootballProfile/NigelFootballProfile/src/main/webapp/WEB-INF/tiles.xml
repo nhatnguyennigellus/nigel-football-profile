@@ -11,14 +11,19 @@
 		<put-attribute name="title"></put-attribute>
 		<put-attribute name="body"></put-attribute>
 	</definition>
-	<definition name="login" extends="masterpage">
-		<put-attribute name="title" value="Login"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/login.jsp"></put-attribute>
-	</definition>
 	<definition name="home" extends="masterpage">
-		<put-attribute name="title" value="Home - Nigel's Football Profile"></put-attribute>
+		<put-attribute name="title" value="Home Page"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp"></put-attribute>
 	</definition>
+	<definition name="admin" extends="system">
+		<put-attribute name="title" value="Admin Page"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/admin.jsp"></put-attribute>
+	</definition>
+	<definition name="location" extends="system">
+		<put-attribute name="title" value="Location"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/location.jsp"></put-attribute>
+	</definition>
+	
 	
 	<!-- <definition name="viewCustomer" extends="masterpage">
 		<put-attribute name="title" value="Customer List"></put-attribute>

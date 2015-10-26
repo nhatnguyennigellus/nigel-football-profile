@@ -41,7 +41,6 @@ import org.springframework.stereotype.Service;
  * Oct 24, 2015 10:04:15 PM
  */
 @Service("profileService")
-@Transactional
 public class ProfileService implements IProfileService {
 	@Autowired
 	private CountryDAO countryDAO;
