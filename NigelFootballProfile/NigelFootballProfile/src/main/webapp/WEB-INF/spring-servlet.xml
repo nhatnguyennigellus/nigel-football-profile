@@ -31,6 +31,10 @@
 
 	</bean>
 
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000"></property>
+	</bean>
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
@@ -54,7 +58,8 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/nigelfootballprofile" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/nigelfootballprofile" />
 		<property name="password" value="123456" />
 		<property name="username" value="root" />
 	</bean>
@@ -64,7 +69,7 @@
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
-			<tx:method name="*" />
+			<tx:method name="*"/>
 		</tx:attributes>
 	</tx:advice>
 </beans>

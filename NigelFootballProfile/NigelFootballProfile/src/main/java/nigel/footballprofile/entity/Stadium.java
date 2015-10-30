@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "stadiums")
-public class Stadium {
+public class Stadium extends SpecialEntity {
 	@Id
 	@Column(name = "id")
 	@Length(max = 5)
@@ -85,5 +85,8 @@ public class Stadium {
 		this.city = city;
 	}
 	
-	
+	@Override
+	public String getId() {
+		return this.stadiumId;
+	}
 }

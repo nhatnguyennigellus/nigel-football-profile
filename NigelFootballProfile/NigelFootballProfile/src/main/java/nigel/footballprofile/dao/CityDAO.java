@@ -8,8 +8,10 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import nigel.footballprofile.entity.City;
+import nigel.footballprofile.entity.Country;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for City
@@ -19,7 +21,8 @@ import org.springframework.stereotype.Repository;
  *         Oct 24, 2015 11:20:19 AM
  */
 @Repository("cityDAO")
-public class CityDAO implements DAOInterface<City, String> {
+@Transactional
+public class CityDAO  {
 	@PersistenceContext
 	private EntityManager em;
 
@@ -94,12 +97,34 @@ public class CityDAO implements DAOInterface<City, String> {
 		City city = null;
 		try {
 			TypedQuery<City> query = em.createQuery(
-					"SELECT l FROM City l WHERE id = ?1", City.class);
+					"SELECT c FROM City c WHERE id = ?1", City.class);
 			query.setParameter(1, id);
 			city = query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+		return city;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 *
+	 * Oct 30, 2015 8:21:36 PM
+	 * @author Nigellus
+	 */
+	public List<City> getByName(String name) {
+		List<City> city = null;
+		try {
+			TypedQuery<City> query = em.createQuery(
+					"SELECT c FROM City c WHERE c.name LIKE ?1", 
+					City.class);
+			query.setParameter(1, "'%" + name + "%'");
+			city = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return city;
 	}

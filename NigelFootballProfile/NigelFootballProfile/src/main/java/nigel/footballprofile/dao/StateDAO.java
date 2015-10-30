@@ -11,6 +11,7 @@ import nigel.footballprofile.entity.State;
 import nigel.footballprofile.entity.Team;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for State
@@ -20,7 +21,8 @@ import org.springframework.stereotype.Repository;
  * Oct 24, 2015 1:00:20 PM
  */
 @Repository("stateDAO")
-public class StateDAO implements DAOInterface<StateDAO, Integer> {
+@Transactional
+public class StateDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -128,5 +130,9 @@ public class StateDAO implements DAOInterface<StateDAO, Integer> {
 			return null;
 		}
 		return state;
+	}
+
+	public List<StateDAO> getByType(Integer u) {
+		return null;
 	}
 }

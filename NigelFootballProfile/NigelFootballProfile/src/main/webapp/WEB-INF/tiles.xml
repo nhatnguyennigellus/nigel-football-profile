@@ -20,7 +20,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp"></put-attribute>
 	</definition>
 	<definition name="location" extends="system">
-		<put-attribute name="title" value="Location"></put-attribute>
+		<put-attribute name="title" value="Location Maintenance"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/location.jsp"></put-attribute>
 	</definition>
 	

@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "players")
-public class Player {
+public class Player extends SpecialEntity {
 	@Id
 	@Column(name = "id")
 	private String playerId;
@@ -125,5 +125,8 @@ public class Player {
 		this.scorers = scorers;
 	}
 	
-	
+	@Override
+	public String getId() {
+		return this.playerId;
+	}
 }

@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>nigel.footballprofile</groupId>
-  <artifactId>NigelFootballProfile</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Nigel's Football Profile</name>
-  <url>http://maven.apache.org</url>
-  <properties>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nigel.footballprofile</groupId>
+	<artifactId>NigelFootballProfile</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Nigel's Football Profile</name>
+	<url>http://maven.apache.org</url>
+	<properties>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 	</properties>
 	<repositories>
@@ -16,7 +16,7 @@
 			<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo/</url>
 		</repository>
 	</repositories>
-  <dependencies>
+	<dependencies>
 
 		<!-- Hibernate -->
 		<dependency>
@@ -70,7 +70,6 @@
 			<version>2.0.0</version>
 			<scope>provided</scope><!-- since I'm running inside a Java EE container -->
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -163,6 +162,18 @@
 			<version>4.2.0.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -206,9 +217,14 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.4</version>
+		</dependency>
 	</dependencies>
-  
-  <build>
-    <finalName>NigelFootballProfile</finalName>
-  </build>
+
+	<build>
+		<finalName>NigelFootballProfile</finalName>
+	</build>
 </project>

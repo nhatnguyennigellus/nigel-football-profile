@@ -5,17 +5,17 @@
 	<persistence-unit name="NigelFootballProfile" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>nigel.footballprofile.entity.Championship</class>
+		<class>nigel.footballprofile.entity.WorkLog</class>
 		<class>nigel.footballprofile.entity.Country</class>
 		<class>nigel.footballprofile.entity.City</class>
 		<class>nigel.footballprofile.entity.Stadium</class>
 		<class>nigel.footballprofile.entity.Team</class>
 		<class>nigel.footballprofile.entity.State</class>
-		<class>nigel.footballprofile.entity.TeamPlayer</class>
 		<class>nigel.footballprofile.entity.Player</class>
+		<class>nigel.footballprofile.entity.TeamPlayer</class>
 		<class>nigel.footballprofile.entity.Scorer</class>
 		<class>nigel.footballprofile.entity.Match</class>
 		<class>nigel.footballprofile.entity.MatchTeam</class>
-		<class>nigel.footballprofile.entity.WorkLog</class>
 		<class>nigel.footballprofile.entity.StandingsData</class>
 		<properties>
 			<property name="hibernate.connection.charSet" value="UTF-8" />

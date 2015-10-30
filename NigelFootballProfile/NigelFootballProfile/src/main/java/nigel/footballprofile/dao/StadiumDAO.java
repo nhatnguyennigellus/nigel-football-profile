@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import nigel.footballprofile.entity.Stadium;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Stadium
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Repository;
  * Oct 24, 2015 11:49:24 AM
  */
 @Repository("stadiumDAO")
-public class StadiumDAO implements DAOInterface<Stadium, String> {
+@Transactional
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback=false)
+public class StadiumDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -103,6 +106,10 @@ public class StadiumDAO implements DAOInterface<Stadium, String> {
 			return null;
 		}
 		return stadium;
+	}
+
+	public List<Stadium> getByType(String u) {
+		return null;
 	}
 
 }

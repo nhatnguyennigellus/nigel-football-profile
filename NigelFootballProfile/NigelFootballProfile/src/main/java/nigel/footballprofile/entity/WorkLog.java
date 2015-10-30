@@ -31,7 +31,6 @@ public class WorkLog {
 	@NotEmpty
 	private String logType;
 	
-	@NotEmpty
 	private Date datetime;
 	
 	public WorkLog() {

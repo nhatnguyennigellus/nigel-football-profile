@@ -25,17 +25,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "countries")
-public class Country {
+public class Country extends SpecialEntity {
 	@Id
 	@Column(name = "id")
-	@Length(max = 5)
+	@Length(min = 0, max = 5, message="Length must be maximum 5")
 	private String countryId;
 	
-	@NotEmpty
 	private String name;
 	
-	@NotEmpty
-	@Length(max = 3)
 	private String shortName;
 	
 	@OneToMany(mappedBy = "country")
@@ -90,4 +87,8 @@ public class Country {
 		this.players = players;
 	}
 	
+	@Override
+	public String getId() {
+		return this.countryId;
+	}
 }

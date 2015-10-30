@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.NotSupportedException;
 import javax.transaction.Transactional;
 
 import nigel.footballprofile.entity.Championship;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Championship
@@ -19,7 +21,9 @@ import org.springframework.stereotype.Repository;
  *         Oct 24, 2015 12:46:38 PM
  */
 @Repository("championshipDAO")
-public class ChampionshipDAO implements DAOInterface<Championship, Integer> {
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback=false)
+@Transactional
+public class ChampionshipDAO {
 	@PersistenceContext
 	private EntityManager em;
 
@@ -125,5 +129,15 @@ public class ChampionshipDAO implements DAOInterface<Championship, Integer> {
 			e.printStackTrace();
 		}
 		return champ;
+	}
+
+	public List<Championship> getByType(Integer u) {
+		try {
+			throw new NotSupportedException();
+		} catch (NotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

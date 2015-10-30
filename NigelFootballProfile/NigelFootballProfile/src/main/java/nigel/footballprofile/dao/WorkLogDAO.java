@@ -7,39 +7,40 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Repository;
-
-import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.entity.WorkLog;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Work Log
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 12:38:35 PM
+ *         Oct 24, 2015 12:38:35 PM
  */
 @Repository("workLogDAO")
-public class WorkLogDAO implements DAOInterface<WorkLog, Integer> {
+@Transactional
+public class WorkLogDAO {
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	public WorkLogDAO() {
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 *
-	 * Oct 24, 2015 12:39:02 PM
+	 *         Oct 24, 2015 12:39:02 PM
 	 * @author Nigellus
 	 */
 	public List<WorkLog> getList() {
 		List<WorkLog> list = null;
 
 		try {
-			TypedQuery<WorkLog> query = em.createQuery("SELECT w FROM WorkLog w",
-					WorkLog.class);
+			TypedQuery<WorkLog> query = em.createQuery(
+					"SELECT w FROM WorkLog w", WorkLog.class);
 			list = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,7 +53,7 @@ public class WorkLogDAO implements DAOInterface<WorkLog, Integer> {
 	 * @param log
 	 * @return
 	 *
-	 * Oct 24, 2015 12:40:03 PM
+	 *         Oct 24, 2015 12:40:03 PM
 	 * @author Nigellus
 	 */
 	public boolean add(WorkLog log) {
@@ -70,7 +71,7 @@ public class WorkLogDAO implements DAOInterface<WorkLog, Integer> {
 	 * @param log
 	 * @return
 	 *
-	 * Oct 24, 2015 12:42:16 PM
+	 *         Oct 24, 2015 12:42:16 PM
 	 * @author Nigellus
 	 */
 	public boolean update(WorkLog log) {
@@ -88,15 +89,14 @@ public class WorkLogDAO implements DAOInterface<WorkLog, Integer> {
 	 * @param id
 	 * @return
 	 *
-	 * Oct 24, 2015 12:42:20 PM
+	 *         Oct 24, 2015 12:42:20 PM
 	 * @author Nigellus
 	 */
 	public WorkLog getById(Integer id) {
 		WorkLog log = null;
 		try {
 			TypedQuery<WorkLog> query = em.createQuery(
-					"SELECT w FROM WorkLog w WHERE id = ?1", 
-					WorkLog.class);
+					"SELECT w FROM WorkLog w WHERE id = ?1", WorkLog.class);
 			query.setParameter(1, id);
 			log = query.getSingleResult();
 		} catch (Exception e) {
@@ -112,14 +112,14 @@ public class WorkLogDAO implements DAOInterface<WorkLog, Integer> {
 	 * @param type
 	 * @return
 	 *
-	 * Oct 24, 2015 12:42:22 PM
+	 *         Oct 24, 2015 12:42:22 PM
 	 * @author Nigellus
 	 */
 	public List<WorkLog> getByType(String type) {
 		List<WorkLog> list = null;
 		try {
 			TypedQuery<WorkLog> query = em.createQuery(
-					"SELECT w FROM WorkLog w WHERE w.logType = ?1", 
+					"SELECT w FROM WorkLog w WHERE w.logType = ?1",
 					WorkLog.class);
 			query.setParameter(1, type);
 			list = query.getResultList();

@@ -39,6 +39,7 @@ public class AppConstant {
 	static public String LEAGUE_NORMAL = "LNORM";
 	static public String LEAGUE_PLAY_OFF = "LPOFF";
 	static public String LEAGUE_RELEGATION = "LRLGN";
+	
 	static public String TOUR_GROUP_STAGE = "TGRST";
 	static public String TOUR_ELIMINATED = "TELMD";
 	static public String TOUR_ROUND_OF_16 = "TRO16";
@@ -54,4 +55,13 @@ public class AppConstant {
 	static public String CUP_SEMI_FINAL = "C12FN";
 	static public String CUP_FINAL = "CFINL";
 	
+	/**
+	 * Work Log Type
+	 */
+	static public String WLOG_ADD = "ADDI";
+	static public String WLOG_UPDATE = "UPDT";
+	static public String WLOG_SUBMIT_SCORE = "SSCR";
+	static public String WLOG_IMPORT = "IMPT";
+	static public String WLOG_SUBMIT_QUALIFIERS = "SQLR";
+	// more
 }

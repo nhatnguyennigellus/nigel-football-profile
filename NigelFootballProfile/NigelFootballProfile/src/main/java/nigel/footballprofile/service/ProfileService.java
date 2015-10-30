@@ -33,15 +33,16 @@ import nigel.footballprofile.entity.WorkLog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
  * Provides services for this application
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 10:04:15 PM
+ *         Oct 24, 2015 10:04:15 PM
  */
 @Service("profileService")
-public class ProfileService implements IProfileService {
+public class ProfileService {
 	@Autowired
 	private CountryDAO countryDAO;
 	@Autowired
@@ -68,72 +69,192 @@ public class ProfileService implements IProfileService {
 	private TeamPlayerDAO teamPlayerDAO;
 	@Autowired
 	private ScorerDAO scorerDAO;
-	
+
 	public ProfileService() {
+	} 
+	/*
+	 * Work Log
+	 */
+	
+	/**
+	 * 
+	 * @return
+	 *
+	 * Oct 29, 2015 12:15:59 AM
+	 * @author Nigellus
+	 */
+	public List<WorkLog> getWorkLogList() {
+		return workLogDAO.getList();
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:03 AM
+	 * @author Nigellus
+	 */
+	public WorkLog getWorkLogById(Integer id) {
+		return workLogDAO.getById(id);
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:06 AM
+	 * @author Nigellus
+	 */
+	public List<WorkLog> getWorkLogByType(String type) {
+		return workLogDAO.getByType(type);
+	}
+
+	/**
+	 * 
+	 * @param workLog
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:10 AM
+	 * @author Nigellus
+	 */
+	public boolean addWorkLog(WorkLog workLog) {
+		return workLogDAO.add(workLog);
+	}
+
+	/**
+	 * 
+	 * @param workLog
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:14 AM
+	 * @author Nigellus
+	 */
+	public boolean updateWorkLog(WorkLog workLog) {
+		return workLogDAO.update(workLog);
+	}
+
+	/**
+	 * 
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:17 AM
+	 * @author Nigellus
+	 */
+	public List<Country> getCountryList() {
+		return countryDAO.getList();
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:21 AM
+	 * @author Nigellus
+	 */
+	public Country getCountryById(String id) {
+		return countryDAO.getById(id);
 	}
 	
 	/**
-	 * Common services
+	 * 
+	 * @param shortName
+	 * @return
+	 *
+	 * Oct 29, 2015 1:15:25 AM
+	 * @author Nigellus
 	 */
+	public Country getCountryByShortname(String shortName) {
+		return countryDAO.getByShortname(shortName);
+	}
 	
-	public <T> String generateId(String prefix, int length, List<T> list) {
-		String id = "";
-		
-		StringBuilder idBuilder = new StringBuilder();
-		/* Add prefix */
-		idBuilder.append(prefix);
-		
-		/* Add suffix */
-		
-		return id;
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 *
+	 * Oct 29, 2015 7:54:12 AM
+	 * @author Nigellus
+	 */
+	public List<Country> getCountryByName(String name) {
+		return countryDAO.getByName(name);
 	}
 
-	public List<WorkLog> getWorkLogList() {
-		return null;
-	}
-
-	public WorkLog getWorkLogById(String id) {
-		return null;
-	}
-
-	public boolean addWorkLog(WorkLog workLog) {
-		return false;
-	}
-
-	public boolean updateWorkLog(WorkLog workLog) {
-		return false;
-	}
-
-	public List<Country> getCountryList() {
-		return null;
-	}
-
-	public Country getCountryById(String id) {
-		return null;
-	}
-
+	/**
+	 * 
+	 * @param country
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:24 AM
+	 * @author Nigellus
+	 */
 	public boolean addCountry(Country country) {
-		return false;
+		return countryDAO.add(country);
 	}
 
+	/**
+	 * 
+	 * @param country
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:27 AM
+	 * @author Nigellus
+	 */
 	public boolean updateCountry(Country country) {
-		return false;
+		return countryDAO.update(country);
 	}
 
-	public List<Country> getCityList() {
-		return null;
+	/**
+	 * 
+	 * @return
+	 *
+	 * Oct 29, 2015 12:16:30 AM
+	 * @author Nigellus
+	 */
+	public List<City> getCityList() {
+		return cityDAO.getList();
 	}
 
-	public Country getCityById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Oct 30, 2015 8:11:15 PM
+	 * @author Nigellus
+	 */
+	public City getCityById(String id) {
+		return cityDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param city
+	 * @return
+	 *
+	 * Oct 30, 2015 8:11:34 PM
+	 * @author Nigellus
+	 */
 	public boolean addCity(City city) {
-		return false;
+		return cityDAO.add(city);
 	}
 
+	/**
+	 * 
+	 * @param city
+	 * @return
+	 *
+	 * Oct 30, 2015 8:11:37 PM
+	 * @author Nigellus
+	 */
 	public boolean updateCity(City city) {
-		return false;
+		return cityDAO.update(city);
+	}
+	
+	public List<City> getCityByName(String name) {
+		return cityDAO.getByName(name);
 	}
 
 	public List<Stadium> getStadiumList() {
@@ -302,5 +423,14 @@ public class ProfileService implements IProfileService {
 
 	public boolean updateStandingsData(StandingsData StandingsData) {
 		return false;
+	}
+
+	public boolean existedCountry(Country country) {
+		return (this.getCountryByName(country.getName()).size() > 0)
+				|| (this.getCountryByShortname(country.getShortName()) != null);
+	}
+
+	public boolean existedCity(City city) {
+		return (this.getCityByName(city.getName()).size() > 0);
 	}
 }

@@ -7,10 +7,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Repository;
-
-import nigel.footballprofile.entity.Match;
 import nigel.footballprofile.entity.MatchTeam;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Match Team
@@ -20,7 +20,8 @@ import nigel.footballprofile.entity.MatchTeam;
  * Oct 24, 2015 1:42:25 PM
  */
 @Repository("matchTeamDAO")
-public class MatchTeamDAO implements DAOInterface<MatchTeam, Integer> {
+@Transactional
+public class MatchTeamDAO {
 	@PersistenceContext
 	private EntityManager em;
 
@@ -104,6 +105,10 @@ public class MatchTeamDAO implements DAOInterface<MatchTeam, Integer> {
 			return null;
 		}
 		return matchTeam;
+	}
+
+	public List<MatchTeam> getByType(Integer u) {
+		return null;
 	}
 	
 	

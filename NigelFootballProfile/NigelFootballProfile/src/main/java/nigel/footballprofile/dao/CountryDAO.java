@@ -5,12 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import nigel.footballprofile.entity.Country;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Country
@@ -20,7 +20,8 @@ import org.springframework.stereotype.Repository;
  *         Oct 24, 2015 11:12:45 AM
  */
 @Repository("countryDAO")
-public class CountryDAO implements DAOInterface<Country, String> {
+@Transactional
+public class CountryDAO  {
 	@PersistenceContext
 	private EntityManager em;
 
@@ -102,6 +103,52 @@ public class CountryDAO implements DAOInterface<Country, String> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+		return country;
+	}
+
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 *
+	 * Oct 29, 2015 12:14:36 AM
+	 * @author Nigellus
+	 */
+	public Country getByShortname(String shortName) {
+		Country country = null;
+		try {
+			TypedQuery<Country> query = em.createQuery(
+					"SELECT l FROM Country l WHERE l.shortName = ?1", 
+					Country.class);
+			query.setParameter(1, shortName);
+			country = query.getSingleResult();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return country;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 *
+	 * Oct 30, 2015 8:20:15 PM
+	 * @author Nigellus
+	 */
+	public List<Country> getByName(String name) {
+		List<Country> country = null;
+		try {
+			TypedQuery<Country> query = em.createQuery(
+					"SELECT l FROM Country l WHERE l.name LIKE ?1", 
+					Country.class);
+			query.setParameter(1, "'%" + name + "%'");
+			country = query.getResultList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return country;
 	}

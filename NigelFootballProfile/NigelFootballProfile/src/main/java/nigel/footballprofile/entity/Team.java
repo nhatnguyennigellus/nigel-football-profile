@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "teams")
-public class Team {
+public class Team extends SpecialEntity {
 	@Id
 	@Column(name = "id")
 	@Length(max = 7)
@@ -147,4 +147,8 @@ public class Team {
 		this.logoUrl = logoUrl;
 	}
 	
+	@Override
+	public String getId() {
+		return this.teamId;
+	}
 }

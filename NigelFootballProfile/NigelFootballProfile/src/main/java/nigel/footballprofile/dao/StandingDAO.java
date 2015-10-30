@@ -11,6 +11,7 @@ import nigel.footballprofile.entity.StandingsData;
 import nigel.footballprofile.entity.Team;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Standing
@@ -20,7 +21,8 @@ import org.springframework.stereotype.Repository;
  * Oct 24, 2015 9:20:33 PM
  */
 @Repository("standingDAO")
-public class StandingDAO implements DAOInterface<StandingsData, Integer>{
+@Transactional
+public class StandingDAO{
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -137,6 +139,10 @@ public class StandingDAO implements DAOInterface<StandingsData, Integer>{
 			return null;
 		}
 		return data;
+	}
+
+	public List<StandingsData> getByType(Integer u) {
+		return null;
 	}
 	
 }

@@ -83,7 +83,7 @@
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">
-					<tiles:insertAttribute name="title" />
+					<font size="2"><tiles:insertAttribute name="title" /></font>
 					<i class="glyphicon glyphicon-file"></i></a>
 					 </li>
 			</ul>
@@ -98,7 +98,7 @@
 						data-target="#customer"><i class="glyphicon glyphicon-user"></i>
 							&nbsp;System &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></a>
 						<ul id="customer" class="collapse">
-							<li><a href="#"><i
+							<li><a href="location"><i
 									class="glyphicon glyphicon-map-marker"></i> Location</a></li>
 								<li><a href="#"><i
 										class="glyphicon glyphicon-road"></i> Stadium</a></li>
