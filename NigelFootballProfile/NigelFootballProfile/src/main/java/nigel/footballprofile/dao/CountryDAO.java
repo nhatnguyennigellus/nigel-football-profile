@@ -124,8 +124,7 @@ public class CountryDAO  {
 			query.setParameter(1, shortName);
 			country = query.getSingleResult();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
 		return country;
 	}
@@ -147,8 +146,7 @@ public class CountryDAO  {
 			query.setParameter(1, "'%" + name + "%'");
 			country = query.getResultList();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
 		return country;
 	}

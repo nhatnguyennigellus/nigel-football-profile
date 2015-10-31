@@ -425,11 +425,28 @@ public class ProfileService {
 		return false;
 	}
 
-	public boolean existedCountry(Country country) {
-		return (this.getCountryByName(country.getName()).size() > 0)
-				|| (this.getCountryByShortname(country.getShortName()) != null);
+	/**
+	 * 
+	 * @param shortName
+	 * @param name
+	 * @return
+	 *
+	 * Oct 31, 2015 1:19:42 PM
+	 * @author Nigellus
+	 */
+	public boolean existedCountry(String shortName, String name) {
+		return (this.getCountryByShortname(shortName) != null)
+				&& (this.getCountryByName(name) != null);
 	}
 
+	/**
+	 * 
+	 * @param city
+	 * @return
+	 *
+	 * Oct 31, 2015 1:19:45 PM
+	 * @author Nigellus
+	 */
 	public boolean existedCity(City city) {
 		return (this.getCityByName(city.getName()).size() > 0);
 	}

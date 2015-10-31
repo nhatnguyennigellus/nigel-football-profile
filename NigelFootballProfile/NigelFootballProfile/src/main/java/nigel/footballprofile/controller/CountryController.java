@@ -42,7 +42,7 @@ public class CountryController {
 	 * @param request
 	 * @return
 	 *
-	 * Oct 30, 2015 9:07:52 PM
+	 *         Oct 30, 2015 9:07:52 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toLocation")
@@ -51,6 +51,7 @@ public class CountryController {
 		request.getSession().removeAttribute("importSuccess");
 		return "redirect:location";
 	}
+
 	/**
 	 * 
 	 * @param model
@@ -84,10 +85,10 @@ public class CountryController {
 			HttpServletRequest request, Model model) {
 		request.getSession().removeAttribute("txtError");
 		request.getSession().removeAttribute("importSuccess");
-		
+
 		boolean isOK = true;
 		boolean errExist = false;
-		StringBuilder errorMsg = new StringBuilder(); 
+		StringBuilder errorMsg = new StringBuilder();
 		int count = 0;
 		if (!file.isEmpty()) {
 			count++;
@@ -103,12 +104,12 @@ public class CountryController {
 						continue;
 					}
 					Country country = new Country();
-					country.setCountryId(IDGenerator.genCountryId(
-							profileService.getCountryList()));
+					country.setCountryId(IDGenerator
+							.genCountryId(profileService.getCountryList()));
 					country.setName(ctryData[0]);
 					country.setShortName(ctryData[1]);
-					
-					if (profileService.existedCountry(country)) {
+
+					if (!profileService.existedCountry(ctryData[1], ctryData[0])) {
 						isOK = false;
 						errExist = true;
 						continue;
@@ -116,8 +117,7 @@ public class CountryController {
 
 					if (!profileService.addCountry(country)) {
 						isOK = false;
-					}
-					else {
+					} else {
 						count++;
 					}
 				}
@@ -129,9 +129,10 @@ public class CountryController {
 			errorMsg.append(" File was empty! ");
 		}
 		String successMsg = "";
-		if (count > 0 && isOK) {
-			successMsg = "Imported " + count + " countries successfully!";
-		} 
+		if (count > 0) {
+			String ctryMsg = (count > 1) ? " countries" : " country";
+			successMsg = "Imported " + count + ctryMsg +" successfully!";
+		}
 		if (!isOK) {
 			errorMsg.append(" Error occurs! ");
 			if (errExist) {
@@ -139,13 +140,16 @@ public class CountryController {
 			}
 			request.getSession().setAttribute("txtError", errorMsg.toString());
 		}
-		request.getSession().setAttribute("importSuccess", successMsg);
 		// Add Work Log
-		WorkLog log = new WorkLog();
-		log.setDatetime(new Date());
-		log.setLogType(AppConstant.WLOG_IMPORT);
-		log.setDescription(successMsg);
-		profileService.addWorkLog(log);
+		if (!successMsg.equals("")) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("importSuccess", successMsg);
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_IMPORT);
+			log.setDescription(successMsg);
+			profileService.addWorkLog(log);
+		}
 		return "redirect:location";
 	}
 }

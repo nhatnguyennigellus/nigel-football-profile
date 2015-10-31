@@ -110,7 +110,7 @@
 										class="glyphicon glyphicon-calendar"></i> Match Schedule</a></li>
 								<li><a href="#"><i
 										class="glyphicon glyphicon-star-empty"></i> Championship</a></li>
-								<li><a href="#"><i
+								<li><a href="worklog"><i
 										class="glyphicon glyphicon-edit"></i> Work Log</a></li>
 						</ul></li>
 					

@@ -48,7 +48,7 @@ public class CityController {
 			HttpServletRequest request, Model model) {
 		request.getSession().removeAttribute("txtError");
 		request.getSession().removeAttribute("importSuccess");
-		
+
 		boolean isOK = true;
 		boolean errExist = false;
 		StringBuilder errorMsg = new StringBuilder();
@@ -65,6 +65,13 @@ public class CityController {
 					if (cityData.length != 2) {
 						continue;
 					}
+
+					if (profileService.getCountryByShortname(cityData[1]) == null) {
+						isOK = false;
+						errorMsg.append("Country does not exist! ");
+						continue;
+					}
+
 					City city = new City();
 					city.setCityId(IDGenerator.genCityId(profileService
 							.getCityList()));
@@ -77,13 +84,6 @@ public class CityController {
 						errExist = true;
 						continue;
 					}
-					
-					if (profileService.existedCountry
-							(profileService.getCountryByShortname(cityData[1]))) {
-						isOK = false;
-						errorMsg.append("Error occurs! ");
-						continue;
-					}
 
 					if (!profileService.addCity(city)) {
 						isOK = false;
@@ -92,15 +92,17 @@ public class CityController {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				isOK = false;
 				errorMsg.append("Error occurs! ");
 			}
 		} else {
+			isOK = false;
 			errorMsg.append(" File was empty! ");
 		}
 		String successMsg = "";
-		if (count > 0 && isOK) {
-			successMsg = "Imported " + count + " cities successfully!";
+		if (count > 0) {
+			String cityMsg = (count > 1) ? " cities" : " city";
+			successMsg = "Imported " + count + cityMsg + " successfully!";
 		}
 		if (!isOK) {
 			errorMsg.append(" Error occurs! ");
@@ -109,14 +111,17 @@ public class CityController {
 			}
 			request.getSession().setAttribute("txtError", errorMsg.toString());
 		}
-		request.getSession().setAttribute("importSuccess", successMsg);
-		
+
 		// Add Work Log
-		WorkLog log = new WorkLog();
-		log.setDatetime(new Date());
-		log.setLogType(AppConstant.WLOG_IMPORT);
-		log.setDescription(successMsg);
-		profileService.addWorkLog(log);
+		if (!successMsg.equals("")) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("importSuccess", successMsg);
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_IMPORT);
+			log.setDescription(successMsg);
+			profileService.addWorkLog(log);
+		}
 		return "redirect:location";
 	}
 }
