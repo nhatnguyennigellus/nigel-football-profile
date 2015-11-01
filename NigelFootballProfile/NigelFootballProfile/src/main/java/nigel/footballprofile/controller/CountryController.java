@@ -109,7 +109,8 @@ public class CountryController {
 					country.setName(ctryData[0]);
 					country.setShortName(ctryData[1]);
 
-					if (!profileService.existedCountry(ctryData[1], ctryData[0])) {
+					if (profileService
+							.existedCountry(ctryData[1], ctryData[0])) {
 						isOK = false;
 						errExist = true;
 						continue;
@@ -131,7 +132,7 @@ public class CountryController {
 		String successMsg = "";
 		if (count > 0) {
 			String ctryMsg = (count > 1) ? " countries" : " country";
-			successMsg = "Imported " + count + ctryMsg +" successfully!";
+			successMsg = "Imported " + count + ctryMsg + " successfully!";
 		}
 		if (!isOK) {
 			errorMsg.append(" Error occurs! ");
@@ -150,6 +151,50 @@ public class CountryController {
 			log.setDescription(successMsg);
 			profileService.addWorkLog(log);
 		}
+		return "redirect:location";
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 *
+	 * Nov 1, 2015 11:45:25 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/modifyCountry", method = RequestMethod.POST)
+	public String modifyCountry(HttpServletRequest request) {
+		boolean isOK = true;
+		String ctryId = request.getParameter("ctryId");
+		String ctryName = request.getParameter("ctryName");
+		String shrtName = request.getParameter("shrtName");
+
+		if (profileService.existedCountry(shrtName, ctryName)) {
+			request.getSession().removeAttribute("importSuccess");
+			request.getSession().setAttribute("txtError",
+					"Existed country name or short name!");
+			return "redirect:location";
+		}
+
+		Country country = profileService.getCountryById(ctryId);
+		country.setName(ctryName);
+		country.setShortName(shrtName);
+		if (profileService.updateCountry(country)) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("importSuccess",
+					"Country modified successfully!");
+			
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_UPDATE);
+			log.setDescription("Modify country => [" + ctryId + 
+					", " + ctryName + ", " + shrtName + "]");
+			profileService.addWorkLog(log);
+		} else {
+			request.getSession().removeAttribute("importSuccess");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+
 		return "redirect:location";
 	}
 }

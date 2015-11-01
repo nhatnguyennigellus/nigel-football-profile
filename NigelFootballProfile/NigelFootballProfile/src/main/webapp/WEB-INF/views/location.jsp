@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -11,17 +12,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Location
-	<a href="#" data-toggle="modal" data-target="#modalCountry">
-		<button type="submit" class="btn btn-success">
-			<span class=" glyphicon glyphicon-globe"></span>
-		</button>
-	</a>
-	<a href="#" data-toggle="modal" data-target="#modalCity">
-		<button type="submit" class="btn btn-info">
-			<span class=" glyphicon glyphicon-map-marker"></span>
-		</button>
-	</a></h2>
+	<h2>
+		Location <a href="#" data-toggle="modal" data-target="#modalCountry">
+			<button type="submit" class="btn btn-success">
+				<span class=" glyphicon glyphicon-globe"></span>
+			</button>
+		</a> <a href="#" data-toggle="modal" data-target="#modalCity">
+			<button type="submit" class="btn btn-info">
+				<span class=" glyphicon glyphicon-map-marker"></span>
+			</button>
+		</a>
+	</h2>
 	<c:if test="${sessionScope.txtError != null}">
 		<div class="alert alert-danger" role="alert">
 			<button type="button" class="close" data-dismiss="alert"
@@ -59,11 +60,14 @@
 									<tr>
 										<td>${country.name }</td>
 										<td>${country.shortName }</td>
-										<td>
-											<button type="button" class="btn btn-primary btn-sm">
-												<span class="glyphicon glyphicon-edit"></span>
-											</button>
-										</td>
+										<td><a href="#" data-toggle="modal"
+											data-target="#modalModifyCountry"
+											data-id="${country.countryId }" data-name="${country.name }"
+											data-shrtn="${country.shortName }" id="updCtry">
+												<button type="button" class="btn btn-primary btn-sm">
+													<span class="glyphicon glyphicon-edit"></span>
+												</button>
+										</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -101,6 +105,47 @@
 										data-dismiss="modal">Close</button>
 								</div>
 							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="modalModifyCountry" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">MODIFY COUNTRY</h4>
+							</div>
+
+
+
+							<div class="col-md-12">
+								<div class="modal-body">
+
+									<form method="POST" role="form" action="modifyCountry"
+										id="frmModifyCountry" class="form-inline">
+										<input id="id" class="form-control input-sm" name="ctryId"
+											type="hidden" />
+										<div class="form-group">
+											<input id="ctryName" class="form-control input-sm"
+												name="ctryName" />
+										</div>
+										<div class="form-group">
+											<input id="shrtName" name="shrtName"
+												class="form-control input-sm" />
+										</div>
+										<input class="btn btn-success btn-xs" name="submit"
+											type="submit" value="Update" />
+									</form>
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger btn-sm"
+									data-dismiss="modal">Close</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -148,146 +193,29 @@
 								<h4 class="modal-title" id="myModalLabel">IMPORT CITY</h4>
 							</div>
 							<form method="POST" role="form" action="importCity"
-									id="frmImportCity" enctype="multipart/form-data">
-							<div class="modal-body">
+								id="frmImportCity" enctype="multipart/form-data">
+								<div class="modal-body">
 									<dl class="dl-horizontal form-group">
 										<dt>File Import:</dt>
 										<dd>
 											<input type="file" id="fileUpload" name="fileCity">
 										</dd>
 									</dl>
-								
-							</div>
-							<div class="modal-footer">
-								<input class="btn btn-success btn-sm" type="submit"
-									value="Upload">
-								<button type="button" class="btn btn-danger btn-sm"
-									data-dismiss="modal">Close</button>
-							</div></form>
+
+								</div>
+								<div class="modal-footer">
+									<input class="btn btn-success btn-sm" type="submit"
+										value="Upload">
+									<button type="button" class="btn btn-danger btn-sm"
+										data-dismiss="modal">Close</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<%-- <div class="container-fluid">
-		<h1>Dashboard</h1>
-		<div class="row">
-			<ol class="breadcrumb">
-				<li><i class="glyphicon glyphicon-home"></i> Dashboard</li>
-			</ol>
-			<div class="col-lg-3">
-				<div class="panel panel-red">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="glyphicon glyphicon-user fa-4x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">${CustomerNo }</div>
-								<div>country</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel-body">
-						<a href="viewCustomer"> <span class="pull-left">View
-								country</span> <span class="pull-right"> <i
-								class="glyphicon glyphicon-circle-arrow-right"></i>
-						</span></a>
-					</div>
-					<sec:authorize access="hasRole('Support')">
-						<div class="panel-body">
-							<a href="toAddCustomer"> <span class="pull-left">Add
-									country</span> <span class="pull-right"> <i
-									class="glyphicon glyphicon-circle-arrow-right"></i>
-							</span></a>
-						</div>
-					</sec:authorize>
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="glyphicon glyphicon-book fa-4x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">${AccountNo }</div>
-								<div>Account</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel-body">
-						<a href="searchAccount"> <span class="pull-left">View
-								Accounts</span> <span class="pull-right"> <i
-								class="glyphicon glyphicon-circle-arrow-right"></i>
-						</span></a>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="glyphicon glyphicon-briefcase fa-4x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">${TransactionNo }</div>
-								<div>Transaction</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel-body">
-						<a href="searchTransaction"> <span class="pull-left">Search
-								Transaction </span> <span class="pull-right"> <i
-								class="glyphicon glyphicon-circle-arrow-right"></i>
-						</span></a>
-					</div>
-					<sec:authorize access="hasRole('Support')">
-						<div class="panel-body">
-							<a href="accountTransaction"> <span class="pull-left">Perform
-									Transaction </span> <span class="pull-right"> <i
-									class="glyphicon glyphicon-circle-arrow-right"></i>
-							</span></a>
-						</div>
-					</sec:authorize>
-				</div>
-			</div>
-			<sec:authorize access="hasRole('Admin')">
-				<div class="col-lg-3" >
-					<div class="panel panel-yellow">
-						<div class="panel-heading" style="height: 89px;">
-							<div class="row">
-								<div class="col-xs-3">
-									<i class="glyphicon glyphicon-usd fa-4x"></i>
-								</div>
-								<div class="col-xs-9 text-right">
-									<div><h4>INTEREST RATE</h4>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="panel-body">
-							<a href="viewInterestRate"> <span class="pull-left">View
-									Interest Rate</span> <span class="pull-right"> <i
-									class="glyphicon glyphicon-circle-arrow-right"></i>
-							</span></a>
-						</div>
-
-					</div>
-				</div>
-			</sec:authorize>
-		</div>
-	</div> --%>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -295,17 +223,64 @@
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
 				'aTargets' : [ 0, 1, 2 ]
-		} ]
+			} ]
 		});
 		$('#tableCity').dataTable({
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
 				'aTargets' : [ 0, 1, 2 ]
-		} ]
+			} ]
 		});
 	});
-	$(window).load(function() {
-		$('#myModal').modal('show');
+	$(document).on("click", "#updCtry", function() {
+		$("input#id").attr("value", $(this).data('id'));
+		$("input#ctryName").attr("value", $(this).data('name'));
+		$("input#shrtName").attr("value", $(this).data('shrtn'));
+	});
+	
+	$(function () {
+		$("#frmModifyCountry").validate({
+			rules : {
+				ctryName: {
+					required: true,
+				},
+				shrtName: {
+					required: true,
+					exactlength: 3
+				}
+			},
+			messages: {
+				ctryName: {
+					required: "Country Name is required!",
+				},
+				shrtName: {
+					required: "Country Short Name is required!",
+					rangelength: "Country Shortname must contain max 3 characters"
+				}
+			}
+		})
+	});
+	
+	$.validator.addMethod("exactlength", function(value, element, param) {
+		return this.optional(element) || value.length == param;
+	}, jQuery.format("Please enter exactly {0} characters."));
+
+	$.validator.setDefaults({
+		highlight : function(element) {
+			$(element).closest('.form-group').addClass('has-error');
+		},
+		unhighlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-error');
+		},
+		errorElement : 'span',
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
+		}
 	});
 </script>
 </html>
