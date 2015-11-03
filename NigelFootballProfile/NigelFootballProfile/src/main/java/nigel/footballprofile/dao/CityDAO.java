@@ -119,9 +119,9 @@ public class CityDAO  {
 		List<City> city = null;
 		try {
 			TypedQuery<City> query = em.createQuery(
-					"SELECT c FROM City c WHERE c.name LIKE ?1", 
+					"SELECT c FROM City c WHERE c.name = ?1", 
 					City.class);
-			query.setParameter(1, "'%" + name + "%'");
+			query.setParameter(1, name);
 			city = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

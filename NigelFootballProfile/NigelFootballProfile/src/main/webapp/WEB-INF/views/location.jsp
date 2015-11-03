@@ -136,7 +136,7 @@
 											<input id="shrtName" name="shrtName"
 												class="form-control input-sm" />
 										</div>
-										<input class="btn btn-success btn-xs" name="submit"
+										<input class="btn btn-success btn-sm" name="submit"
 											type="submit" value="Update" />
 									</form>
 
@@ -170,10 +170,15 @@
 									<tr>
 										<td>${city.name }</td>
 										<td>${city.country.name }</td>
-										<td>
+										<td><a href="#" data-toggle="modal"
+											data-target="#modalModifyCity"
+											data-id="${city.cityId }" data-name="${city.name }"
+											data-ctryname="${city.country.name }" 
+											data-ctryshrtname="${city.country.shortName }" 
+											id="updCity">
 											<button type="button" class="btn btn-primary btn-sm">
 												<span class="glyphicon glyphicon-edit"></span>
-											</button>
+											</button></a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -213,6 +218,48 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="modalModifyCity" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">MODIFY CITY</h4>
+							</div>
+							<div class="col-md-12">
+								<div class="modal-body">
+
+									<form method="POST" role="form" action="modifyCity"
+										id="frmModifyCity" class="form-inline">
+										<input id="cityId" class="form-control input-sm" name="cityId"
+											type="hidden" />
+										<div class="form-group">
+											<input id="cityName" class="form-control input-sm"
+												name="cityName" />
+										</div>
+										<div class="form-group">
+											<div class="input-group input-group-sm">
+												<input type="text" class="form-control" id="cntryName" name="cntryName"
+													aria-describedby="basic-addon2"> <span
+													class="input-group-addon" id="ctryShrtName"></span>
+											</div>
+											
+										</div>
+										<input class="btn btn-success btn-sm" name="submit"
+											type="submit" value="Update" />
+									</form>
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger btn-sm"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -220,12 +267,14 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#tableCountry').dataTable({
+			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
 				'aTargets' : [ 0, 1, 2 ]
 			} ]
 		});
 		$('#tableCity').dataTable({
+			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
 				'aTargets' : [ 0, 1, 2 ]
@@ -238,29 +287,58 @@
 		$("input#shrtName").attr("value", $(this).data('shrtn'));
 	});
 	
-	$(function () {
-		$("#frmModifyCountry").validate({
-			rules : {
-				ctryName: {
-					required: true,
-				},
-				shrtName: {
-					required: true,
-					exactlength: 3
-				}
-			},
-			messages: {
-				ctryName: {
-					required: "Country Name is required!",
-				},
-				shrtName: {
-					required: "Country Short Name is required!",
-					rangelength: "Country Shortname must contain max 3 characters"
-				}
-			}
-		})
+	$(document).on("click", "#updCity", function() {
+		$("input#cityId").attr("value", $(this).data('id'));
+		$("input#cityName").attr("value", $(this).data('name'));
+		$("span#ctryShrtName").html($(this).data('ctryshrtname'));
+		$("input#cntryName").attr("value", $(this).data('ctryname'));
 	});
-	
+
+	$(function() {
+		$("#frmModifyCountry")
+				.validate(
+						{
+							rules : {
+								ctryName : {
+									required : true,
+								},
+								shrtName : {
+									required : true,
+									exactlength : 3
+								}
+							},
+							messages : {
+								ctryName : {
+									required : "Country Name is required!",
+								},
+								shrtName : {
+									required : "Country Short Name is required!",
+									rangelength : "Country Shortname must contain max 3 characters"
+								}
+							}
+						});
+		$("#frmModifyCity")
+		.validate(
+				{
+					rules : {
+						cityName : {
+							required : true,
+						},
+						cntryName : {
+							required : true,
+						}
+					},
+					messages : {
+						cityName : {
+							required : "City Name is required!",
+						},
+						cntryName : {
+							required : "Country Short Name is required!",
+						}
+					}
+				});
+	});
+
 	$.validator.addMethod("exactlength", function(value, element, param) {
 		return this.optional(element) || value.length == param;
 	}, jQuery.format("Please enter exactly {0} characters."));

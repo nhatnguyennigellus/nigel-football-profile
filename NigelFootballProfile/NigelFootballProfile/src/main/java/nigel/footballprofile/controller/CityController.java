@@ -72,18 +72,18 @@ public class CityController {
 						continue;
 					}
 
+					if (profileService.existedCity(cityData[0])) {
+						isOK = false;
+						errExist = true;
+						continue;
+					}
+					
 					City city = new City();
 					city.setCityId(IDGenerator.genCityId(profileService
 							.getCityList()));
 					city.setName(cityData[0]);
 					city.setCountry(profileService
 							.getCountryByShortname(cityData[1]));
-
-					if (profileService.existedCity(city)) {
-						isOK = false;
-						errExist = true;
-						continue;
-					}
 
 					if (!profileService.addCity(city)) {
 						isOK = false;
@@ -122,6 +122,58 @@ public class CityController {
 			log.setDescription(successMsg);
 			profileService.addWorkLog(log);
 		}
+		return "redirect:location";
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 *
+	 * Nov 3, 2015 7:49:06 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/modifyCity", method = RequestMethod.POST)
+	public String modifyCity(HttpServletRequest request) {
+		boolean isOK = true;
+		String cityId = request.getParameter("cityId");
+		String cityName = request.getParameter("cityName");
+		String ctryName = request.getParameter("cntryName");
+		
+		City city = profileService.getCityById(cityId);
+		if(profileService.existedCity(cityName)
+				&& !cityName.equals(city.getName())) {
+			request.getSession().removeAttribute("importSuccess");
+			request.getSession().setAttribute("txtError",
+					"Existed city name!");
+			return "redirect:location";
+		}
+		
+		if(profileService.getCountryByName(ctryName) == null) {
+			request.getSession().removeAttribute("importSuccess");
+			request.getSession().setAttribute("txtError",
+					"Country name doesn't exist!");
+			return "redirect:location";
+		}
+		city.setName(cityName);
+		city.setCountry(profileService.getCountryByName(ctryName));
+		
+		if (profileService.updateCity(city)) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("importSuccess",
+					"City modified successfully!");
+			
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_UPDATE);
+			log.setDescription("Modify city => [" + cityId + 
+					", " + cityName + ", " + ctryName + "]");
+			profileService.addWorkLog(log);
+		} else {
+			request.getSession().removeAttribute("importSuccess");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
 		return "redirect:location";
 	}
 }

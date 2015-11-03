@@ -178,7 +178,7 @@ public class ProfileService {
 	 * Oct 29, 2015 7:54:12 AM
 	 * @author Nigellus
 	 */
-	public List<Country> getCountryByName(String name) {
+	public Country getCountryByName(String name) {
 		return countryDAO.getByName(name);
 	}
 
@@ -253,6 +253,14 @@ public class ProfileService {
 		return cityDAO.update(city);
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 *
+	 * Nov 3, 2015 7:53:20 AM
+	 * @author Nigellus
+	 */
 	public List<City> getCityByName(String name) {
 		return cityDAO.getByName(name);
 	}
@@ -447,7 +455,7 @@ public class ProfileService {
 	 * Oct 31, 2015 1:19:45 PM
 	 * @author Nigellus
 	 */
-	public boolean existedCity(City city) {
-		return (this.getCityByName(city.getName()).size() > 0);
+	public boolean existedCity(String name) {
+		return (this.getCityByName(name).size() > 0);
 	}
 }

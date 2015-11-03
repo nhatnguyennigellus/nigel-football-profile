@@ -137,14 +137,14 @@ public class CountryDAO  {
 	 * Oct 30, 2015 8:20:15 PM
 	 * @author Nigellus
 	 */
-	public List<Country> getByName(String name) {
-		List<Country> country = null;
+	public Country getByName(String name) {
+		Country country = null;
 		try {
 			TypedQuery<Country> query = em.createQuery(
-					"SELECT l FROM Country l WHERE l.name LIKE ?1", 
+					"SELECT l FROM Country l WHERE l.name = ?1", 
 					Country.class);
-			query.setParameter(1, "'%" + name + "%'");
-			country = query.getResultList();
+			query.setParameter(1, name);
+			country = query.getSingleResult();
 		} catch (Exception e) {
 			return null;
 		}
