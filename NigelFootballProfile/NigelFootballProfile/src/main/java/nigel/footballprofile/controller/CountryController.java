@@ -91,7 +91,6 @@ public class CountryController {
 		StringBuilder errorMsg = new StringBuilder();
 		int count = 0;
 		if (!file.isEmpty()) {
-			count++;
 			BufferedReader br = null;
 			String line = "";
 

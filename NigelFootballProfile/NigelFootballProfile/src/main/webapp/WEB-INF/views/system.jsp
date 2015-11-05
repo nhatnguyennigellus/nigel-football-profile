@@ -100,7 +100,7 @@
 						<ul id="customer" class="collapse">
 							<li><a href="toLocation"><i
 									class="glyphicon glyphicon-map-marker"></i> Location</a></li>
-								<li><a href="#"><i
+								<li><a href="toStadium"><i
 										class="glyphicon glyphicon-road"></i> Stadium</a></li>
 								<li><a href="#"><i
 									class="glyphicon glyphicon-th-list"></i> Team</a></li>
@@ -125,7 +125,8 @@
 									class="glyphicon glyphicon-list-alt"></i> Standings</a></li>
 								<li><a href="#"><i
 										class="glyphicon glyphicon-king"></i> Top scorer</a></li>
-							
+							<li><a href="#"><i
+										class="glyphicon glyphicon-hourglass"></i> History</a></li>
 						</ul></li>
 
 				</ul>

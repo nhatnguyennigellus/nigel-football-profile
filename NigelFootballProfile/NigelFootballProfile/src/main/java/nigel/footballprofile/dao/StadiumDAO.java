@@ -108,8 +108,29 @@ public class StadiumDAO {
 		return stadium;
 	}
 
-	public List<Stadium> getByType(String u) {
-		return null;
+	/**
+	 * 
+	 * @param name
+	 * @param uefaName
+	 * @return
+	 *
+	 * Nov 5, 2015 7:45:45 AM
+	 * @author Nigellus
+	 */
+	public Stadium getByName(String name, String uefaName) {
+		Stadium stadium = null;
+		try {
+			TypedQuery<Stadium> query = em.createQuery(
+					"SELECT s FROM Stadium s WHERE s.name = ?1 OR s.uefaName = ?2", 
+					Stadium.class);
+			query.setParameter(1, name);
+			query.setParameter(2, uefaName);
+			stadium = (query.getSingleResult() == null) ? null : 
+				query.getSingleResult() ;
+		} catch (Exception e) {
+			return null;
+		}
+		return stadium;
 	}
 
 }

@@ -40,7 +40,7 @@ public class CityDAO  {
 		List<City> list = null;
 
 		try {
-			TypedQuery<City> query = em.createQuery("SELECT c FROM City c",
+			TypedQuery<City> query = em.createQuery("SELECT c FROM City c ORDER BY c.name",
 					City.class);
 			list = query.getResultList();
 		} catch (Exception e) {

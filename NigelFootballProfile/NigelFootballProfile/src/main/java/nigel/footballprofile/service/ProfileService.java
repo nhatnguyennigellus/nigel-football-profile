@@ -265,20 +265,51 @@ public class ProfileService {
 		return cityDAO.getByName(name);
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 4, 2015 9:20:33 PM
+	 * @author Nigellus
+	 */
 	public List<Stadium> getStadiumList() {
-		return null;
+		return stadiumDAO.getList();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Nov 4, 2015 9:21:49 PM
+	 * @author Nigellus
+	 */
 	public Stadium getStadiumById(String id) {
-		return null;
+		return stadiumDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param stadium
+	 * @return
+	 *
+	 * Nov 4, 2015 9:21:52 PM
+	 * @author Nigellus
+	 */
 	public boolean addStadium(Stadium stadium) {
-		return false;
+		return stadiumDAO.add(stadium);
 	}
 
+	/**
+	 * 
+	 * @param stadium
+	 * @return
+	 *
+	 * Nov 4, 2015 9:21:56 PM
+	 * @author Nigellus
+	 */
 	public boolean updateStadium(Stadium stadium) {
-		return false;
+		return stadiumDAO.update(stadium);
 	}
 
 	public List<Team> getTeamList() {
@@ -457,5 +488,18 @@ public class ProfileService {
 	 */
 	public boolean existedCity(String name) {
 		return (this.getCityByName(name).size() > 0);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param uefaName
+	 * @return
+	 *
+	 * Nov 5, 2015 11:17:00 PM
+	 * @author Nigellus
+	 */
+	public boolean existedStadium(String name, String uefaName) {
+		return (stadiumDAO.getByName(name, uefaName) != null);
 	}
 }
