@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import nigel.footballprofile.entity.City;
 import nigel.footballprofile.entity.Stadium;
@@ -20,6 +20,8 @@ import nigel.footballprofile.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,9 +49,11 @@ public class StadiumController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toStadium")
-	public String redirectToLocation(Model model, HttpServletRequest request) {
+	public String redirectToStadium(Model model, HttpServletRequest request) {
 		request.getSession().removeAttribute("txtError");
 		request.getSession().removeAttribute("success");
+		
+
 		return "redirect:stadium";
 	}
 
@@ -63,12 +67,13 @@ public class StadiumController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/stadium")
-	public String redirectLocation(Model model, HttpServletRequest request) {
+	public String toStadium(Model model, HttpServletRequest request) {
 		List<Stadium> listStadium = profileService.getStadiumList();
 		List<City> listCity = profileService.getCityList();
 
 		model.addAttribute("listStadium", listStadium);
 		model.addAttribute("listCity", listCity);
+		model.addAttribute("stadium", new Stadium());
 		return "stadium";
 	}
 
@@ -113,7 +118,8 @@ public class StadiumController {
 					stadium.setName(stdData[0]);
 					stadium.setUefaName(stdData[1]);
 					stadium.setCapacity(Integer.parseInt(stdData[2]));
-					stadium.setCity(profileService.getCityByName(stdData[3]).get(0));
+					stadium.setCity(profileService.getCityByName(stdData[3])
+							.get(0));
 
 					if (!profileService.addStadium(stadium)) {
 						isOK = false;
@@ -152,6 +158,50 @@ public class StadiumController {
 			log.setLogType(AppConstant.WLOG_IMPORT);
 			log.setDescription(successMsg);
 			profileService.addWorkLog(log);
+		}
+		return "redirect:stadium";
+	}
+
+	/**
+	 * 
+	 * @param stadium
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Nov 6, 2015 11:54:46 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/addStadium", method = RequestMethod.POST)
+	public String addStadium(@ModelAttribute("stadium") @Valid Stadium stadium,
+			BindingResult result, Model model, HttpServletRequest request) {
+		stadium.setStadiumId(IDGenerator.genStadiumId(profileService
+				.getStadiumList()));
+		stadium.setCity(profileService.getCityById(request
+				.getParameter("stdLocation")));
+
+		boolean isOK = true;
+		if (profileService.existedStadium(stadium.getName(),
+				stadium.getUefaName())) {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Existed stadium!");
+			return "redirect:stadium";
+		}
+
+		if (profileService.addStadium(stadium)) {
+			String successMsg = "Added stadium successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_ADD);
+			log.setDescription(successMsg);
+			profileService.addWorkLog(log);
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		return "redirect:stadium";
 	}

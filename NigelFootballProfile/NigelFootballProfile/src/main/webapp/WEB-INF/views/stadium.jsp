@@ -2,9 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -136,23 +134,23 @@
 							<div class="col-md-12">
 								<div class="modal-body">
 
-									<form method="POST" role="form" action="addStadium"
-										id="frmAddStadium" >
+									<form:form method="POST" role="form" action="addStadium"
+										id="frmAddStadium" modelAttribute="stadium">
 										
 										<div class="form-group col-md-6">
 										<label for="stdName">Name</label>
-											<input id="stdName" class="form-control input-sm"
-												name="stdName" />
+											<form:input id="stdName" class="form-control input-sm"
+												name="stdName" path="name" />
 										</div>
 										<div class="form-group col-md-6">
-											<label for="stdUefaName">UEFA Name</label> <input
+											<label for="stdUefaName">UEFA Name</label> <form:input
 												id="stdUefaName" class="form-control input-sm"
-												name="stdUefaName" />
+												name="stdUefaName" path="uefaName"/>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="stdCapacity">Capacity</label> <input
+											<label for="stdCapacity">Capacity</label> <form:input
 												id="stdCapacity" class="form-control input-sm"
-												name="stdCapacity" />
+												name="stdCapacity" path="capacity"/>
 										</div>
 										<div class="form-group col-md-8">
 											<label for="stdLocation">Location</label> <select
@@ -163,10 +161,11 @@
 												</c:forEach>
 												</select>
 										</div><div class="form-group col-md-12">
-										<input class="btn btn-success btn-sm" name="submit"
-											type="submit" value="Add" />
+										<button class="btn btn-success btn-sm" name="submit"
+											type="submit" value="Add" >Add
+											</button>
 											</div>
-									</form>
+									</form:form>
 
 								</div>
 							</div>
@@ -245,54 +244,46 @@
 	});
 
 	$(function() {
-		$("#frmModifyCountry")
+		$("#frmAddStadium")
 				.validate(
 						{
 							rules : {
-								ctryName : {
+								name : {
 									required : true,
 								},
-								shrtName : {
+								uefaName : {
 									required : true,
-									exactlength : 3
+								},
+								capacity : {
+									required : true,
+									number : true,
+									minStrict : 0
 								}
 							},
 							messages : {
-								ctryName : {
-									required : "Country Name is required!",
+								name : {
+									required : "Stadium Name is required!",
 								},
-								shrtName : {
-									required : "Country Short Name is required!",
-									rangelength : "Country Shortname must contain max 3 characters"
+								uefaName : {
+									required : "Stadium UEFA Name is required!",
+								},
+								capacity : {
+									required : "Capacity is required!",
+									number : "Capacity must be a number!",
+									minStrict : "Capacity must be above zero!"
 								}
 							}
 						});
-		$("#frmModifyCity")
-		.validate(
-				{
-					rules : {
-						cityName : {
-							required : true,
-						},
-						cntryName : {
-							required : true,
-						}
-					},
-					messages : {
-						cityName : {
-							required : "City Name is required!",
-						},
-						cntryName : {
-							required : "Country Short Name is required!",
-						}
-					}
-				});
-	});
+			});
 
 	$.validator.addMethod("exactlength", function(value, element, param) {
 		return this.optional(element) || value.length == param;
 	}, jQuery.format("Please enter exactly {0} characters."));
 
+	$.validator.addMethod('minStrict', function(value, el, param) {
+		return value >= param;
+	});
+	
 	$.validator.setDefaults({
 		highlight : function(element) {
 			$(element).closest('.form-group').addClass('has-error');
