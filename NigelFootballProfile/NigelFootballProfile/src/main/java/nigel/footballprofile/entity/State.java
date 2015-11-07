@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -26,20 +28,34 @@ public class State {
 	private Integer stateId;
 	
 	@NotEmpty
-	@Length(max = 3)
-	private String cupState;
-	
-	@NotEmpty
-	@Length(max = 3)
-	private String tourState;
-	
-	@NotEmpty
 	@Length(max = 5)
-	private String leagueState;
+	private String statuz;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "state")
-	@PrimaryKeyJoinColumn
+
+	@ManyToOne
+	@JoinColumn(name = "champId")
+	private Championship championship;
+	
+	@ManyToOne
+	@JoinColumn(name = "teamId")
 	private Team team;
+	
+	public String getStatuz() {
+		return statuz;
+	}
+
+	public void setStatuz(String statuz) {
+		this.statuz = statuz;
+	}
+
+	public Championship getChampionship() {
+		return championship;
+	}
+
+	public void setChampionship(Championship championship) {
+		this.championship = championship;
+	}
+
 	
 	public State() {
 		// TODO Auto-generated constructor stub
@@ -53,30 +69,6 @@ public class State {
 		this.stateId = stateId;
 	}
 
-	public String getCupState() {
-		return cupState;
-	}
-
-	public void setCupState(String cupState) {
-		this.cupState = cupState;
-	}
-
-	public String getTourState() {
-		return tourState;
-	}
-
-	public void setTourState(String tourState) {
-		this.tourState = tourState;
-	}
-
-	public String getLeagueState() {
-		return leagueState;
-	}
-
-	public void setLeagueState(String leagueState) {
-		this.leagueState = leagueState;
-	}
-
 	public Team getTeam() {
 		return team;
 	}
@@ -84,6 +76,5 @@ public class State {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
-	
 	
 }

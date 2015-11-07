@@ -31,11 +31,17 @@ public class Championship {
 	@NotEmpty
 	private String shortName;
 	
+	@NotEmpty
+	private String season;
+	
 	@OneToMany(mappedBy = "championship")
 	private Set<StandingsData> standingDatas = new HashSet<StandingsData>();
 	
 	@OneToMany(mappedBy = "championship")
 	private Set<Match> matches = new HashSet<Match>();
+	
+	@OneToMany(mappedBy = "championship")
+	private Set<State> states = new HashSet<State>();
 	
 	public Championship() {
 		// TODO Auto-generated constructor stub

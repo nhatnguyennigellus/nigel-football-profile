@@ -32,6 +32,9 @@ public class Player extends SpecialEntity {
 
 	@NotEmpty
 	private String lastName;
+	
+	@NotEmpty
+	private String position;
 
 	@NotEmpty
 	private Date birthdate;
@@ -125,8 +128,11 @@ public class Player extends SpecialEntity {
 		this.scorers = scorers;
 	}
 	
-	@Override
-	public String getId() {
-		return this.playerId;
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 }

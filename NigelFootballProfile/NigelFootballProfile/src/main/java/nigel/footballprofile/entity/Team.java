@@ -52,9 +52,8 @@ public class Team extends SpecialEntity {
 	@OneToMany(mappedBy = "team")
 	private Set<StandingsData> standingdatas = new HashSet<StandingsData>();
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
-	private State state;
+	@OneToMany(mappedBy = "team")
+	private Set<State> states = new HashSet<State>();
 	
 	@OneToMany(mappedBy = "team")
 	private Set<MatchTeam> matchTeams = new HashSet<MatchTeam>();
@@ -107,12 +106,12 @@ public class Team extends SpecialEntity {
 		this.teamplayers = teamplayers;
 	}
 
-	public State getState() {
-		return state;
+	public Set<State> getStates() {
+		return states;
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	public void setStates(Set<State> states) {
+		this.states = states;
 	}
 
 	public Set<StandingsData> getStandingdatas() {
