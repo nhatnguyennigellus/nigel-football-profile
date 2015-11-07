@@ -92,6 +92,7 @@ public class CityController {
 					}
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				isOK = false;
 				errorMsg.append("Error occurs! ");
 			}

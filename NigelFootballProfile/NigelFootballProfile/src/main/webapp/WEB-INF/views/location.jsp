@@ -13,15 +13,7 @@
 </head>
 <body>
 	<h2>
-		Location <a href="#" data-toggle="modal" data-target="#modalCountry">
-			<button type="submit" class="btn btn-success">
-				<span class=" glyphicon glyphicon-globe"></span>
-			</button>
-		</a> <a href="#" data-toggle="modal" data-target="#modalCity">
-			<button type="submit" class="btn btn-info">
-				<span class=" glyphicon glyphicon-map-marker"></span>
-			</button>
-		</a>
+		Location  
 	</h2>
 	<c:if test="${sessionScope.txtError != null}">
 		<div class="alert alert-danger" role="alert">
@@ -41,7 +33,11 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-6">
-				<h4>Country</h4>
+				<h4>Country<a href="#" data-toggle="modal" data-target="#modalCountry">
+			<button type="submit" class="btn btn-success">
+				<span class=" glyphicon glyphicon-save-file"></span>
+			</button>
+		</a></h4> 
 				<c:choose>
 					<c:when test="${listCountry.size() == 0 || listCountry == null}">
 						<font color="red">No data</font>
@@ -151,7 +147,12 @@
 				</div>
 			</div>
 			<div class="col-lg-6">
-				<h4>City</h4>
+				<h4>City
+				<a href="#" data-toggle="modal" data-target="#modalCity">
+			<button type="submit" class="btn btn-info">
+				<span class=" glyphicon glyphicon-save-file"></span>
+			</button>
+		</a></h4>
 				<c:choose>
 					<c:when test="${listCity.size() == 0 || listCity == null}">
 						<font color="red">No data</font>

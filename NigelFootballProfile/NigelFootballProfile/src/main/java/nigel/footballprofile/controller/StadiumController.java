@@ -181,7 +181,6 @@ public class StadiumController {
 		stadium.setCity(profileService.getCityById(request
 				.getParameter("stdLocation")));
 
-		boolean isOK = true;
 		if (profileService.existedStadium(stadium.getName(),
 				stadium.getUefaName())) {
 			request.getSession().removeAttribute("success");
@@ -197,12 +196,53 @@ public class StadiumController {
 			WorkLog log = new WorkLog();
 			log.setDatetime(new Date());
 			log.setLogType(AppConstant.WLOG_ADD);
-			log.setDescription(successMsg);
+			log.setDescription("Added stadium [" + stadium.getId() + 
+					", " + stadium.getName()+ ", " + stadium.getUefaName() + 
+					", " + stadium.getCapacity() + "," + stadium.getCity() + 
+					"," + stadium.getCity().getCountry() + "]");
 			profileService.addWorkLog(log);
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
+		return "redirect:stadium";
+	}
+	
+	@RequestMapping(value = "/modifyStadium", method = RequestMethod.POST)
+	public String modifyStadium(HttpServletRequest request) {
+		boolean isOK = true;
+		String id = request.getParameter("stdId");
+		String name = request.getParameter("stdName");
+		String uefaName = request.getParameter("stdUefaName");
+		Integer capacity = Integer.parseInt(request.getParameter("stdCapacity"));
+		City city = profileService.getCityById(request
+				.getParameter("stdLocation"));
+		
+		Stadium stadium = new Stadium();
+		stadium.setStadiumId(id);
+		stadium.setName(name);
+		stadium.setUefaName(uefaName);
+		stadium.setCapacity(capacity);
+		stadium.setCity(city);
+		
+		if (profileService.updateStadium(stadium)) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success",
+					"Stadium modified successfully!");
+			
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_UPDATE);
+			log.setDescription("Modify stadium => [" + id + 
+					", " + name + ", " + uefaName + 
+					", " + capacity + "," + city + "," + 
+					stadium.getCity().getCountry()	+ "]");
+			profileService.addWorkLog(log);
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
 		return "redirect:stadium";
 	}
 }
