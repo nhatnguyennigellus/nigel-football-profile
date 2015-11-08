@@ -111,7 +111,7 @@
 									class="glyphicon glyphicon-map-marker"></i> Location</a></li>
 								<li><a href="toStadium"><i
 										class="glyphicon glyphicon-road"></i> Stadium</a></li>
-								<li><a href="#"><i
+								<li><a href="toTeam"><i
 									class="glyphicon glyphicon-th-list"></i> Team</a></li>
 								<li><a href="#"><i
 										class="glyphicon glyphicon-user"></i> Player</a></li>

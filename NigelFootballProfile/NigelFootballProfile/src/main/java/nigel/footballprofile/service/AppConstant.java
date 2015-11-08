@@ -64,4 +64,10 @@ public class AppConstant {
 	static public String WLOG_IMPORT = "IMPT";
 	static public String WLOG_SUBMIT_QUALIFIERS = "SQLR";
 	// more
+	
+	/**
+	 * Team Type
+	 */
+	static public String TEAM_CLUB = "TCLUB";
+	static public String TEAM_NATIONAL = "TNATL";
 }

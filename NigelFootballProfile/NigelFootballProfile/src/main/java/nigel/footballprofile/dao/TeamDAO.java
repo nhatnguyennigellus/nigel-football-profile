@@ -108,8 +108,32 @@ public class TeamDAO {
 		return team;
 	}
 
-	public List<Team> getByType(String u) {
-		return null;
+	public Team getByName(String name, String shortName) {
+		Team team = null;
+		try {
+			TypedQuery<Team> query = em.createQuery(
+					"SELECT t FROM Team t WHERE t.fullName = ?1 OR t.shortName = ?2", 
+					Team.class);
+			query.setParameter(1, name);
+			query.setParameter(2, shortName);
+			team = query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return team;
 	}
 
+	public boolean existedCoach(String coach) {
+		try {
+			TypedQuery<Team> query = em.createQuery(
+					"SELECT t.coach FROM Team t WHERE t.coach = ?1", 
+					Team.class);
+			query.setParameter(1, coach);
+			return query.getSingleResult() != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
 }

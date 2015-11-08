@@ -312,20 +312,51 @@ public class ProfileService {
 		return stadiumDAO.update(stadium);
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 8, 2015 2:17:04 PM
+	 * @author Nigellus
+	 */
 	public List<Team> getTeamList() {
-		return null;
+		return teamDAO.getList();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Nov 8, 2015 2:17:08 PM
+	 * @author Nigellus
+	 */
 	public Team getTeamById(String id) {
-		return null;
+		return teamDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 * Nov 8, 2015 2:17:11 PM
+	 * @author Nigellus
+	 */
 	public boolean addTeam(Team team) {
-		return false;
+		return teamDAO.add(team);
 	}
 
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 * Nov 8, 2015 2:17:16 PM
+	 * @author Nigellus
+	 */
 	public boolean updateTeam(Team team) {
-		return false;
+		return teamDAO.update(team);
 	}
 
 	public List<State> getStateList() {
@@ -501,5 +532,20 @@ public class ProfileService {
 	 */
 	public boolean existedStadium(String name, String uefaName) {
 		return (stadiumDAO.getByName(name, uefaName) != null);
+	}
+	
+	public boolean existedTeam(String fullName, String shortName) {
+		return (teamDAO.getByName(fullName, shortName) != null);
+	}
+	
+	public boolean existedCoach(String coach) {
+		List<Team> list = this.getTeamList();
+		for (Team team : list) {
+			if(team.getCoach().equals(coach)) {
+				return true;
+			}
+			
+		}
+		return false;
 	}
 }

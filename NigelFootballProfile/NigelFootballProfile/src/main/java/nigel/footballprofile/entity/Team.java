@@ -44,6 +44,9 @@ public class Team extends SpecialEntity {
 	private String coach;
 	
 	@NotEmpty
+	private String teamType;
+	
+	@NotEmpty
 	private String logoUrl;
 	
 	@OneToMany(mappedBy = "team")
@@ -96,6 +99,14 @@ public class Team extends SpecialEntity {
 
 	public void setCoach(String coach) {
 		this.coach = coach;
+	}
+	
+	public String getTeamType() {
+		return teamType;
+	}
+
+	public void setTeamType(String teamType) {
+		this.teamType = teamType;
 	}
 
 	public Set<TeamPlayer> getTeamplayers() {
