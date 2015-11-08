@@ -199,7 +199,7 @@ public class StadiumController {
 			log.setDescription("Added stadium [" + stadium.getId() + 
 					", " + stadium.getName()+ ", " + stadium.getUefaName() + 
 					", " + stadium.getCapacity() + "," + stadium.getCity() + 
-					"," + stadium.getCity().getCountry() + "]");
+					"," + stadium.getCity().getCountry().getName() + "]");
 			profileService.addWorkLog(log);
 		} else {
 			request.getSession().removeAttribute("success");
@@ -236,7 +236,7 @@ public class StadiumController {
 			log.setDescription("Modify stadium => [" + id + 
 					", " + name + ", " + uefaName + 
 					", " + capacity + "," + city + "," + 
-					stadium.getCity().getCountry()	+ "]");
+					stadium.getCity().getCountry().getName() + "]");
 			profileService.addWorkLog(log);
 		} else {
 			request.getSession().removeAttribute("success");

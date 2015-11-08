@@ -67,7 +67,7 @@
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-ex1-collapse">
+				data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
@@ -78,17 +78,26 @@
 				alt="" />
 			</a>
 		</div> <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-			
-			<ul class="nav navbar-right top-nav">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">NIGEL'S FOOTBALL PROFILE</a>
+                    </li>
+                    <li>
+                        <a href="about">About</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right navbar-nav">
 
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">
 					<font size="2"><tiles:insertAttribute name="title" /></font>
 					<i class="glyphicon glyphicon-file"></i></a>
 					 </li>
-			</ul>
-			<div id="page-heading"><h4  style="color: white; margin-top: 15px;">
-				Nigel's Football Profile</h4></div>
+				</ul>
+            </div>
+			
+			<div id="page-heading"></div>
 			
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
@@ -151,9 +160,4 @@
 
 	</div>
 </body>
-<script>
-	function formSubmit() {
-		document.getElementById("logoutForm").submit();
-	}
-</script>
 </html>

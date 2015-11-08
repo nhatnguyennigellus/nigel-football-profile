@@ -63,32 +63,41 @@
 	<div id="wrapper">
 
 		<!-- Navigation -->
-		<nav class="navbar navbar-inverse navbar-fixed-top" id="admin" role="navigation">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-ex1-collapse">
+				data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="home"> 
 			<img
-				src='<c:url value="/resources/images/logo.png" />' height="35"
+				src='<c:url value="/resources/images/logo.png" />' height="45"
 				alt="" />
 			</a>
 		</div> <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-			
-			<ul class="nav navbar-right top-nav">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">NIGEL'S FOOTBALL PROFILE</a>
+                    </li>
+                    <li>
+                        <a href="about">About</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right navbar-nav">
 
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">
 					<font size="2"><tiles:insertAttribute name="title" /></font>
 					<i class="glyphicon glyphicon-file"></i></a>
 					 </li>
-			</ul>
-			<div id="page-heading"><h4  style="color: white; margin-top: 15px;">
-				Nigel's Football Profile</h4></div>
+				</ul>
+            </div>
+			
+			<div id="page-heading"></div>
 			
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
@@ -125,8 +134,9 @@
 									class="glyphicon glyphicon-list-alt"></i> Standings</a></li>
 								<li><a href="#"><i
 										class="glyphicon glyphicon-king"></i> Top scorer</a></li>
-							<li><a href="#"><i
+										<li><a href="#"><i
 										class="glyphicon glyphicon-hourglass"></i> History</a></li>
+							
 						</ul></li>
 
 				</ul>

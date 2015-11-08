@@ -15,6 +15,11 @@
 		<put-attribute name="title" value="Home Page"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp"></put-attribute>
 	</definition>
+	<definition name="about" extends="masterpage">
+		<put-attribute name="title" value="About Website"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/about.jsp"></put-attribute>
+	</definition>
+	
 	<definition name="admin" extends="system">
 		<put-attribute name="title" value="Admin Page"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp"></put-attribute>
@@ -32,56 +37,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/stadium.jsp"></put-attribute>
 	</definition>
 	
-	
-	<!-- <definition name="viewCustomer" extends="masterpage">
-		<put-attribute name="title" value="Customer List"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/viewCustomer.jsp"></put-attribute>
-	</definition>
-	<definition name="addCustomer" extends="masterpage">
-		<put-attribute name="title" value="Add Customer"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/addCustomer.jsp"></put-attribute>
-	</definition>
-	<definition name="addAccount" extends="masterpage">
-		<put-attribute name="title" value="Add Saving Account"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/addAccount.jsp"></put-attribute>
-	</definition>
-	<definition name="accountTransaction" extends="masterpage">
-		<put-attribute name="title" value="Perform Transaction"></put-attribute>
-		<put-attribute name="body"
-			value="/WEB-INF/views/accountTransaction.jsp"></put-attribute>
-	</definition>
-	<definition name="performTransaction" extends="masterpage">
-		<put-attribute name="title" value="Perform Transaction"></put-attribute>
-		<put-attribute name="body"
-			value="/WEB-INF/views/performTransaction.jsp"></put-attribute>
-	</definition> 
-	<definition name="403" extends="masterpage">
-		<put-attribute name="title" value="Access denied"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/403.jsp"></put-attribute>
-	</definition> -->
-	
 	<definition name="404" extends="masterpage">
 		<put-attribute name="title" value="Page not found"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/404.jsp"></put-attribute>
 	</definition>
 	
-	<!-- <definition name="searchAccount" extends="masterpage">
-		<put-attribute name="title" value="Search Saving Account"></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/views/searchAccount.jsp"></put-attribute>
-	</definition>
-	<definition name="searchTransaction" extends="masterpage">
-		<put-attribute name="title" value="Search Transactions"></put-attribute>
-		<put-attribute name="body"
-			value="/WEB-INF/views/searchTransaction.jsp"></put-attribute>
-	</definition>
-	<definition name="viewInterestRate" extends="masterpage">
-		<put-attribute name="title" value="View Interest Rates"></put-attribute>
-		<put-attribute name="body"
-			value="/WEB-INF/views/viewInterestRate.jsp"></put-attribute>
-	</definition>
-	<definition name="modifyAccount" extends="masterpage">
-		<put-attribute name="title" value="Modify Account"></put-attribute>
-		<put-attribute name="body"
-			value="/WEB-INF/views/modifyAccount.jsp"></put-attribute>
-	</definition> -->
 </tiles-definitions>

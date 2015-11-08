@@ -53,7 +53,6 @@ public class Player extends SpecialEntity {
 	private Set<Scorer> scorers = new HashSet<Scorer>();
 	
 	public Player() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getPlayerId() {
