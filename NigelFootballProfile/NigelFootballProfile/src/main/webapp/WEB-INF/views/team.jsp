@@ -75,19 +75,27 @@
 											data-name="${stadium.name }"
 											data-uefaname="${stadium.uefaName }"
 											data-capacity="${stadium.capacity }"
-											data-city="${stadium.city.id}" id="updStad">
+											data-city="${stadium.city.id}" id="updTeam">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
-										</a></td>
+										</a>
+										<a href="#" data-toggle="modal"
+											data-target="#modalLogo" data-id="${team.id }"
+											 id="updLogo">
+												<button type="button" class="btn btn-warning btn-sm">
+													<span class="glyphicon glyphicon-bookmark"></span>
+												</button>
+										</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</c:otherwise>
 				</c:choose>
-				<%-- 
-				<div class="modal fade" id="modalImportStadium" tabindex="-1"
+				
+				<div class="modal fade" id="modalLogo" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -95,13 +103,13 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">IMPORT STADIUM</h4>
+								<h4 class="modal-title" id="myModalLabel">ADD LOGO/FLAG</h4>
 							</div>
 
-							<form method="POST" role="form" action="importStadium"
-								id="frmImportStadium" enctype="multipart/form-data">
+							<form method="POST" role="form" action="uploadLogo"
+								id="frmUploadLogo" enctype="multipart/form-data">
 								<div class="modal-body">
-
+									<input type="hidden" id="tmId" name="tmId"/> 
 									<dl class="dl-horizontal form-group">
 										<dt>File Import:</dt>
 										<dd>
@@ -120,7 +128,7 @@
 						</div>
 					</div>
 				</div>
-				 --%>
+				
 				<div class="modal fade" id="modalAddTeam" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -252,7 +260,7 @@
 			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
-				'aTargets' : [ 0, 3, 6 ]
+				'aTargets' : [ 0, 7 ]
 			} ]
 		});
 	});
@@ -273,6 +281,13 @@
 				$("input#cityId").attr("value", $(this).data('id'));
 
 			}); */
+			$(document).on(
+					"click",
+					"#updLogo",
+					function() {
+						$("input#tmId").attr("value", $(this).data('id'));
+
+					});
 
 	$(function() {
 		$("#frmAddTeam").validate({

@@ -1,12 +1,14 @@
 package nigel.footballprofile.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import nigel.footballprofile.entity.City;
 import nigel.footballprofile.entity.Stadium;
 import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.entity.WorkLog;
@@ -21,6 +23,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Controller handles Team's actions
@@ -127,6 +131,64 @@ public class TeamController {
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 
+		return "redirect:team";
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param request
+	 * @return
+	 *
+	 * Nov 9, 2015 7:41:26 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/uploadLogo", method = RequestMethod.POST)
+	public String changeImage(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
+		if(!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				File serverFile = new File(request.getSession()
+						.getServletContext().getRealPath("/resources/images/logoteam")
+						+ File.separator
+						+ file.getOriginalFilename());
+				
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+				
+				String id = request.getParameter("tmId");
+				Team team = profileService.getTeamById(id);
+				team.setLogoUrl("/resources/images/logoteam" + File.separator
+						+ file.getOriginalFilename());
+				if(!profileService.updateTeam(team)) {
+					request.getSession().setAttribute("txtError", "Error occurs!");
+					request.getSession().removeAttribute("success");
+				} else {
+					request.getSession().setAttribute("success",
+							"Logo/flag uploaded successfully!");
+					request.getSession().removeAttribute("txtError");
+					
+					WorkLog log = new WorkLog();
+					log.setDatetime(new Date());
+					log.setLogType(AppConstant.WLOG_UPDATE);
+					log.setDescription("Uploaded Logo for team [" + team.getId() + ", "
+							+ team.getFullName() + "]");
+					profileService.addWorkLog(log);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.getSession().setAttribute("txtError",
+						"Failed to upload! ");
+				request.getSession().removeAttribute("success");
+			}
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError",
+					"File was empty!");
+		}
 		return "redirect:team";
 	}
 }
