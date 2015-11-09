@@ -13,13 +13,11 @@
 	<h2>
 		Stadium <a href="#" data-toggle="modal" data-target="#modalAddStadium">
 			<button type="submit" class="btn btn-success">
-				<span class=" glyphicon glyphicon-plus"></span>
-				Add
+				<span class=" glyphicon glyphicon-plus"></span> Add
 			</button>
 		</a> <a href="#" data-toggle="modal" data-target="#modalImportStadium">
 			<button type="submit" class="btn btn-info">
-				<span class=" glyphicon glyphicon-save-file"></span>
-				Import
+				<span class=" glyphicon glyphicon-save-file"></span> Import
 			</button>
 		</a>
 	</h2>
@@ -68,11 +66,11 @@
 										<td>${stadium.city.name }</td>
 										<td>${stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
-											data-target="#modalModifyStadium"
-											data-id="${stadium.id }" data-name="${stadium.name }"
-											data-uefaname="${stadium.uefaName }" data-capacity="${stadium.capacity }"
-											data-city="${stadium.city.id}"
-											id="updStad">
+											data-target="#modalModifyStadium" data-id="${stadium.id }"
+											data-name="${stadium.name }"
+											data-uefaname="${stadium.uefaName }"
+											data-capacity="${stadium.capacity }"
+											data-city="${stadium.city.id}" id="updStad">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
@@ -117,7 +115,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="modal fade" id="modalAddStadium" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -134,35 +132,35 @@
 
 									<form:form method="POST" role="form" action="addStadium"
 										id="frmAddStadium" modelAttribute="stadium">
-										
+
 										<div class="form-group col-md-6">
-										<label for="stdName">Name</label>
+											<label for="stdName">Name</label>
 											<form:input id="stdName" class="form-control input-sm"
 												name="stdName" path="name" />
 										</div>
 										<div class="form-group col-md-6">
-											<label for="stdUefaName">UEFA Name</label> <form:input
-												id="stdUefaName" class="form-control input-sm"
-												name="stdUefaName" path="uefaName"/>
+											<label for="stdUefaName">UEFA Name</label>
+											<form:input id="stdUefaName" class="form-control input-sm"
+												name="stdUefaName" path="uefaName" />
 										</div>
 										<div class="form-group col-md-4">
-											<label for="stdCapacity">Capacity</label> <form:input
-												id="stdCapacity" class="form-control input-sm"
-												name="stdCapacity" path="capacity"/>
+											<label for="stdCapacity">Capacity</label>
+											<form:input id="stdCapacity" class="form-control input-sm"
+												name="stdCapacity" path="capacity" />
 										</div>
 										<div class="form-group col-md-8">
 											<label for="stdLocation">Location</label> <select
 												id="stdLocation" class="form-control input-sm"
-												name="stdLocation" >
+												name="stdLocation">
 												<c:forEach var="city" items="${listCity }">
 													<option value="${city.id }">${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
 												</c:forEach>
-												</select>
-										</div><div class="form-group col-md-12">
-										<button class="btn btn-success btn-sm" name="submit"
-											type="submit" value="Add" >Add
-											</button>
-											</div>
+											</select>
+										</div>
+										<div class="form-group col-md-12">
+											<button class="btn btn-success btn-sm" name="submit"
+												type="submit" value="Add">Add</button>
+										</div>
 									</form:form>
 
 								</div>
@@ -174,7 +172,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="modal fade" id="modalModifyStadium" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -190,13 +188,12 @@
 								<div class="modal-body">
 
 									<form method="POST" role="form" action="modifyStadium"
-										id="frmModifyStadium" >
+										id="frmModifyStadium">
 										<input id="stdId" class="form-control input-sm" name="stdId"
 											type="hidden" />
 										<div class="form-group col-md-6">
-										<label for="stdName">Name</label>
-											<input id="stdName" class="form-control input-sm"
-												name="stdName" />
+											<label for="stdName">Name</label> <input id="stdName"
+												class="form-control input-sm" name="stdName" />
 										</div>
 										<div class="form-group col-md-6">
 											<label for="stdUefaName">UEFA Name</label> <input
@@ -211,17 +208,17 @@
 										<div class="form-group col-md-8">
 											<label for="stdLocation">Location</label> <select
 												id="stdLocation" class="form-control input-sm"
-												name="stdLocation" >
+												name="stdLocation">
 												<c:forEach var="city" items="${listCity }">
-													<option id="stdCity${city.id }" value="${city.id }"
-														>
-													${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
+													<option id="stdCity${city.id }" value="${city.id }">
+														${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
 												</c:forEach>
-												</select>
-										</div><div class="form-group col-md-12">
-										<input class="btn btn-success btn-sm" name="submit"
-											type="submit" value="Update" />
-											</div>
+											</select>
+										</div>
+										<div class="form-group col-md-12">
+											<input class="btn btn-success btn-sm" name="submit"
+												bmit" value="Update" />
+										</div>
 									</form>
 
 								</div>
@@ -247,81 +244,82 @@
 			} ]
 		});
 	});
-	
-	$(document).on("click", "#updStad", function() {
-		$("input#stdId").attr("value", $(this).data('id'));
-		$("input#stdName").attr("value", $(this).data('name'));
-		$("input#stdUefaName").attr("value", $(this).data('uefaname'));
-		$("input#stdCapacity").attr("value", $(this).data('capacity'));
-		if ($(this).data('city') == $("option#stdCity" + $(this).data('city')).val()) {
-			$("option#stdCity" + $(this).data('city')).attr("selected", "selected");
-		}
-		$("input#cityId").attr("value", $(this).data('id'));
-		
-	});
+
+	$(document).on(
+			"click",
+			"#updStad",
+			function() {
+				$("input#stdId").attr("value", $(this).data('id'));
+				$("input#stdName").attr("value", $(this).data('name'));
+				$("input#stdUefaName").attr("value", $(this).data('uefaname'));
+				$("input#stdCapacity").attr("value", $(this).data('capacity'));
+				if ($(this).data('city') == $(
+						"option#stdCity" + $(this).data('city')).val()) {
+					$("option#stdCity" + $(this).data('city')).attr("selected",
+							"selected");
+				}
+				$("input#cityId").attr("value", $(this).data('id'));
+
+			});
 
 	$(function() {
-		$("#frmAddStadium")
-				.validate(
-						{
-							rules : {
-								name : {
-									required : true,
-								},
-								uefaName : {
-									required : true,
-								},
-								capacity : {
-									required : true,
-									number : true,
-									minStrict : 0
-								}
-							},
-							messages : {
-								name : {
-									required : "Stadium Name is required!",
-								},
-								uefaName : {
-									required : "Stadium UEFA Name is required!",
-								},
-								capacity : {
-									required : "Capacity is required!",
-									number : "Capacity must be a number!",
-									minStrict : "Capacity must be above zero!"
-								}
-							}
-						});
-		$("#frmModifyStadium")
-		.validate(
-				{
-					rules : {
-						stdName : {
-							required : true,
-						},
-						stdUefaName : {
-							required : true,
-						},
-						stdCapacity : {
-							required : true,
-							number : true,
-							minStrict : 0
-						}
-					},
-					messages : {
-						stdName : {
-							required : "Stadium Name is required!",
-						},
-						stdUefaName : {
-							required : "Stadium UEFA Name is required!",
-						},
-						stdCapacity : {
-							required : "Capacity is required!",
-							number : "Capacity must be a number!",
-							minStrict : "Capacity must be above zero!"
-						}
-					}
-				});
-			});
+		$("#frmAddStadium").validate({
+			rules : {
+				name : {
+					required : true,
+				},
+				uefaName : {
+					required : true,
+				},
+				capacity : {
+					required : true,
+					number : true,
+					minStrict : 0
+				}
+			},
+			messages : {
+				name : {
+					required : "Stadium Name is required!",
+				},
+				uefaName : {
+					required : "Stadium UEFA Name is required!",
+				},
+				capacity : {
+					required : "Capacity is required!",
+					number : "Capacity must be a number!",
+					minStrict : "Capacity must be above zero!"
+				}
+			}
+		});
+		$("#frmModifyStadium").validate({
+			rules : {
+				stdName : {
+					required : true,
+				},
+				stdUefaName : {
+					required : true,
+				},
+				stdCapacity : {
+					required : true,
+					number : true,
+					minStrict : 0
+				}
+			},
+			messages : {
+				stdName : {
+					required : "Stadium Name is required!",
+				},
+				stdUefaName : {
+					required : "Stadium UEFA Name is required!",
+				},
+				stdCapacity : {
+					required : "Capacity is required!",
+					number : "Capacity must be a number!",
+					minStrict : "Capacity must be above zero!"
+				}
+			}
+		});
+	});
 
 	$.validator.addMethod("exactlength", function(value, element, param) {
 		return this.optional(element) || value.length == param;
@@ -330,7 +328,7 @@
 	$.validator.addMethod('minStrict', function(value, el, param) {
 		return value >= param;
 	});
-	
+
 	$.validator.setDefaults({
 		highlight : function(element) {
 			$(element).closest('.form-group').addClass('has-error');

@@ -71,32 +71,29 @@
 										<td>${team.stadium.city.name }</td>
 										<td>${team.stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
-											data-target="#modalAddTeam" data-id="${stadium.id }"
-											data-name="${stadium.name }"
-											data-uefaname="${stadium.uefaName }"
-											data-capacity="${stadium.capacity }"
-											data-city="${stadium.city.id}" id="updTeam">
+											data-target="#modalModifyTeam" data-id="${team.id }"
+											data-fullname="${team.fullName }" data-coach="${team.coach }"
+											data-type="${team.teamType }"
+											data-shortname="${team.shortName }"
+											data-stadium="${team.stadium.id}" id="updTeam">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
-										</a>
-										<a href="#" data-toggle="modal"
-											data-target="#modalLogo" data-id="${team.id }"
-											 id="updLogo">
+										</a> <a href="#" data-toggle="modal" data-target="#modalLogo"
+											data-id="${team.id }" id="updLogo">
 												<button type="button" class="btn btn-warning btn-sm">
 													<span class="glyphicon glyphicon-bookmark"></span>
 												</button>
-										</a>
-										</td>
+										</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</c:otherwise>
 				</c:choose>
-				
-				<div class="modal fade" id="modalLogo" tabindex="-1"
-					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+				<div class="modal fade" id="modalLogo" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -109,7 +106,7 @@
 							<form method="POST" role="form" action="uploadLogo"
 								id="frmUploadLogo" enctype="multipart/form-data">
 								<div class="modal-body">
-									<input type="hidden" id="tmId" name="tmId"/> 
+									<input type="hidden" id="tmId" name="tmId" />
 									<dl class="dl-horizontal form-group">
 										<dt>File Import:</dt>
 										<dd>
@@ -128,7 +125,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="modal fade" id="modalAddTeam" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -156,7 +153,7 @@
 											<form:input id="tmShrtName" class="form-control input-sm"
 												name="tmShrtName" path="shortName" />
 										</div>
-										
+
 										<div class="form-group col-md-6">
 											<label for="tmCoach">Coach</label>
 											<form:input id="tmCoach" class="form-control input-sm"
@@ -193,7 +190,7 @@
 					</div>
 				</div>
 
-				<%-- <div class="modal fade" id="modalModifyStadium" tabindex="-1"
+				<div class="modal fade" id="modalModifyTeam" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -201,37 +198,44 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">MODIFY STADIUM</h4>
+								<h4 class="modal-title" id="myModalLabel">MODIFY TEAM</h4>
 							</div>
 
 							<div class="col-md-12">
 								<div class="modal-body">
 
-									<form method="POST" role="form" action="modifyStadium"
-										id="frmModifyStadium">
-										<input id="tmId" class="form-control input-sm" name="stdId"
+									<form method="POST" role="form" action="modifyTeam"
+										id="frmModifyTeam">
+										<input id="tmId" class="form-control input-sm" name="tmId"
 											type="hidden" />
 										<div class="form-group col-md-6">
-											<label for="stdName">Name</label> <input id="stdName"
-												class="form-control input-sm" name="stdName" />
+											<label for="tmName">Name</label> <input id="tmName"
+												class="form-control input-sm" name="tmName" />
 										</div>
+										<div class="form-group col-md-3">
+											<label for="tmShrtName">Short Name</label> <input
+												id="tmShrtName" class="form-control input-sm"
+												name="tmShrtName" />
+										</div>
+
 										<div class="form-group col-md-6">
-											<label for="stdShrtName">UEFA Name</label> <input
-												id="stdShrtName" class="form-control input-sm"
-												name="stdShrtName" />
+											<label for="tmCoach">Coach</label> <input id="tmCoach"
+												class="form-control input-sm" name="tmCoach" />
 										</div>
 										<div class="form-group col-md-4">
-											<label for="stdCapacity">Capacity</label> <input
-												id="stdCapacity" class="form-control input-sm"
-												name="stdCapacity" />
+												<label for="teamType">  Club or National
+												</label> <select id="teamType" class="form-control input-sm"
+													name="teamType">
+													<option id="TCLUB" value="TCLUB">Club</option>
+													<option id="TNATL" value="TNATL">National</option>
+												</select>
 										</div>
 										<div class="form-group col-md-8">
-											<label for="stdLocation">Location</label> <select
-												id="stdLocation" class="form-control input-sm"
-												name="stdLocation">
-												<c:forEach var="city" items="${listCity }">
-													<option id="stdCity${city.id }" value="${city.id }">
-														${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
+											<label for="tmStadium">Stadium</label> <select id="tmStadium"
+												class="form-control input-sm" name="tmStadium">
+												<c:forEach var="stadium" items="${listStadium }">
+													<option id="tmStd${stadium.id }" value="${stadium.id }">
+														${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -249,7 +253,7 @@
 							</div>
 						</div>
 					</div>
-				</div> --%>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -264,30 +268,32 @@
 			} ]
 		});
 	});
-/* 
 	$(document).on(
 			"click",
-			"#updStad",
+			"#updTeam",
 			function() {
-				$("input#stdId").attr("value", $(this).data('id'));
-				$("input#stdName").attr("value", $(this).data('name'));
-				$("input#stdUefaName").attr("value", $(this).data('uefaname'));
-				$("input#stdCapacity").attr("value", $(this).data('capacity'));
-				if ($(this).data('city') == $(
-						"option#stdCity" + $(this).data('city')).val()) {
-					$("option#stdCity" + $(this).data('city')).attr("selected",
-							"selected");
+				$("input#tmId").attr("value", $(this).data('id'));
+				$("input#tmName").attr("value", $(this).data('fullname'));
+				$("input#tmShrtName").attr("value", $(this).data('shortname'));
+				$("input#tmCoach").attr("value", $(this).data('coach'));
+				if ($(this).data('stadium') == $(
+						"option#tmStd" + $(this).data('stadium')).val()) {
+					$("option#tmStd" + $(this).data('stadium')).attr(
+							"selected", "selected");
 				}
-				$("input#cityId").attr("value", $(this).data('id'));
+				if ($(this).data('type') == $("option#" + $(this).data('type'))
+						.val()) {
+					$("option#" + $(this).data('type')).attr(
+							"selected", "selected");
+				}
 
-			}); */
-			$(document).on(
-					"click",
-					"#updLogo",
-					function() {
-						$("input#tmId").attr("value", $(this).data('id'));
+				$("input#stadiumId").attr("value", $(this).data('stadium'));
 
-					});
+			});
+	$(document).on("click", "#updLogo", function() {
+		$("input#tmId").attr("value", $(this).data('id'));
+
+	});
 
 	$(function() {
 		$("#frmAddTeam").validate({
@@ -316,31 +322,29 @@
 				}
 			}
 		});
-		$("#frmModifyStadium").validate({
+		$("#frmModifyTeam").validate({
 			rules : {
-				stdName : {
+				tmName : {
 					required : true,
 				},
-				stdUefaName : {
+				tmShrtName : {
 					required : true,
+					exactlength : 3
 				},
-				stdCapacity : {
+				tmCoach : {
 					required : true,
-					number : true,
-					minStrict : 0
 				}
 			},
 			messages : {
-				stdName : {
-					required : "Stadium Name is required!",
+				tmName : {
+					required : "Team Name is required!",
 				},
-				stdUefaName : {
-					required : "Stadium UEFA Name is required!",
+				tmShrtName : {
+					required : "Short Name is required!",
+					exactlength : "Short Name must contain 3 characters!"
 				},
-				stdCapacity : {
-					required : "Capacity is required!",
-					number : "Capacity must be a number!",
-					minStrict : "Capacity must be above zero!"
+				tmCoach : {
+					required : "Coach is required!",
 				}
 			}
 		});

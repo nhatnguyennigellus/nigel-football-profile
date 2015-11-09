@@ -208,6 +208,14 @@ public class StadiumController {
 		return "redirect:stadium";
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 *
+	 * Nov 8, 2015 10:49:50 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/modifyStadium", method = RequestMethod.POST)
 	public String modifyStadium(HttpServletRequest request) {
 		boolean isOK = true;
@@ -228,7 +236,7 @@ public class StadiumController {
 		if (profileService.updateStadium(stadium)) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success",
-					"Stadium modified successfully!");
+					"Stadium was modified successfully!");
 			
 			WorkLog log = new WorkLog();
 			log.setDatetime(new Date());

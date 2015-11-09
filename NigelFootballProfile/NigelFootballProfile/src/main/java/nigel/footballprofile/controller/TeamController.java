@@ -108,11 +108,10 @@ public class TeamController {
 			return toStadium(model, request);
 		}
 
-
 		team.setLogoUrl("/resources/images/logoteam/nologo.png");
-		team.setTeamType(request.getParameter("repeatable") != null ? AppConstant.TEAM_CLUB
+		team.setTeamType(request.getParameter("teamType") != null ? AppConstant.TEAM_CLUB
 				: AppConstant.TEAM_NATIONAL);
-		
+
 		if (profileService.addTeam(team)) {
 			String successMsg = "Added team successfully!";
 			request.getSession().removeAttribute("txtError");
@@ -133,49 +132,100 @@ public class TeamController {
 
 		return "redirect:team";
 	}
-	
+
+	@RequestMapping(value = "/modifyTeam", method = RequestMethod.POST)
+	public String modifyStadium(HttpServletRequest request) {
+		String id = request.getParameter("tmId");
+		
+		Team team = profileService.getTeamById(id);
+		
+		String fullName = request.getParameter("tmName");
+		String shortName = request.getParameter("tmShrtName");
+
+		String coach = request.getParameter("tmCoach");
+
+		if (profileService.existedCoach(coach)
+				&& !team.getCoach().equals(coach)) {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Existed coach!");
+			return "redirect:team";
+		}
+
+		String teamType = request.getParameter("teamType");
+		Stadium stadium = profileService.getStadiumById(request
+				.getParameter("tmStadium"));
+
+		
+		team.setFullName(fullName);
+		team.setShortName(shortName);
+		team.setCoach(coach);
+		team.setTeamType(teamType);
+		team.setStadium(stadium);
+
+		if (profileService.updateTeam(team)) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success",
+					"Team was modified successfully!");
+
+			WorkLog log = new WorkLog();
+			log.setDatetime(new Date());
+			log.setLogType(AppConstant.WLOG_UPDATE);
+			log.setDescription("Modify team => [" + team.getId() + ", "
+					+ team.getFullName() + ", " + team.getShortName() + ", "
+					+ team.getCoach() + ", " + team.getTeamType() + ","
+					+ team.getStadium().getName() + "]");
+			profileService.addWorkLog(log);
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+
+		return "redirect:team";
+	}
+
 	/**
 	 * 
 	 * @param file
 	 * @param request
 	 * @return
 	 *
-	 * Nov 9, 2015 7:41:26 AM
+	 *         Nov 9, 2015 7:41:26 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/uploadLogo", method = RequestMethod.POST)
 	public String changeImage(@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
-		if(!file.isEmpty()) {
+		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
 				File serverFile = new File(request.getSession()
-						.getServletContext().getRealPath("/resources/images/logoteam")
-						+ File.separator
-						+ file.getOriginalFilename());
-				
+						.getServletContext()
+						.getRealPath("/resources/images/logoteam")
+						+ File.separator + file.getOriginalFilename());
+
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
-				
+
 				String id = request.getParameter("tmId");
 				Team team = profileService.getTeamById(id);
 				team.setLogoUrl("/resources/images/logoteam" + File.separator
 						+ file.getOriginalFilename());
-				if(!profileService.updateTeam(team)) {
-					request.getSession().setAttribute("txtError", "Error occurs!");
+				if (!profileService.updateTeam(team)) {
+					request.getSession().setAttribute("txtError",
+							"Error occurs!");
 					request.getSession().removeAttribute("success");
 				} else {
 					request.getSession().setAttribute("success",
 							"Logo/flag uploaded successfully!");
 					request.getSession().removeAttribute("txtError");
-					
+
 					WorkLog log = new WorkLog();
 					log.setDatetime(new Date());
 					log.setLogType(AppConstant.WLOG_UPDATE);
-					log.setDescription("Uploaded Logo for team [" + team.getId() + ", "
-							+ team.getFullName() + "]");
+					log.setDescription("Uploaded Logo for team ["
+							+ team.getId() + ", " + team.getFullName() + "]");
 					profileService.addWorkLog(log);
 				}
 			} catch (Exception e) {
@@ -186,8 +236,7 @@ public class TeamController {
 			}
 		} else {
 			request.getSession().removeAttribute("success");
-			request.getSession().setAttribute("txtError",
-					"File was empty!");
+			request.getSession().setAttribute("txtError", "File was empty!");
 		}
 		return "redirect:team";
 	}
