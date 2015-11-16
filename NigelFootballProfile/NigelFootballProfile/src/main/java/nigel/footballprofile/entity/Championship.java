@@ -34,6 +34,12 @@ public class Championship {
 	@NotEmpty
 	private String season;
 	
+	@NotEmpty
+	private String formula;
+	
+	@NotEmpty
+	private String logoUrl;
+	
 	@OneToMany(mappedBy = "championship")
 	private Set<StandingsData> standingDatas = new HashSet<StandingsData>();
 	
@@ -85,6 +91,38 @@ public class Championship {
 
 	public void setMatches(Set<Match> matches) {
 		this.matches = matches;
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	public Set<State> getStates() {
+		return states;
+	}
+
+	public void setStates(Set<State> states) {
+		this.states = states;
+	}
+
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 	
 	

@@ -70,4 +70,11 @@ public class AppConstant {
 	 */
 	static public String TEAM_CLUB = "TCLUB";
 	static public String TEAM_NATIONAL = "TNATL";
+	
+	/**
+	 * Championship Formula
+	 */
+	static public String CHAMP_FORM_TOUR = "FTOUR";
+	static public String CHAMP_FORM_LEAGUE = "FLEAG";
+	static public String CHAMP_FORM_PLAY_OFF = "FPOFF";
 }

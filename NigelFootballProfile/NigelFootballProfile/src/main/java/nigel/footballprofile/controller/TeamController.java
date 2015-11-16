@@ -133,6 +133,14 @@ public class TeamController {
 		return "redirect:team";
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 *
+	 * Nov 8, 2015 8:04:58 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/modifyTeam", method = RequestMethod.POST)
 	public String modifyStadium(HttpServletRequest request) {
 		String id = request.getParameter("tmId");

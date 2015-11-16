@@ -117,7 +117,7 @@ public class ChampionshipDAO {
 	 * Oct 24, 2015 12:54:24 PM
 	 * @author Nigellus
 	 */
-	public Championship getListByShortName(String shortName) {
+	public Championship getChampByShortName(String shortName) {
 		Championship champ = null;
 
 		try {
@@ -131,13 +131,25 @@ public class ChampionshipDAO {
 		return champ;
 	}
 
-	public List<Championship> getByType(Integer u) {
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 *
+	 * Nov 11, 2015 7:52:43 PM
+	 * @author Nigellus
+	 */
+	public Championship getChampByName(String name) {
+		Championship champ = null;
+
 		try {
-			throw new NotSupportedException();
-		} catch (NotSupportedException e) {
-			// TODO Auto-generated catch block
+			TypedQuery<Championship> query = em.createQuery(
+					"SELECT c FROM Championship c WHERE c.fullName = ?1", Championship.class);
+			query.setParameter(1, name);
+			champ = query.getSingleResult();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return champ;
 	}
 }

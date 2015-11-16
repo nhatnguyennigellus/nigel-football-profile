@@ -455,24 +455,62 @@ public class ProfileService {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 10, 2015 7:37:17 AM
+	 * @author Nigellus
+	 */
 	public List<Championship> getChampionshipList() {
-		return null;
+		return championshipDAO.getList();
 	}
 
-	public Championship getChampionshipListByShortName() {
-		return null;
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 10, 2015 7:37:36 AM
+	 * @author Nigellus
+	 */
+	public Championship getChampionshipByShortName(String shortName) {
+		return championshipDAO.getChampByShortName(shortName);
 	}
 
-	public Championship getChampionshipById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Nov 10, 2015 7:38:09 AM
+	 * @author Nigellus
+	 */
+	public Championship getChampionshipById(int id) {
+		return championshipDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param championship
+	 * @return
+	 *
+	 * Nov 10, 2015 7:43:01 AM
+	 * @author Nigellus
+	 */
 	public boolean addChampionship(Championship championship) {
-		return false;
+		return championshipDAO.add(championship);
 	}
 
+	/**
+	 * 
+	 * @param championship
+	 * @return
+	 *
+	 * Nov 10, 2015 7:43:09 AM
+	 * @author Nigellus
+	 */
 	public boolean updateChampionship(Championship championship) {
-		return false;
+		return championshipDAO.update(championship);
 	}
 
 	public List<StandingsData> getChampionshipStanding(String champShortName) {
@@ -534,10 +572,27 @@ public class ProfileService {
 		return (stadiumDAO.getByName(name, uefaName) != null);
 	}
 	
+	/**
+	 * 
+	 * @param fullName
+	 * @param shortName
+	 * @return
+	 *
+	 * Nov 9, 2015 7:36:01 AM
+	 * @author Nigellus
+	 */
 	public boolean existedTeam(String fullName, String shortName) {
 		return (teamDAO.getByName(fullName, shortName) != null);
 	}
 	
+	/**
+	 * 
+	 * @param coach
+	 * @return
+	 *
+	 * Nov 9, 2015 7:36:05 AM
+	 * @author Nigellus
+	 */
 	public boolean existedCoach(String coach) {
 		List<Team> list = this.getTeamList();
 		for (Team team : list) {
@@ -547,5 +602,19 @@ public class ProfileService {
 			
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param shortName
+	 * @param name
+	 * @return
+	 *
+	 * Nov 11, 2015 7:53:33 PM
+	 * @author Nigellus
+	 */
+	public boolean existedChamp(String shortName, String name) {
+		return (this.getChampionshipByShortName(shortName) != null)
+				|| (championshipDAO.getChampByName(name) != null);
 	}
 }
