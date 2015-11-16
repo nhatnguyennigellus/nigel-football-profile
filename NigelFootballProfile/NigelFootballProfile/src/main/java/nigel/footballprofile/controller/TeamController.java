@@ -117,14 +117,11 @@ public class TeamController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_ADD);
-			log.setDescription("Added team [" + team.getId() + ", "
-					+ team.getFullName() + ", " + team.getShortName() + ", "
-					+ team.getCoach() + ", " + team.getTeamType() + ","
-					+ team.getStadium().getName() + "]");
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added team ["
+					+ team.getTeamId() + ", " + team.getFullName() + ", "
+					+ team.getShortName() + ", " + team.getCoach() + ", "
+					+ team.getTeamType() + "," + team.getStadium().getName()
+					+ "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
@@ -138,15 +135,15 @@ public class TeamController {
 	 * @param request
 	 * @return
 	 *
-	 * Nov 8, 2015 8:04:58 PM
+	 *         Nov 8, 2015 8:04:58 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyTeam", method = RequestMethod.POST)
 	public String modifyStadium(HttpServletRequest request) {
 		String id = request.getParameter("tmId");
-		
+
 		Team team = profileService.getTeamById(id);
-		
+
 		String fullName = request.getParameter("tmName");
 		String shortName = request.getParameter("tmShrtName");
 
@@ -163,7 +160,6 @@ public class TeamController {
 		Stadium stadium = profileService.getStadiumById(request
 				.getParameter("tmStadium"));
 
-		
 		team.setFullName(fullName);
 		team.setShortName(shortName);
 		team.setCoach(coach);
@@ -175,14 +171,8 @@ public class TeamController {
 			request.getSession().setAttribute("success",
 					"Team was modified successfully!");
 
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_UPDATE);
-			log.setDescription("Modify team => [" + team.getId() + ", "
-					+ team.getFullName() + ", " + team.getShortName() + ", "
-					+ team.getCoach() + ", " + team.getTeamType() + ","
-					+ team.getStadium().getName() + "]");
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modify team => " + team.toString());
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
@@ -229,12 +219,9 @@ public class TeamController {
 							"Logo/flag uploaded successfully!");
 					request.getSession().removeAttribute("txtError");
 
-					WorkLog log = new WorkLog();
-					log.setDatetime(new Date());
-					log.setLogType(AppConstant.WLOG_UPDATE);
-					log.setDescription("Uploaded Logo for team ["
-							+ team.getId() + ", " + team.getFullName() + "]");
-					profileService.addWorkLog(log);
+					profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+							"Uploaded Logo for team [" + team.getTeamId()
+									+ ", " + team.getFullName() + "]");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

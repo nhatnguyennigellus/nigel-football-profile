@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "players")
-public class Player extends SpecialEntity {
+public class Player {
 	@Id
 	@Column(name = "id")
 	private String playerId;

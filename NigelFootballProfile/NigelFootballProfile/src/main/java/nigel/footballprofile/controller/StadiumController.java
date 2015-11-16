@@ -52,7 +52,6 @@ public class StadiumController {
 	public String redirectToStadium(Model model, HttpServletRequest request) {
 		request.getSession().removeAttribute("txtError");
 		request.getSession().removeAttribute("success");
-		
 
 		return "redirect:stadium";
 	}
@@ -153,11 +152,8 @@ public class StadiumController {
 		if (!successMsg.equals("")) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_IMPORT);
-			log.setDescription(successMsg);
-			profileService.addWorkLog(log);
+
+			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
 		}
 		return "redirect:stadium";
 	}
@@ -170,7 +166,7 @@ public class StadiumController {
 	 * @param request
 	 * @return
 	 *
-	 * Nov 6, 2015 11:54:46 PM
+	 *         Nov 6, 2015 11:54:46 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/addStadium", method = RequestMethod.POST)
@@ -193,27 +189,24 @@ public class StadiumController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_ADD);
-			log.setDescription("Added stadium [" + stadium.getId() + 
-					", " + stadium.getName()+ ", " + stadium.getUefaName() + 
-					", " + stadium.getCapacity() + "," + stadium.getCity() + 
-					"," + stadium.getCity().getCountry().getName() + "]");
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added stadium ["
+					+ stadium.getStadiumId() + ", " + stadium.getName() + ", "
+					+ stadium.getUefaName() + ", " + stadium.getCapacity()
+					+ "," + stadium.getCity() + ","
+					+ stadium.getCity().getCountry().getName() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		return "redirect:stadium";
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 *
-	 * Nov 8, 2015 10:49:50 PM
+	 *         Nov 8, 2015 10:49:50 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyStadium", method = RequestMethod.POST)
@@ -222,35 +215,32 @@ public class StadiumController {
 		String id = request.getParameter("stdId");
 		String name = request.getParameter("stdName");
 		String uefaName = request.getParameter("stdUefaName");
-		Integer capacity = Integer.parseInt(request.getParameter("stdCapacity"));
+		Integer capacity = Integer
+				.parseInt(request.getParameter("stdCapacity"));
 		City city = profileService.getCityById(request
 				.getParameter("stdLocation"));
-		
+
 		Stadium stadium = new Stadium();
 		stadium.setStadiumId(id);
 		stadium.setName(name);
 		stadium.setUefaName(uefaName);
 		stadium.setCapacity(capacity);
 		stadium.setCity(city);
-		
+
 		if (profileService.updateStadium(stadium)) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success",
 					"Stadium was modified successfully!");
-			
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_UPDATE);
-			log.setDescription("Modify stadium => [" + id + 
-					", " + name + ", " + uefaName + 
-					", " + capacity + "," + city + "," + 
-					stadium.getCity().getCountry().getName() + "]");
-			profileService.addWorkLog(log);
+
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modify stadium => [" + id + ", " + name + ", " + uefaName
+							+ ", " + capacity + "," + city + ","
+							+ stadium.getCity().getCountry().getName() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
-		
+
 		return "redirect:stadium";
 	}
 }

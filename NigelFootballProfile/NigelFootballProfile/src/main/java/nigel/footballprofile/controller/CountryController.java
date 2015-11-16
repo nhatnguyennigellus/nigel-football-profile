@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import nigel.footballprofile.entity.City;
 import nigel.footballprofile.entity.Country;
-import nigel.footballprofile.entity.SpecialEntity;
 import nigel.footballprofile.entity.WorkLog;
 import nigel.footballprofile.service.AppConstant;
 import nigel.footballprofile.service.IDGenerator;
@@ -144,11 +143,7 @@ public class CountryController {
 		if (!successMsg.equals("")) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("importSuccess", successMsg);
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_IMPORT);
-			log.setDescription(successMsg);
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
 		}
 		return "redirect:location";
 	}
@@ -182,13 +177,10 @@ public class CountryController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("importSuccess",
 					"Country modified successfully!");
-			
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_UPDATE);
-			log.setDescription("Modify country => [" + ctryId + 
+
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modify country => [" + ctryId + 
 					", " + ctryName + ", " + shrtName + "]");
-			profileService.addWorkLog(log);
 		} else {
 			request.getSession().removeAttribute("importSuccess");
 			request.getSession().setAttribute("txtError", "Error occurs!");

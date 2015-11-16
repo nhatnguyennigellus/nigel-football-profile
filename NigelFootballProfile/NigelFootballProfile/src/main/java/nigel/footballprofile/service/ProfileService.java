@@ -1,5 +1,6 @@
 package nigel.footballprofile.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -119,8 +120,12 @@ public class ProfileService {
 	 * Oct 29, 2015 12:16:10 AM
 	 * @author Nigellus
 	 */
-	public boolean addWorkLog(WorkLog workLog) {
-		return workLogDAO.add(workLog);
+	public boolean addWorkLog(String logType, String desc) {
+		WorkLog log = new WorkLog();
+		log.setDatetime(new Date());
+		log.setLogType(logType);
+		log.setDescription(desc);
+		return workLogDAO.add(log);
 	}
 
 	/**

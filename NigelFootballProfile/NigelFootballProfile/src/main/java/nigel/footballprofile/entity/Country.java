@@ -21,28 +21,27 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 6:34:32 AM
+ *         Oct 24, 2015 6:34:32 AM
  */
 @Entity
 @Table(name = "countries")
-public class Country extends SpecialEntity {
+public class Country {
 	@Id
 	@Column(name = "id")
-	@Length(min = 0, max = 5, message="Length must be maximum 5")
+	@Length(min = 0, max = 5, message = "Length must be maximum 5")
 	private String countryId;
-	
+
 	private String name;
-	
+
 	private String shortName;
-	
+
 	@OneToMany(mappedBy = "country")
 	private Set<City> cities = new HashSet<City>();
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "playernationality", joinColumns = { @JoinColumn(name = "nationalityId")} , 
-		inverseJoinColumns = { @JoinColumn(name = "playerId")})
+	@JoinTable(name = "playernationality", joinColumns = { @JoinColumn(name = "nationalityId") }, inverseJoinColumns = { @JoinColumn(name = "playerId") })
 	private Set<Player> players = new HashSet<Player>();
-	
+
 	public Country() {
 		// TODO Auto-generated constructor stub
 	}
@@ -86,9 +85,9 @@ public class Country extends SpecialEntity {
 	public void setPlayers(Set<Player> players) {
 		this.players = players;
 	}
-	
+
 	@Override
-	public String getId() {
-		return this.countryId;
+	public String toString() {
+		return "[" + countryId + ", " + name + ", " + shortName + "]";
 	}
 }

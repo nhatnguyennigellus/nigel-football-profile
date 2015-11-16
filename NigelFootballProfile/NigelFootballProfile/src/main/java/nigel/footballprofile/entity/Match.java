@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "matches")
-public class Match extends SpecialEntity {
+public class Match {
 	@Id
 	@Length(max = 8)
 	private String matchId;
@@ -162,7 +162,7 @@ public class Match extends SpecialEntity {
 	}
 	
 	@Override
-	public String getId() {
-		return this.matchId;
+	public String toString() {
+		return "[" + matchId + ", ]";
 	}
 }

@@ -106,13 +106,10 @@ public class ChampionshipController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", "Added championship!");
 
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_ADD);
-			log.setDescription("Added team [" + champ.getChampId() + ", "
-					+ champ.getFullName() + ", " + champ.getShortName() + ", "
-					+ champ.getSeason() + ", " + champ.getFormula() + "]");
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added team ["
+					+ champ.getChampId() + ", " + champ.getFullName() + ", "
+					+ champ.getShortName() + ", " + champ.getSeason() + ", "
+					+ champ.getFormula() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
@@ -158,13 +155,11 @@ public class ChampionshipController {
 							"Logo/flag uploaded successfully!");
 					request.getSession().removeAttribute("txtError");
 
-					WorkLog log = new WorkLog();
-					log.setDatetime(new Date());
-					log.setLogType(AppConstant.WLOG_UPDATE);
-					log.setDescription("Uploaded Logo for Championship ["
-							+ champ.getChampId() + ", " + champ.getFullName()
-							+ "]");
-					profileService.addWorkLog(log);
+					profileService.addWorkLog(
+							AppConstant.WLOG_UPDATE,
+							"Uploaded Logo for Championship ["
+									+ champ.getChampId() + ", "
+									+ champ.getFullName() + "]");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -190,7 +185,7 @@ public class ChampionshipController {
 	@RequestMapping(value = "/modifyChamp", method = RequestMethod.POST)
 	public String modifyStadium(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("champId"));
-		
+
 		String fullName = request.getParameter("champName");
 		String shortName = request.getParameter("champShrtName");
 		String season = request.getParameter("champSeason");
@@ -201,19 +196,18 @@ public class ChampionshipController {
 		champ.setShortName(shortName);
 		champ.setFormula(formula);
 		champ.setSeason(season);
-		
+
 		if (profileService.updateChampionship(champ)) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success",
 					"Championship was modified successfully!");
 
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_UPDATE);
-			log.setDescription("Modify championship => [" + champ.getChampId() + ", "
-					+ champ.getFullName() + ", " + champ.getShortName() + ", "
-					+ champ.getSeason() + ", " + champ.getFormula()  + "]");
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(
+					AppConstant.WLOG_UPDATE,
+					"Modify championship => [" + champ.getChampId() + ", "
+							+ champ.getFullName() + ", " + champ.getShortName()
+							+ ", " + champ.getSeason() + ", "
+							+ champ.getFormula() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");

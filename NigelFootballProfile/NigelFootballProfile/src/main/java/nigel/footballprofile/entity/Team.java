@@ -23,48 +23,48 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 6:29:28 AM
+ *         Oct 24, 2015 6:29:28 AM
  */
 
 @Entity
 @Table(name = "teams")
-public class Team extends SpecialEntity {
+public class Team {
 	@Id
 	@Column(name = "id")
 	@Length(max = 7)
 	private String teamId;
-	
+
 	@NotEmpty
 	private String fullName;
-	
+
 	@NotEmpty
 	private String shortName;
-	
+
 	@NotEmpty
 	private String coach;
-	
+
 	@NotEmpty
 	private String teamType;
-	
+
 	@NotEmpty
 	private String logoUrl;
-	
+
 	@OneToMany(mappedBy = "team")
 	private Set<TeamPlayer> teamplayers = new HashSet<TeamPlayer>();
-	
+
 	@OneToMany(mappedBy = "team")
 	private Set<StandingsData> standingdatas = new HashSet<StandingsData>();
-	
+
 	@OneToMany(mappedBy = "team")
 	private Set<State> states = new HashSet<State>();
-	
+
 	@OneToMany(mappedBy = "team")
 	private Set<MatchTeam> matchTeams = new HashSet<MatchTeam>();
-	
+
 	@ManyToOne
 	@JoinColumn(name = "stadiumId")
 	private Stadium stadium;
-	
+
 	public Team() {
 		// TODO Auto-generated constructor stub
 	}
@@ -100,7 +100,7 @@ public class Team extends SpecialEntity {
 	public void setCoach(String coach) {
 		this.coach = coach;
 	}
-	
+
 	public String getTeamType() {
 		return teamType;
 	}
@@ -156,9 +156,10 @@ public class Team extends SpecialEntity {
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
-	
+
 	@Override
-	public String getId() {
-		return this.teamId;
+	public String toString() {
+		return "[" + teamId + ", " + fullName + ", " + shortName + ", " + coach
+				+ ", " + teamType + "," + stadium.getName() + "]";
 	}
 }

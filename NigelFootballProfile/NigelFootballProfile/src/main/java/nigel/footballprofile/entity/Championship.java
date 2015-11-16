@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 6:33:29 AM
+ *         Oct 24, 2015 6:33:29 AM
  */
 @Entity
 @Table(name = "championships")
@@ -24,31 +24,31 @@ public class Championship {
 	@Id
 	@GeneratedValue
 	private Integer champId;
-	
-	@NotEmpty		
+
+	@NotEmpty
 	private String fullName;
-	
+
 	@NotEmpty
 	private String shortName;
-	
+
 	@NotEmpty
 	private String season;
-	
+
 	@NotEmpty
 	private String formula;
-	
+
 	@NotEmpty
 	private String logoUrl;
-	
+
 	@OneToMany(mappedBy = "championship")
 	private Set<StandingsData> standingDatas = new HashSet<StandingsData>();
-	
+
 	@OneToMany(mappedBy = "championship")
 	private Set<Match> matches = new HashSet<Match>();
-	
+
 	@OneToMany(mappedBy = "championship")
 	private Set<State> states = new HashSet<State>();
-	
+
 	public Championship() {
 		// TODO Auto-generated constructor stub
 	}
@@ -124,6 +124,10 @@ public class Championship {
 	public void setFormula(String formula) {
 		this.formula = formula;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "[" + champId + ", " + fullName + ", " + shortName + ", "
+				+ season + ", " + formula + "]";
+	}
 }

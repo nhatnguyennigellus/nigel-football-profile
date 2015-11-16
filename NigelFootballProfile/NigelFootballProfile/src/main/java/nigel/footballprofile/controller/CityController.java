@@ -77,7 +77,7 @@ public class CityController {
 						errExist = true;
 						continue;
 					}
-					
+
 					City city = new City();
 					city.setCityId(IDGenerator.genCityId(profileService
 							.getCityList()));
@@ -121,17 +121,17 @@ public class CityController {
 			log.setDatetime(new Date());
 			log.setLogType(AppConstant.WLOG_IMPORT);
 			log.setDescription(successMsg);
-			profileService.addWorkLog(log);
+			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
 		}
 		return "redirect:location";
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 *
-	 * Nov 3, 2015 7:49:06 AM
+	 *         Nov 3, 2015 7:49:06 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyCity", method = RequestMethod.POST)
@@ -140,17 +140,16 @@ public class CityController {
 		String cityId = request.getParameter("cityId");
 		String cityName = request.getParameter("cityName");
 		String ctryName = request.getParameter("cntryName");
-		
+
 		City city = profileService.getCityById(cityId);
-		if(profileService.existedCity(cityName)
+		if (profileService.existedCity(cityName)
 				&& !cityName.equals(city.getName())) {
 			request.getSession().removeAttribute("importSuccess");
-			request.getSession().setAttribute("txtError",
-					"Existed city name!");
+			request.getSession().setAttribute("txtError", "Existed city name!");
 			return "redirect:location";
 		}
-		
-		if(profileService.getCountryByName(ctryName) == null) {
+
+		if (profileService.getCountryByName(ctryName) == null) {
 			request.getSession().removeAttribute("importSuccess");
 			request.getSession().setAttribute("txtError",
 					"Country name doesn't exist!");
@@ -158,23 +157,20 @@ public class CityController {
 		}
 		city.setName(cityName);
 		city.setCountry(profileService.getCountryByName(ctryName));
-		
+
 		if (profileService.updateCity(city)) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("importSuccess",
 					"City modified successfully!");
-			
-			WorkLog log = new WorkLog();
-			log.setDatetime(new Date());
-			log.setLogType(AppConstant.WLOG_UPDATE);
-			log.setDescription("Modify city => [" + cityId + 
-					", " + cityName + ", " + ctryName + "]");
-			profileService.addWorkLog(log);
+
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modify city => [" + cityId + ", " + cityName + ", "
+							+ ctryName + "]");
 		} else {
 			request.getSession().removeAttribute("importSuccess");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
-		
+
 		return "redirect:location";
 	}
 }

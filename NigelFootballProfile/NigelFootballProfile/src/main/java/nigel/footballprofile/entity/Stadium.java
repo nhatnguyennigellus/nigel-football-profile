@@ -17,31 +17,31 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "stadiums")
-public class Stadium extends SpecialEntity {
+public class Stadium {
 	@Id
 	@Column(name = "id")
 	@Length(max = 5)
 	private String stadiumId;
-	
+
 	@NotEmpty
 	private String name;
-	
+
 	@NotEmpty
 	private String uefaName;
-	
+
 	@NotNull
 	private Integer capacity;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cityId")
 	private City city;
-	
+
 	@OneToMany(mappedBy = "stadium")
 	private Set<Match> matches = new HashSet<Match>();
-	
+
 	@OneToMany(mappedBy = "stadium")
 	private Set<Team> teams = new HashSet<Team>();
-	
+
 	public Stadium() {
 		// TODO Auto-generated constructor stub
 	}
@@ -85,9 +85,12 @@ public class Stadium extends SpecialEntity {
 	public void setCity(City city) {
 		this.city = city;
 	}
+
 	
 	@Override
-	public String getId() {
-		return this.stadiumId;
+	public String toString() {
+		return "[" + stadiumId + ", " + name + ", " + uefaName + ", "
+				+ capacity + "," + city.getName() + ","
+				+ city.getCountry().getName() + "]";
 	}
 }

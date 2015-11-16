@@ -19,26 +19,26 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 6:34:22 AM
+ *         Oct 24, 2015 6:34:22 AM
  */
 @Entity
 @Table(name = "cities")
-public class City extends SpecialEntity {
+public class City {
 	@Id
 	@Column(name = "id")
 	@Length(max = 5)
 	private String cityId;
-	
+
 	@NotEmpty
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "countryId")
 	private Country country;
-	
+
 	@OneToMany(mappedBy = "city")
 	private Set<Stadium> stadiums = new HashSet<Stadium>();
-	
+
 	public City() {
 		// TODO Auto-generated constructor stub
 	}
@@ -66,9 +66,9 @@ public class City extends SpecialEntity {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
+
 	@Override
-	public String getId() {
-		return this.cityId;
+	public String toString() {
+		return "[" + cityId + ", " + name + ", " + country.getName() + "]";
 	}
 }
