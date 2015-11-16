@@ -29,7 +29,7 @@ public class IDGenerator {
 		if (list.size() == 0) {
 			suffix = formatPattern.toString();
 		} else {
-			suffix = list.get(list.size() - 1).getId().substring(1);
+			suffix = list.get(list.size() - 1).getCountryId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
@@ -60,7 +60,7 @@ public class IDGenerator {
 		} else {
 			int size = list.size();
 			City city = list.get(size - 1);
-			suffix = city.getId().substring(1);
+			suffix = city.getCityId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
@@ -89,7 +89,7 @@ public class IDGenerator {
 		if (list.size() == 0) {
 			suffix = formatPattern.toString();
 		} else {
-			suffix = list.get(list.size() - 1).getId().substring(1);
+			suffix = list.get(list.size() - 1).getTeamId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
@@ -118,7 +118,7 @@ public class IDGenerator {
 		if (list.size() == 0) {
 			suffix = formatPattern.toString();
 		} else {
-			suffix = list.get(list.size() - 1).getId().substring(1);
+			suffix = list.get(list.size() - 1).getMatchId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
@@ -146,7 +146,7 @@ public class IDGenerator {
 		if (list.size() == 0) {
 			suffix = formatPattern.toString();
 		} else {
-			suffix = list.get(list.size() - 1).getId().substring(1);
+			suffix = list.get(list.size() - 1).getPlayerId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
@@ -174,7 +174,7 @@ public class IDGenerator {
 		if (list.size() == 0) {
 			suffix = formatPattern.toString();
 		} else {
-			suffix = list.get(list.size() - 1).getId().substring(1);
+			suffix = list.get(list.size() - 1).getStadiumId().substring(1);
 			int next = Integer.parseInt(suffix) + 1;
 			DecimalFormat fmtDigits = new DecimalFormat(
 					formatPattern.toString());
