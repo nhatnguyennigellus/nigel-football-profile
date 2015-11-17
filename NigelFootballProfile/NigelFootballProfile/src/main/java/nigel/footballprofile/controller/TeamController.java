@@ -90,7 +90,7 @@ public class TeamController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/addTeam", method = RequestMethod.POST)
-	public String addStadium(@ModelAttribute("team") @Valid Team team,
+	public String addTeam(@ModelAttribute("team") @Valid Team team,
 			BindingResult result, Model model, HttpServletRequest request) {
 		team.setTeamId(IDGenerator.genTeamId(profileService.getTeamList()));
 		team.setStadium(profileService.getStadiumById(request
@@ -156,7 +156,8 @@ public class TeamController {
 			return "redirect:team";
 		}
 
-		String teamType = request.getParameter("teamType");
+		String teamType = request.getParameter("teamTypeUpd") != null ? AppConstant.TEAM_CLUB
+				: AppConstant.TEAM_NATIONAL;
 		Stadium stadium = profileService.getStadiumById(request
 				.getParameter("tmStadium"));
 

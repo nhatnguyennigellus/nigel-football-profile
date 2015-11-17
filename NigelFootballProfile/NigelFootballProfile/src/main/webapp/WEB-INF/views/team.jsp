@@ -71,16 +71,16 @@
 										<td>${team.stadium.city.name }</td>
 										<td>${team.stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
-											data-target="#modalModifyTeam" data-id="${team.id }"
+											data-target="#modalModifyTeam" data-id="${team.teamId }"
 											data-fullname="${team.fullName }" data-coach="${team.coach }"
 											data-type="${team.teamType }"
 											data-shortname="${team.shortName }"
-											data-stadium="${team.stadium.id}" id="updTeam">
+											data-stadium="${team.stadium.stadiumId}" id="updTeam">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 										</a> <a href="#" data-toggle="modal" data-target="#modalLogo"
-											data-id="${team.id }" id="updLogo">
+											data-id="${team.teamId }" id="updLogo">
 												<button type="button" class="btn btn-warning btn-sm">
 													<span class="glyphicon glyphicon-bookmark"></span>
 												</button>
@@ -160,17 +160,18 @@
 												name="tmCoach" path="coach" />
 										</div>
 										<div class="form-group col-md-4">
-											<div class="checkbox">
-												<label> <input type="checkbox" id="teamType"
-													name="teamType" /> Club?
-												</label>
-											</div>
+											<label for="teamType">Type</label> <input type="checkbox"
+												id="teamType" name="teamType" data-size="small"
+												data-label-width="40" data-on-text="Club"
+												data-off-text="National" data-on-color="warning"
+												data-off-color="info" />
 										</div>
+
 										<div class="form-group col-md-8">
 											<label for="tmStadium">Stadium</label> <select id="tmStadium"
 												class="form-control input-sm" name="tmStadium">
 												<c:forEach var="stadium" items="${listStadium }">
-													<option value="${stadium.id }">${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
+													<option value="${stadium.stadiumId }">${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -223,19 +224,18 @@
 												class="form-control input-sm" name="tmCoach" />
 										</div>
 										<div class="form-group col-md-4">
-												<label for="teamType">  Club or National
-												</label> <select id="teamType" class="form-control input-sm"
-													name="teamType">
-													<option id="TCLUB" value="TCLUB">Club</option>
-													<option id="TNATL" value="TNATL">National</option>
-												</select>
+											<label for="teamType"> Type </label> <input
+												class="form-control input-sm" type="checkbox"
+												name="teamTypeUpd" id="teamTypeUpd" data-size="small"
+												data-on-text="Club" data-off-text="National"
+												data-on-color="warning" data-off-color="info">
 										</div>
 										<div class="form-group col-md-8">
 											<label for="tmStadium">Stadium</label> <select id="tmStadium"
 												class="form-control input-sm" name="tmStadium">
 												<c:forEach var="stadium" items="${listStadium }">
-													<option id="tmStd${stadium.id }" value="${stadium.id }">
-														${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
+													<option id="tmStd${stadium.stadiumId }"
+														value="${stadium.stadiumId }">${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -259,6 +259,8 @@
 	</div>
 </body>
 <script type="text/javascript">
+	$("[name='teamType']").bootstrapSwitch();
+
 	$(document).ready(function() {
 		$('#tableTeam').dataTable({
 			"pagingType" : "simple",
@@ -281,11 +283,15 @@
 					$("option#tmStd" + $(this).data('stadium')).attr(
 							"selected", "selected");
 				}
-				if ($(this).data('type') == $("option#" + $(this).data('type'))
-						.val()) {
-					$("option#" + $(this).data('type')).attr(
-							"selected", "selected");
-				}
+
+				$("input#teamTypeUpd").prop("checked", $(this).data('type').localeCompare("TCLUB") == 0);
+				//if ($(this).data('type').localeCompare("TCLUB") == 0) {
+				//$('input:checkbox[name=teamType]').prop("checked",true);
+				//$('#teamTypeUpd').prop('checked', $(this).data('type').localeCompare("TCLUB") == 0);
+				//}
+				//else if ($(this).data('type').localeCompare("TNATL") == 0) {
+				//$('input:checkbox[name=teamType]').prop("checked",false);
+				//}
 
 				$("input#stadiumId").attr("value", $(this).data('stadium'));
 
