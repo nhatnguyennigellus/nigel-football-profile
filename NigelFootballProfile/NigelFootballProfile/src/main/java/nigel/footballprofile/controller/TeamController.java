@@ -156,8 +156,8 @@ public class TeamController {
 			return "redirect:team";
 		}
 
-		String teamType = request.getParameter("teamTypeUpd") != null ? AppConstant.TEAM_CLUB
-				: AppConstant.TEAM_NATIONAL;
+		String teamType = request.getParameter("tmTypeUpd");
+		
 		Stadium stadium = profileService.getStadiumById(request
 				.getParameter("tmStadium"));
 

@@ -224,11 +224,12 @@
 												class="form-control input-sm" name="tmCoach" />
 										</div>
 										<div class="form-group col-md-4">
-											<label for="teamType"> Type </label> <input
-												class="form-control input-sm" type="checkbox"
-												name="teamTypeUpd" id="teamTypeUpd" data-size="small"
-												data-on-text="Club" data-off-text="National"
-												data-on-color="warning" data-off-color="info">
+											<label for="tmType"> Type
+												</label> 
+											<input type="button" class="btn btn-danger btn-sm" id="tmType" 
+												name="tmType" value="" />
+												<input type="hidden" class="btn btn-danger btn-sm" id="tmTypeUpd" 
+												name="tmTypeUpd" value="" />
 										</div>
 										<div class="form-group col-md-8">
 											<label for="tmStadium">Stadium</label> <select id="tmStadium"
@@ -269,7 +270,22 @@
 				'aTargets' : [ 0, 7 ]
 			} ]
 		});
+		
 	});
+	$(document).on(
+			"click",
+			"#tmType",
+			function() {
+				if ($("input#tmType").attr("value") == 'Club') {
+					$("input#tmType").attr("value", "National");
+					$("input#tmTypeUpd").attr("value", "TNATL");
+					$("input#tmType").attr("class", "btn btn-info btn-sm");
+				} else {
+					$("input#tmType").attr("value", "Club");
+					$("input#tmTypeUpd").attr("value", "TCLUB");
+					$("input#tmType").attr("class", "btn btn-warning btn-sm");
+				}
+			});
 	$(document).on(
 			"click",
 			"#updTeam",
@@ -283,15 +299,18 @@
 					$("option#tmStd" + $(this).data('stadium')).attr(
 							"selected", "selected");
 				}
-
-				$("input#teamTypeUpd").prop("checked", $(this).data('type').localeCompare("TCLUB") == 0);
-				//if ($(this).data('type').localeCompare("TCLUB") == 0) {
-				//$('input:checkbox[name=teamType]').prop("checked",true);
-				//$('#teamTypeUpd').prop('checked', $(this).data('type').localeCompare("TCLUB") == 0);
-				//}
-				//else if ($(this).data('type').localeCompare("TNATL") == 0) {
-				//$('input:checkbox[name=teamType]').prop("checked",false);
-				//}
+				
+				
+				if ($(this).data('type') == "TCLUB") {
+					$("input#tmType").attr("value", "Club");
+					$("input#tmTypeUpd").attr("value", "TCLUB");
+					$("input#tmType").attr("class", "btn btn-warning btn-sm");
+				}
+				else if ($(this).data('type') == "TNATL") {
+					$("input#tmType").attr("value", "National");
+					$("input#tmTypeUpd").attr("value", "TNATL");
+					$("input#tmType").attr("class", "btn btn-info btn-sm");
+				} 
 
 				$("input#stadiumId").attr("value", $(this).data('stadium'));
 

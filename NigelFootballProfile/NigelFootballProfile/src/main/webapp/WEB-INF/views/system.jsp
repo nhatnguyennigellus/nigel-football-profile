@@ -28,13 +28,13 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/> ">
 <link rel="stylesheet"
-	href="<c:url value='/resources/dist/css/bootstrap3/bootstrap-switch.css'/> ">
-<link rel="stylesheet"
 	href="<c:url value='/resources/docs/css/highlight.css'/> ">
 <link rel="stylesheet"
-	href="<c:url value='/resources/docs/css/main.css'/> ">
+	href="<c:url value='/resources/dist/css/bootstrap3/bootstrap-switch.css'/> ">
 <link rel="stylesheet"
 	href="<c:url value='http://getbootstrap.com/assets/css/docs.min.css'/> ">
+<link rel="stylesheet"
+	href="<c:url value='/resources/docs/css/main.css'/> ">
 
 <style>
 #footer {
