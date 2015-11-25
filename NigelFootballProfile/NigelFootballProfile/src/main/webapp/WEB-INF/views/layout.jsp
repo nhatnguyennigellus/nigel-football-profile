@@ -125,7 +125,7 @@
 								class="glyphicon glyphicon-road"></i> Stadium</a></li>
 						<li><a href="toTeam"><i
 								class="glyphicon glyphicon-th-list"></i> Team</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-user"></i>
+						<li><a href="toPlayer"><i class="glyphicon glyphicon-user"></i>
 								Player</a></li>
 						<li><a href="#"><i class="glyphicon glyphicon-calendar"></i>
 								Match Schedule</a></li>
@@ -166,8 +166,6 @@
 			<!-- /.container-fluid -->
 
 		</div>
-		<img src="<c:url value='/resources/images/logo.png'/>" width="25px">
-		<font color="white">Nigel's Football Profile - My Project</font>
 		<!-- /#page-wrapper -->
 
 	</div>

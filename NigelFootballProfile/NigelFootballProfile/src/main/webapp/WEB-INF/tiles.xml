@@ -44,6 +44,14 @@
 		<put-attribute name="title" value="Championship Maintenance"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/championship.jsp"></put-attribute>
 	</definition>
+	<definition name="player" extends="system">
+		<put-attribute name="title" value="Player Maintenance"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/player.jsp"></put-attribute>
+	</definition>
+	<definition name="addPlayer" extends="system">
+		<put-attribute name="title" value="Add Player"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/addPlayer.jsp"></put-attribute>
+	</definition>
 	
 	<definition name="404" extends="masterpage">
 		<put-attribute name="title" value="Page not found"></put-attribute>

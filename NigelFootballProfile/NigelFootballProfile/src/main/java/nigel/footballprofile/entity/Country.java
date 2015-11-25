@@ -3,6 +3,7 @@ package nigel.footballprofile.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,8 +39,7 @@ public class Country {
 	@OneToMany(mappedBy = "country")
 	private Set<City> cities = new HashSet<City>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "playernationality", joinColumns = { @JoinColumn(name = "nationalityId") }, inverseJoinColumns = { @JoinColumn(name = "playerId") })
+	@ManyToMany(mappedBy = "nationalities", cascade = CascadeType.ALL)
 	private Set<Player> players = new HashSet<Player>();
 
 	public Country() {

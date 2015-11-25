@@ -24,11 +24,11 @@ public class TeamPlayer {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "player")
+	@JoinColumn(name = "playerId")
 	private Player player;
 	
 	@ManyToOne
-	@JoinColumn(name = "team")
+	@JoinColumn(name = "teamId")
 	private Team team;
 	
 	@NotEmpty
@@ -38,7 +38,6 @@ public class TeamPlayer {
 	private Integer kitNumber;
 	
 	public TeamPlayer() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {

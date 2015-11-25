@@ -380,20 +380,43 @@ public class ProfileService {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 21, 2015 4:52:03 PM
+	 * @author Nigellus
+	 */
 	public List<Player> getPlayerList() {
-		return null;
+		return playerDAO.getList();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Nov 21, 2015 4:52:07 PM
+	 * @author Nigellus
+	 */
 	public Player getPlayerById(String id) {
-		return null;
+		return playerDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 *
+	 * Nov 21, 2015 4:52:10 PM
+	 * @author Nigellus
+	 */
 	public boolean addPlayer(Player player) {
-		return false;
+		return playerDAO.add(player);
 	}
 
 	public boolean updatePlayer(Player player) {
-		return false;
+		return playerDAO.update(player);
 	}
 
 	public List<Scorer> getScorerList() {

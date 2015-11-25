@@ -49,7 +49,7 @@ public class Team {
 	@NotEmpty
 	private String logoUrl;
 
-	@OneToMany(mappedBy = "team")
+	@OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
 	private Set<TeamPlayer> teamplayers = new HashSet<TeamPlayer>();
 
 	@OneToMany(mappedBy = "team")

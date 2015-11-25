@@ -77,4 +77,12 @@ public class AppConstant {
 	static public String CHAMP_FORM_TOUR = "FTOUR";
 	static public String CHAMP_FORM_LEAGUE = "FLEAG";
 	static public String CHAMP_FORM_PLAY_OFF = "FPOFF";
+	
+	/**
+	 * Player Position
+	 */
+	static public String POS_GOALKEEPER = "GK";
+	static public String POS_DEFENDER = "DF";
+	static public String POS_MIDFIELDER = "MD";
+	static public String POS_FORWARD = "FW";
 }

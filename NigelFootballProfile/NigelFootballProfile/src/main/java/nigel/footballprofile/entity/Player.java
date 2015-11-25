@@ -7,10 +7,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import nigel.footballprofile.service.DateUtil;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -36,17 +42,19 @@ public class Player {
 	@NotEmpty
 	private String position;
 
-	@NotEmpty
+	@NotNull
 	private Date birthdate;
 
 	private Integer weight;
 
 	private Integer height;
 
-	@OneToMany(mappedBy = "player")
-	private Set<TeamPlayer> teamplayers;
+	@OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+	private Set<TeamPlayer> teamplayers = new HashSet<TeamPlayer>();
 	
-	@ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "playernationality", joinColumns = { @JoinColumn(name = "playerId") }, inverseJoinColumns = { @JoinColumn(name = "nationalityId") })
 	private Set<Country> nationalities = new HashSet<Country>(0);
 	
 	@OneToMany(mappedBy = "player")
@@ -133,5 +141,12 @@ public class Player {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	
+	@Override
+	public String toString() {
+		return playerId + "," + firstName + " " + lastName + ", " 
+				+ DateUtil.dateToShortString(birthdate) + ", " + 
+				position + ", " + weight + ", " + height;
 	}
 }

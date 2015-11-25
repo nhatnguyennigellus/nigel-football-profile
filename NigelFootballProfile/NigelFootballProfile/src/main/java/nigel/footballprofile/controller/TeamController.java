@@ -117,11 +117,8 @@ public class TeamController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added team ["
-					+ team.getTeamId() + ", " + team.getFullName() + ", "
-					+ team.getShortName() + ", " + team.getCoach() + ", "
-					+ team.getTeamType() + "," + team.getStadium().getName()
-					+ "]");
+			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added team "
+					+ team.toString());
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
