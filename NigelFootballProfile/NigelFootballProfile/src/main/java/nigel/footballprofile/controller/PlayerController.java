@@ -83,9 +83,24 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/player")
 	public String toPlayer(Model model, HttpServletRequest request) {
+		List<Player> listPlayer = new ArrayList<Player>();
+		if (request.getParameter("srcTeam") == null
+				|| request.getParameter("srcTeam").equals("All")) {
+			listPlayer = profileService.getPlayerList();
+			request.setAttribute("selectedId", "All");
+			
+		} else {
+			Team team= profileService
+					.getTeamById(request.getParameter("srcTeam"));
+			listPlayer = profileService.getPlayerListByTeam(team);
+			request.setAttribute("selectedId", request.getParameter("srcTeam"));
+			model.addAttribute("teamName", team.getFullName());
+		}
 
-		List<Player> listPlayer = profileService.getPlayerList();
+		List<Team> listTeam = profileService.getTeamList();
 		model.addAttribute("listPlayer", listPlayer);
+		model.addAttribute("listTeam", listTeam);
+		
 		if (!model.containsAttribute("player")) {
 			model.addAttribute("player", new Player());
 		}

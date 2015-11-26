@@ -1,5 +1,6 @@
 package nigel.footballprofile.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -363,7 +364,7 @@ public class ProfileService {
 	public boolean updateTeam(Team team) {
 		return teamDAO.update(team);
 	}
-
+	
 	public List<State> getStateList() {
 		return null;
 	}
@@ -389,6 +390,18 @@ public class ProfileService {
 	 */
 	public List<Player> getPlayerList() {
 		return playerDAO.getList();
+	}
+	
+	public List<Player> getPlayerListByTeam(Team team) {
+		List<TeamPlayer> listTP = this.getTeamPlayerList();
+		List<Player> listPlayer = new ArrayList<Player>();
+		for (TeamPlayer tp : listTP) {
+			if (tp.getTeam().getTeamId().equals(team.getTeamId())) {
+				listPlayer.add(tp.getPlayer());
+			}
+			
+		}
+		return listPlayer ;
 	}
 
 	/**
@@ -467,20 +480,51 @@ public class ProfileService {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Nov 26, 2015 11:58:23 PM
+	 * @author Nigellus
+	 */
 	public List<TeamPlayer> getTeamPlayerList() {
-		return null;
+		return teamPlayerDAO.getList();
 	}
 
-	public TeamPlayer getTeamPlayerById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Nov 26, 2015 11:58:26 PM
+	 * @author Nigellus
+	 */
+	public TeamPlayer getTeamPlayerById(Integer id) {
+		return teamPlayerDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param teamPlayer
+	 * @return
+	 *
+	 * Nov 26, 2015 11:58:41 PM
+	 * @author Nigellus
+	 */
 	public boolean addTeamPlayer(TeamPlayer teamPlayer) {
-		return false;
+		return teamPlayerDAO.add(teamPlayer);
 	}
 
+	/**
+	 * 
+	 * @param teamPlayer
+	 * @return
+	 *
+	 * Nov 26, 2015 11:58:45 PM
+	 * @author Nigellus
+	 */
 	public boolean updateTeamPlayer(TeamPlayer teamPlayer) {
-		return false;
+		return teamPlayerDAO.update(teamPlayer);
 	}
 
 	/**

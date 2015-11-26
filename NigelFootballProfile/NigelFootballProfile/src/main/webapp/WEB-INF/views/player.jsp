@@ -15,8 +15,11 @@
 		Player <a href="toAddPlayer">
 			<button type="button" class="btn btn-success">
 				<span class=" glyphicon glyphicon-plus"></span> Add
-			</button>
-		</a>
+			</button></a>&nbsp;<button type="button" 
+			class="btn btn-primary" id="showSearch">
+								<span class=" glyphicon glyphicon-search"></span> Search
+							</button>
+		
 	</h2>
 	<c:if test="${sessionScope.txtError != null}">
 		<div class="alert alert-danger" role="alert">
@@ -34,6 +37,43 @@
 		</div>
 	</c:if>
 	<div class="container-fluid">
+		<div class="row" id="search" style = "display: none;">
+			<div class="col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel panel-body">
+						<form action="player" class="form-inline">
+
+							<div class="form-group" id="frmSearch" >
+								<label for="team">Select team</label>
+								<div class="input-group ">
+									<span class="input-group-addon"> <span
+										class=" glyphicon glyphicon-search"></span>
+									</span>
+									<select id="srcTeam" class="form-control input-sm"
+											type="text" name="srcTeam">
+											<option value="All">All</option>
+											<c:forEach items="${listTeam }" var="team">
+												<option value="${team.teamId}">${team.fullName}
+												</option>
+											</c:forEach>
+										</select>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-info btn-sm" id="submitSearch">
+								<span class=" glyphicon glyphicon-search "></span> Search
+							</button>
+							
+							
+
+						</form>
+					</div>
+						
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-lg-10"><h4>${teamName }&nbsp;
+			</div>
 		<div class="row">
 			<div class="col-lg-10">
 				<c:choose>
@@ -49,10 +89,6 @@
 									<th>Last Name</th>
 									<th>Position</th>
 									<th>Birthdate</th>
-									<!-- <th>Weight</th>
-									<th>Height</th>
-									<th>Nationality</th>
-									<th>Team</th> -->
 									<th>&nbsp;</th>
 								</tr>
 							</thead>
@@ -92,16 +128,6 @@
 											</h4></td>
 										<td><fmt:formatDate value="${player.birthdate}"
 												pattern="dd.MM.yyyy" /></td>
-										<%-- <td>${player.weight}</td>
-										<td>${player.height}</td>
-										<td><c:forEach var="nation"
-												items="${player.nationalities }">
-												${nation.name}
-											</c:forEach></td>
-										<td><c:forEach var="teamPl"
-												items="${player.teamplayers }">
-												${teamPl.team.name}
-											</c:forEach></td> --%>
 										<td><c:url var="urlUpd" value="toUpdatePlayer">
 												<c:param name="id" value="${player.playerId}" />
 											</c:url> <c:url var="urlTeam" value="toUpdatePlayerTeam">
@@ -251,86 +277,14 @@
 
 						
 					});
-	/* $(document).on("click", "#updLogo", function() {
-		$("input#champId").attr("value", $(this).data('id'));
-
-	});
-
-	$(function() {
-		$("#frmAddChamp").validate({
-			rules : {
-				fullName : {
-					required : true,
-				},
-				shortName : {
-					required : true,
-				},
-				season : {
-					required : true,
-				}
-			},
-			messages : {
-				fullName : {
-					required : "Championship is required!",
-				},
-				shortName : {
-					required : "Short Name is required!",
-				},
-				season : {
-					required : "Season is required!",
-				}
-			}
-		});
-		$("#frmModifyChamp").validate({
-			rules : {
-				champName : {
-					required : true,
-				},
-				champShrtName : {
-					required : true,
-				},
-				champSeason : {
-					required : true,
-				}
-			},
-			messages : {
-				champName : {
-					required : "Championship is required!",
-				},
-				champShrtName : {
-					required : "Short Name is required!",
-				},
-				champSeason : {
-					required : "Season is required!",
-				}
-			}
-		});
-	});
-
-	$.validator.addMethod("exactlength", function(value, element, param) {
-		return this.optional(element) || value.length == param;
-	}, jQuery.format("Please enter exactly {0} characters."));
-
-	$.validator.addMethod('minStrict', function(value, el, param) {
-		return value >= param;
-	});
-
-	$.validator.setDefaults({
-		highlight : function(element) {
-			$(element).closest('.form-group').addClass('has-error');
-		},
-		unhighlight : function(element) {
-			$(element).closest('.form-group').removeClass('has-error');
-		},
-		errorElement : 'span',
-		errorClass : 'help-block',
-		errorPlacement : function(error, element) {
-			if (element.parent('.input-group').length) {
-				error.insertAfter(element.parent());
-			} else {
-				error.insertAfter(element);
-			}
-		}
-	}); */
+	
+	$(document)
+	.on(
+			"click",
+			"#showSearch",
+			function() {
+				$("#search").fadeIn();
+				$("#showSearch").hide();
+			});
 </script>
 </html>
