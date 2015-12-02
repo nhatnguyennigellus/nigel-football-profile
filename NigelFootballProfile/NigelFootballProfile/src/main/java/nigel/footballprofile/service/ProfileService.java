@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import javax.servlet.http.HttpServletRequest;
 
 import nigel.footballprofile.dao.ChampionshipDAO;
 import nigel.footballprofile.dao.CityDAO;
@@ -73,16 +73,17 @@ public class ProfileService {
 	private ScorerDAO scorerDAO;
 
 	public ProfileService() {
-	} 
+	}
+
 	/*
 	 * Work Log
 	 */
-	
+
 	/**
 	 * 
 	 * @return
 	 *
-	 * Oct 29, 2015 12:15:59 AM
+	 *         Oct 29, 2015 12:15:59 AM
 	 * @author Nigellus
 	 */
 	public List<WorkLog> getWorkLogList() {
@@ -94,7 +95,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:03 AM
+	 *         Oct 29, 2015 12:16:03 AM
 	 * @author Nigellus
 	 */
 	public WorkLog getWorkLogById(Integer id) {
@@ -106,7 +107,7 @@ public class ProfileService {
 	 * @param type
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:06 AM
+	 *         Oct 29, 2015 12:16:06 AM
 	 * @author Nigellus
 	 */
 	public List<WorkLog> getWorkLogByType(String type) {
@@ -118,7 +119,7 @@ public class ProfileService {
 	 * @param workLog
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:10 AM
+	 *         Oct 29, 2015 12:16:10 AM
 	 * @author Nigellus
 	 */
 	public boolean addWorkLog(String logType, String desc) {
@@ -134,7 +135,7 @@ public class ProfileService {
 	 * @param workLog
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:14 AM
+	 *         Oct 29, 2015 12:16:14 AM
 	 * @author Nigellus
 	 */
 	public boolean updateWorkLog(WorkLog workLog) {
@@ -145,7 +146,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:17 AM
+	 *         Oct 29, 2015 12:16:17 AM
 	 * @author Nigellus
 	 */
 	public List<Country> getCountryList() {
@@ -157,31 +158,31 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:21 AM
+	 *         Oct 29, 2015 12:16:21 AM
 	 * @author Nigellus
 	 */
 	public Country getCountryById(String id) {
 		return countryDAO.getById(id);
 	}
-	
+
 	/**
 	 * 
 	 * @param shortName
 	 * @return
 	 *
-	 * Oct 29, 2015 1:15:25 AM
+	 *         Oct 29, 2015 1:15:25 AM
 	 * @author Nigellus
 	 */
 	public Country getCountryByShortname(String shortName) {
 		return countryDAO.getByShortname(shortName);
 	}
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 *
-	 * Oct 29, 2015 7:54:12 AM
+	 *         Oct 29, 2015 7:54:12 AM
 	 * @author Nigellus
 	 */
 	public Country getCountryByName(String name) {
@@ -193,7 +194,7 @@ public class ProfileService {
 	 * @param country
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:24 AM
+	 *         Oct 29, 2015 12:16:24 AM
 	 * @author Nigellus
 	 */
 	public boolean addCountry(Country country) {
@@ -205,7 +206,7 @@ public class ProfileService {
 	 * @param country
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:27 AM
+	 *         Oct 29, 2015 12:16:27 AM
 	 * @author Nigellus
 	 */
 	public boolean updateCountry(Country country) {
@@ -216,7 +217,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Oct 29, 2015 12:16:30 AM
+	 *         Oct 29, 2015 12:16:30 AM
 	 * @author Nigellus
 	 */
 	public List<City> getCityList() {
@@ -228,7 +229,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Oct 30, 2015 8:11:15 PM
+	 *         Oct 30, 2015 8:11:15 PM
 	 * @author Nigellus
 	 */
 	public City getCityById(String id) {
@@ -240,7 +241,7 @@ public class ProfileService {
 	 * @param city
 	 * @return
 	 *
-	 * Oct 30, 2015 8:11:34 PM
+	 *         Oct 30, 2015 8:11:34 PM
 	 * @author Nigellus
 	 */
 	public boolean addCity(City city) {
@@ -252,19 +253,19 @@ public class ProfileService {
 	 * @param city
 	 * @return
 	 *
-	 * Oct 30, 2015 8:11:37 PM
+	 *         Oct 30, 2015 8:11:37 PM
 	 * @author Nigellus
 	 */
 	public boolean updateCity(City city) {
 		return cityDAO.update(city);
 	}
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 *
-	 * Nov 3, 2015 7:53:20 AM
+	 *         Nov 3, 2015 7:53:20 AM
 	 * @author Nigellus
 	 */
 	public List<City> getCityByName(String name) {
@@ -275,7 +276,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Nov 4, 2015 9:20:33 PM
+	 *         Nov 4, 2015 9:20:33 PM
 	 * @author Nigellus
 	 */
 	public List<Stadium> getStadiumList() {
@@ -287,7 +288,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Nov 4, 2015 9:21:49 PM
+	 *         Nov 4, 2015 9:21:49 PM
 	 * @author Nigellus
 	 */
 	public Stadium getStadiumById(String id) {
@@ -299,7 +300,7 @@ public class ProfileService {
 	 * @param stadium
 	 * @return
 	 *
-	 * Nov 4, 2015 9:21:52 PM
+	 *         Nov 4, 2015 9:21:52 PM
 	 * @author Nigellus
 	 */
 	public boolean addStadium(Stadium stadium) {
@@ -311,7 +312,7 @@ public class ProfileService {
 	 * @param stadium
 	 * @return
 	 *
-	 * Nov 4, 2015 9:21:56 PM
+	 *         Nov 4, 2015 9:21:56 PM
 	 * @author Nigellus
 	 */
 	public boolean updateStadium(Stadium stadium) {
@@ -322,7 +323,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Nov 8, 2015 2:17:04 PM
+	 *         Nov 8, 2015 2:17:04 PM
 	 * @author Nigellus
 	 */
 	public List<Team> getTeamList() {
@@ -331,10 +332,22 @@ public class ProfileService {
 
 	/**
 	 * 
+	 * @param type
+	 * @return
+	 *
+	 *         Nov 27, 2015 11:07:37 PM
+	 * @author Nigellus
+	 */
+	public List<Team> getTeamByType(String type) {
+		return teamDAO.getTeamByType(type);
+	}
+
+	/**
+	 * 
 	 * @param id
 	 * @return
 	 *
-	 * Nov 8, 2015 2:17:08 PM
+	 *         Nov 8, 2015 2:17:08 PM
 	 * @author Nigellus
 	 */
 	public Team getTeamById(String id) {
@@ -346,7 +359,7 @@ public class ProfileService {
 	 * @param team
 	 * @return
 	 *
-	 * Nov 8, 2015 2:17:11 PM
+	 *         Nov 8, 2015 2:17:11 PM
 	 * @author Nigellus
 	 */
 	public boolean addTeam(Team team) {
@@ -358,13 +371,13 @@ public class ProfileService {
 	 * @param team
 	 * @return
 	 *
-	 * Nov 8, 2015 2:17:16 PM
+	 *         Nov 8, 2015 2:17:16 PM
 	 * @author Nigellus
 	 */
 	public boolean updateTeam(Team team) {
 		return teamDAO.update(team);
 	}
-	
+
 	public List<State> getStateList() {
 		return null;
 	}
@@ -385,13 +398,21 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Nov 21, 2015 4:52:03 PM
+	 *         Nov 21, 2015 4:52:03 PM
 	 * @author Nigellus
 	 */
 	public List<Player> getPlayerList() {
 		return playerDAO.getList();
 	}
-	
+
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 *         Nov 26, 2015 11:36:35 PM
+	 * @author Nigellus
+	 */
 	public List<Player> getPlayerListByTeam(Team team) {
 		List<TeamPlayer> listTP = this.getTeamPlayerList();
 		List<Player> listPlayer = new ArrayList<Player>();
@@ -399,9 +420,8 @@ public class ProfileService {
 			if (tp.getTeam().getTeamId().equals(team.getTeamId())) {
 				listPlayer.add(tp.getPlayer());
 			}
-			
 		}
-		return listPlayer ;
+		return listPlayer;
 	}
 
 	/**
@@ -409,7 +429,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Nov 21, 2015 4:52:07 PM
+	 *         Nov 21, 2015 4:52:07 PM
 	 * @author Nigellus
 	 */
 	public Player getPlayerById(String id) {
@@ -421,13 +441,21 @@ public class ProfileService {
 	 * @param player
 	 * @return
 	 *
-	 * Nov 21, 2015 4:52:10 PM
+	 *         Nov 21, 2015 4:52:10 PM
 	 * @author Nigellus
 	 */
 	public boolean addPlayer(Player player) {
 		return playerDAO.add(player);
 	}
 
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 *
+	 *         Nov 21, 2015 4:52:50 PM
+	 * @author Nigellus
+	 */
 	public boolean updatePlayer(Player player) {
 		return playerDAO.update(player);
 	}
@@ -484,7 +512,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Nov 26, 2015 11:58:23 PM
+	 *         Nov 26, 2015 11:58:23 PM
 	 * @author Nigellus
 	 */
 	public List<TeamPlayer> getTeamPlayerList() {
@@ -496,7 +524,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Nov 26, 2015 11:58:26 PM
+	 *         Nov 26, 2015 11:58:26 PM
 	 * @author Nigellus
 	 */
 	public TeamPlayer getTeamPlayerById(Integer id) {
@@ -508,7 +536,7 @@ public class ProfileService {
 	 * @param teamPlayer
 	 * @return
 	 *
-	 * Nov 26, 2015 11:58:41 PM
+	 *         Nov 26, 2015 11:58:41 PM
 	 * @author Nigellus
 	 */
 	public boolean addTeamPlayer(TeamPlayer teamPlayer) {
@@ -520,7 +548,7 @@ public class ProfileService {
 	 * @param teamPlayer
 	 * @return
 	 *
-	 * Nov 26, 2015 11:58:45 PM
+	 *         Nov 26, 2015 11:58:45 PM
 	 * @author Nigellus
 	 */
 	public boolean updateTeamPlayer(TeamPlayer teamPlayer) {
@@ -529,9 +557,263 @@ public class ProfileService {
 
 	/**
 	 * 
+	 * @param request
 	 * @return
 	 *
-	 * Nov 10, 2015 7:37:17 AM
+	 *         Nov 28, 2015 11:31:47 AM
+	 * @author Nigellus
+	 */
+	public boolean callPlayerToTeam(HttpServletRequest request) {
+		Player player = this.getPlayerById(request.getParameter("playerId"));
+		String clubId = request.getParameter("club");
+		String natlId = request.getParameter("natl");
+
+		Team club = new Team();
+		Team natl = new Team();
+		if (!clubId.equals("No")) {
+			club = this.getTeamById(clubId);
+		}
+		if (!natlId.equals("No")) {
+			natl = this.getTeamById(natlId);
+		}
+
+		// Club
+		TeamPlayer teamPlayer = this.findByPlayer(player.getPlayerId(),
+				AppConstant.TEAM_CLUB);
+		if (!clubId.equals("No")) {
+			if (teamPlayer == null) {
+				teamPlayer = new TeamPlayer();
+				
+			}
+			teamPlayer.setPlayer(player);
+			// Get data
+			teamPlayer.setCaptain(request.getParameter("clubCap") != null);
+			teamPlayer.setKitNumber(Integer.parseInt(request
+					.getParameter("clubKit")));
+			teamPlayer.setTeam(club);
+			// If this is the new captain, find the current captain and
+			// set his captain to "false"
+			if (teamPlayer.isCaptain()) {
+				Player currCap = this.findCaptain(club);
+				
+				if (currCap != null) {
+					TeamPlayer currCapTP = this.findByPlayer(currCap.getPlayerId(),
+							AppConstant.TEAM_CLUB);
+					currCapTP.setCaptain(false);
+					this.updateTeamPlayer(currCapTP);
+				}
+			}
+			// If this kit number exists in team, find and replace it with the
+			// least number in the list of available kit numbers (except for the
+			// new kit number.
+			List<Integer> clubAvailKitNo = this.availableKitNo(club);
+			if (!clubAvailKitNo.contains(Integer.parseInt(request
+					.getParameter("clubKit")))) {
+				TeamPlayer currKitTP = this.findByKitNo(clubId,
+						Integer.parseInt(request.getParameter("clubKit")));
+				if (currKitTP != null && !currKitTP.getPlayer().getPlayerId()
+						.equals(player.getPlayerId())) {
+					currKitTP.setKitNumber(clubAvailKitNo.get(0));
+					this.updateTeamPlayer(currKitTP);
+				}
+				
+			}
+		}
+		if (!this.isInTeamType(player, AppConstant.TEAM_CLUB)) {
+			if (!clubId.equals("No")) {
+				teamPlayer.setStatus(true);
+				this.addTeamPlayer(teamPlayer);
+			}
+		} else {
+			
+			if (clubId.equals("No")) {
+				teamPlayer.setStatus(false);
+			} else {
+				teamPlayer.setStatus(true);
+			}
+			this.updateTeamPlayer(teamPlayer);
+		}
+
+		// National
+		teamPlayer = this.findByPlayer(player.getPlayerId(),
+				AppConstant.TEAM_NATIONAL);
+		if (!natlId.equals("No")) {
+			if (teamPlayer == null) {
+				teamPlayer = new TeamPlayer();
+				
+			}
+			teamPlayer.setPlayer(player);
+			teamPlayer.setCaptain(request.getParameter("natlCap") != null);
+			teamPlayer.setKitNumber(Integer.parseInt(request
+					.getParameter("natlKit")));
+			teamPlayer.setTeam(natl);
+			// If this is the new captain, find the current captain and
+			// set his captain to "false"
+			if (teamPlayer.isCaptain()) {
+				Player currCap = this.findCaptain(natl);
+				
+				if (currCap != null) {
+					TeamPlayer currCapTP = this.findByPlayer(currCap.getPlayerId(),
+							AppConstant.TEAM_NATIONAL);
+					currCapTP.setCaptain(false);
+					this.updateTeamPlayer(currCapTP);
+				}
+				
+			}
+			// If this kit number exists in team, find and replace it with the
+			// least number in the list of available kit numbers (except for the
+			// new kit number.
+			List<Integer> natlAvailKitNo = this.availableKitNo(natl);
+			if (!natlAvailKitNo.contains(Integer.parseInt(request
+					.getParameter("natlKit")))) {
+				TeamPlayer currKitTP = this.findByKitNo(clubId,
+						Integer.parseInt(request.getParameter("natlKit")));
+				if (currKitTP != null
+						&& !currKitTP.getPlayer().getPlayerId()
+								.equals(player.getPlayerId())) {
+					currKitTP.setKitNumber(natlAvailKitNo.get(0));
+					this.updateTeamPlayer(currKitTP);
+				}
+				
+			}
+		}
+		if (!this.isInTeamType(player, AppConstant.TEAM_NATIONAL)) {
+			if (!natlId.equals("No")) {
+				teamPlayer.setStatus(true);
+				this.addTeamPlayer(teamPlayer);
+			}
+		} else {
+			if (clubId.equals("No")) {
+				teamPlayer.setStatus(false);
+			} else {
+				teamPlayer.setStatus(true);
+			}
+			this.updateTeamPlayer(teamPlayer);
+		}
+
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 *         Nov 29, 2015 1:09:42 PM
+	 * @author Nigellus
+	 */
+	private List<Integer> availableKitNo(Team team) {
+		List<Integer> listAvailKitNo = new ArrayList<Integer>();
+
+		boolean yes = false;
+		for (int i = 1; i <= 99; i++) {
+			yes = false;
+			for (TeamPlayer tp : this.findByTeam(team.getTeamId())) {
+				if (tp.getKitNumber() == i) {
+					yes = true;
+					break;
+				}
+			}
+			if (!yes) {
+				listAvailKitNo.add(i);
+			}
+		}
+
+		return listAvailKitNo;
+	}
+
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 *         Nov 29, 2015 1:41:23 PM
+	 * @author Nigellus
+	 */
+	private Player findCaptain(Team team) {
+		Player player = null;
+		for (TeamPlayer tp : this.findByTeam(team.getTeamId())) {
+			if (tp.isCaptain()) {
+				player = tp.getPlayer();
+				break;
+			}
+		}
+
+		return player;
+	}
+
+	/**
+	 * 
+	 * @param playerId
+	 * @return
+	 *
+	 *         Nov 29, 2015 1:37:48 PM
+	 * @author Nigellus
+	 */
+	public TeamPlayer findByPlayer(String playerId, String teamType) {
+		for (TeamPlayer tp : teamPlayerDAO.getByPlayer(playerId)) {
+			if (tp.getTeam().getTeamType().equals(teamType)) {
+				return tp;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param teamId
+	 * @return
+	 *
+	 *         Nov 29, 2015 1:38:24 PM
+	 * @author Nigellus
+	 */
+	public List<TeamPlayer> findByTeam(String teamId) {
+		return teamPlayerDAO.getByTeam(teamId);
+	}
+
+	/**
+	 * 
+	 * @param teamId
+	 * @param kitNo
+	 * @return
+	 *
+	 *         Nov 29, 2015 2:16:23 PM
+	 * @author Nigellus
+	 */
+	public TeamPlayer findByKitNo(String teamId, Integer kitNo) {
+		for (TeamPlayer tp : this.findByTeam(teamId)) {
+			if (tp.getKitNumber() == kitNo) {
+				return tp;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param player
+	 * @param type
+	 * @return
+	 *
+	 *         Nov 28, 2015 12:18:32 AM
+	 * @author Nigellus
+	 */
+	private boolean isInTeamType(Player player, String type) {
+
+		for (TeamPlayer tp : player.getTeamplayers()) {
+			if (tp.getTeam().getTeamType().equals(type)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 *
+	 *         Nov 10, 2015 7:37:17 AM
 	 * @author Nigellus
 	 */
 	public List<Championship> getChampionshipList() {
@@ -542,7 +824,7 @@ public class ProfileService {
 	 * 
 	 * @return
 	 *
-	 * Nov 10, 2015 7:37:36 AM
+	 *         Nov 10, 2015 7:37:36 AM
 	 * @author Nigellus
 	 */
 	public Championship getChampionshipByShortName(String shortName) {
@@ -554,7 +836,7 @@ public class ProfileService {
 	 * @param id
 	 * @return
 	 *
-	 * Nov 10, 2015 7:38:09 AM
+	 *         Nov 10, 2015 7:38:09 AM
 	 * @author Nigellus
 	 */
 	public Championship getChampionshipById(int id) {
@@ -566,7 +848,7 @@ public class ProfileService {
 	 * @param championship
 	 * @return
 	 *
-	 * Nov 10, 2015 7:43:01 AM
+	 *         Nov 10, 2015 7:43:01 AM
 	 * @author Nigellus
 	 */
 	public boolean addChampionship(Championship championship) {
@@ -578,7 +860,7 @@ public class ProfileService {
 	 * @param championship
 	 * @return
 	 *
-	 * Nov 10, 2015 7:43:09 AM
+	 *         Nov 10, 2015 7:43:09 AM
 	 * @author Nigellus
 	 */
 	public boolean updateChampionship(Championship championship) {
@@ -611,7 +893,7 @@ public class ProfileService {
 	 * @param name
 	 * @return
 	 *
-	 * Oct 31, 2015 1:19:42 PM
+	 *         Oct 31, 2015 1:19:42 PM
 	 * @author Nigellus
 	 */
 	public boolean existedCountry(String shortName, String name) {
@@ -624,65 +906,65 @@ public class ProfileService {
 	 * @param city
 	 * @return
 	 *
-	 * Oct 31, 2015 1:19:45 PM
+	 *         Oct 31, 2015 1:19:45 PM
 	 * @author Nigellus
 	 */
 	public boolean existedCity(String name) {
 		return (this.getCityByName(name).size() > 0);
 	}
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @param uefaName
 	 * @return
 	 *
-	 * Nov 5, 2015 11:17:00 PM
+	 *         Nov 5, 2015 11:17:00 PM
 	 * @author Nigellus
 	 */
 	public boolean existedStadium(String name, String uefaName) {
 		return (stadiumDAO.getByName(name, uefaName) != null);
 	}
-	
+
 	/**
 	 * 
 	 * @param fullName
 	 * @param shortName
 	 * @return
 	 *
-	 * Nov 9, 2015 7:36:01 AM
+	 *         Nov 9, 2015 7:36:01 AM
 	 * @author Nigellus
 	 */
 	public boolean existedTeam(String fullName, String shortName) {
 		return (teamDAO.getByName(fullName, shortName) != null);
 	}
-	
+
 	/**
 	 * 
 	 * @param coach
 	 * @return
 	 *
-	 * Nov 9, 2015 7:36:05 AM
+	 *         Nov 9, 2015 7:36:05 AM
 	 * @author Nigellus
 	 */
 	public boolean existedCoach(String coach) {
 		List<Team> list = this.getTeamList();
 		for (Team team : list) {
-			if(team.getCoach().equals(coach)) {
+			if (team.getCoach().equals(coach)) {
 				return true;
 			}
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param shortName
 	 * @param name
 	 * @return
 	 *
-	 * Nov 11, 2015 7:53:33 PM
+	 *         Nov 11, 2015 7:53:33 PM
 	 * @author Nigellus
 	 */
 	public boolean existedChamp(String shortName, String name) {

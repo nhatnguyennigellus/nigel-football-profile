@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,11 +32,14 @@ public class TeamPlayer {
 	@JoinColumn(name = "teamId")
 	private Team team;
 	
-	@NotEmpty
+	@NotNull
 	private boolean isCaptain;
 	
-	@NotEmpty
+	@NotNull
 	private Integer kitNumber;
+	
+	@NotNull
+	private boolean status;
 	
 	public TeamPlayer() {
 	}
@@ -78,6 +82,14 @@ public class TeamPlayer {
 
 	public void setKitNumber(Integer kitNumber) {
 		this.kitNumber = kitNumber;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 	

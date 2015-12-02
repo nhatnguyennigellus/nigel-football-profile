@@ -13,9 +13,7 @@
 	href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css' /> ">
 </head>
 <body>
-	<h2>
-		Add Player 
-	</h2>
+	<h2>Add Player</h2>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -38,9 +36,8 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>${success }
-									<strong><a
-										href="toAddPlayerTeam?playerId=${sessionScope.pId }"
-										class="alert-link">Add Player to team</a></strong>
+									<strong><a href="toPlayer" class="alert-link">Back
+											to player list</a></strong>
 								</div>
 							</c:if>
 							<div class="row">
@@ -93,7 +90,7 @@
 										</select>
 									</div>
 								</div>
-								
+
 								<div class="form-group col-md-2">
 									<label class="control-label" for="weight">Weight (kg)</label>
 									<div class="input-group ">
@@ -131,9 +128,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								
-							</div>
+							<div class="row"></div>
 							<div class="form-group col-md-8">
 
 								<button type="submit" class="btn btn-success">

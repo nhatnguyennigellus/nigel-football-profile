@@ -48,6 +48,28 @@ public class TeamDAO {
 		}
 		return list;
 	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 *
+	 * Nov 27, 2015 11:47:47 PM
+	 * @author Nigellus
+	 */
+	public List<Team> getTeamByType(String type) {
+		List<Team> list = null;
+
+		try {
+			TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t where t.teamType = ?1",
+					Team.class);
+			query.setParameter(1, type);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	/**
 	 * 

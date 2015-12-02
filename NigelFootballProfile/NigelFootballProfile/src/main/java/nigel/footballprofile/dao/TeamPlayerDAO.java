@@ -107,8 +107,49 @@ public class TeamPlayerDAO  {
 		return log;
 	}
 
-	public List<TeamPlayer> getByType(Integer u) {
-		return null;
-	}
+	/**
+	 * 
+	 * @param teamId
+	 * @return
+	 *
+	 * Nov 29, 2015 1:35:31 PM
+	 * @author Nigellus
+	 */
+	public List<TeamPlayer> getByTeam(String teamId) {
+		List<TeamPlayer> list = null;
 
+		try {
+			TypedQuery<TeamPlayer> query = em.createQuery(
+					"SELECT tp FROM TeamPlayer tp where tp.team.teamId = ?1", 
+					TeamPlayer.class);
+			query.setParameter(1, teamId);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 
+	 * @param playerId
+	 * @return
+	 *
+	 * Nov 29, 2015 1:36:10 PM
+	 * @author Nigellus
+	 */
+	public List<TeamPlayer> getByPlayer(String playerId) {
+		List<TeamPlayer> list = null;
+
+		try {
+			TypedQuery<TeamPlayer> query = em.createQuery(
+					"SELECT tp FROM TeamPlayer tp where tp.player.playerId = ?1", 
+					TeamPlayer.class);
+			query.setParameter(1, playerId);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

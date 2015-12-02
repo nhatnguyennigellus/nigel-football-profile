@@ -130,8 +130,8 @@
 												pattern="dd.MM.yyyy" /></td>
 										<td><c:url var="urlUpd" value="toUpdatePlayer">
 												<c:param name="id" value="${player.playerId}" />
-											</c:url> <c:url var="urlTeam" value="toUpdatePlayerTeam">
-												<c:param name="id" value="${player.playerId}" />
+											</c:url> <c:url var="urlTeam" value="toTeamPlayer">
+												<c:param name="pId" value="${player.playerId}" />
 											</c:url> <a href="${urlUpd }">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-pencil"></span>

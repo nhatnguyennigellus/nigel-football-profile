@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import nigel.footballprofile.entity.Country;
 import nigel.footballprofile.entity.Player;
 import nigel.footballprofile.entity.Team;
+import nigel.footballprofile.entity.TeamPlayer;
 import nigel.footballprofile.service.AppConstant;
 import nigel.footballprofile.service.DateUtil;
 import nigel.footballprofile.service.IDGenerator;
@@ -60,6 +61,34 @@ public class PlayerController {
 	 * @param request
 	 * @return
 	 *
+	 *         Nov 27, 2015 11:52:10 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/toTeamPlayer")
+	public String redirectToTeamPlayer(Model model, HttpServletRequest request) {
+		request.getSession().removeAttribute("txtError");
+		request.getSession().removeAttribute("success");
+
+		List<Team> listClub = profileService
+				.getTeamByType(AppConstant.TEAM_CLUB);
+		List<Team> listNation = profileService
+				.getTeamByType(AppConstant.TEAM_NATIONAL);
+		String playerId = request.getParameter("pId");
+		Player player = profileService.getPlayerById(playerId);
+
+		model.addAttribute("listClub", listClub);
+		model.addAttribute("listNational", listNation);
+		model.addAttribute("player", player);
+
+		return "teamPlayer";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
 	 *         Nov 21, 2015 4:49:36 PM
 	 * @author Nigellus
 	 */
@@ -88,10 +117,10 @@ public class PlayerController {
 				|| request.getParameter("srcTeam").equals("All")) {
 			listPlayer = profileService.getPlayerList();
 			request.setAttribute("selectedId", "All");
-			
+
 		} else {
-			Team team= profileService
-					.getTeamById(request.getParameter("srcTeam"));
+			Team team = profileService.getTeamById(request
+					.getParameter("srcTeam"));
 			listPlayer = profileService.getPlayerListByTeam(team);
 			request.setAttribute("selectedId", request.getParameter("srcTeam"));
 			model.addAttribute("teamName", team.getFullName());
@@ -100,11 +129,26 @@ public class PlayerController {
 		List<Team> listTeam = profileService.getTeamList();
 		model.addAttribute("listPlayer", listPlayer);
 		model.addAttribute("listTeam", listTeam);
-		
+
 		if (!model.containsAttribute("player")) {
 			model.addAttribute("player", new Player());
 		}
 		return "player";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 *         Nov 28, 2015 7:16:43 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/teamPlayer")
+	public String teamPlayer(Model model, HttpServletRequest request) {
+
+		return "teamPlayer";
 	}
 
 	/**
@@ -118,7 +162,6 @@ public class PlayerController {
 	 *         Nov 22, 2015 12:42:54 PM
 	 * @author Nigellus
 	 */
-
 	@RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
 	public String addPlayer(@ModelAttribute("player") @Valid Player player,
 			BindingResult result, Model model, HttpServletRequest request) {
@@ -164,5 +207,27 @@ public class PlayerController {
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		return redirectToAddPlayer(model, request);
+	}
+
+	@RequestMapping(value = "/addTeamPlayer")
+	public String addTeamPlayer(Model model, HttpServletRequest request) {
+
+		if (profileService.callPlayerToTeam(request)) {
+			Player player = profileService.getPlayerById(request
+					.getParameter("playerId"));
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute(
+					"success",
+					"Updated teams for " + player.getFirstName() + " "
+							+ player.getLastName());
+
+			profileService
+					.addWorkLog(AppConstant.WLOG_UPDATE, "Updated teams for "
+							+ "player [" + player.toString() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		return "redirect:player";
 	}
 }

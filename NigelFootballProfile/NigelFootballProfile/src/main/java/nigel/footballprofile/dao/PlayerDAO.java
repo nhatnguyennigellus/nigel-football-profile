@@ -106,9 +106,4 @@ public class PlayerDAO  {
 		}
 		return player;
 	}
-
-	public List<Player> getByType(String u) {
-		return null;
-	}
-
 }
