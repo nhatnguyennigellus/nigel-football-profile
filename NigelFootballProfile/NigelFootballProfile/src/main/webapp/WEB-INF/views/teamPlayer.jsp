@@ -49,12 +49,12 @@
 											name="club">
 											<option value="No"></option>
 											<c:forEach items="${listClub }" var="club">
-												<option value="${club.teamId}" <c:forEach items="${player.teamplayers }" var="teamC">
-														<c:if test="${teamC.team.teamId eq club.teamId }">
+												<option value="${club.teamId}"
+													<c:forEach items="${player.teamplayers }" var="teamC">
+														<c:if test="${teamC.team.teamId eq club.teamId and teamC.status eq true}">
 														selected
 														</c:if>
-													</c:forEach>
-												>${club.fullName}</option>
+													</c:forEach>>${club.fullName}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -63,13 +63,12 @@
 									<label for="clubKit">Kit No</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> # </span> <input id="clubKit"
-											class="form-control input-sm" type="text" name="clubKit" 
+											class="form-control input-sm" type="text" name="clubKit"
 											<c:forEach items="${player.teamplayers }" var="teamC">
-														<c:if test="${teamC.team.teamType eq 'TCLUB' }">
+														<c:if test="${teamC.team.teamType eq 'TCLUB' and teamC.status eq true}">
 														value="${teamC.kitNumber }"
 														</c:if>
-													</c:forEach>
-												/>
+													</c:forEach> />
 									</div>
 								</div>
 								<div class="form-group col-md-2">
@@ -78,7 +77,7 @@
 										data-label-width="30" data-on-color="success"
 										data-off-color="danger"
 										<c:forEach items="${player.teamplayers }" var="teamC">
-											<c:if test="${teamC.team.teamType eq 'TCLUB' and teamC.isCaptain() eq true}">
+											<c:if test="${teamC.team.teamType eq 'TCLUB' and teamC.isCaptain() eq true and teamC.status eq true}">
 												checked
 											</c:if>
 										</c:forEach> />
@@ -96,11 +95,10 @@
 											<c:forEach items="${listNational }" var="natl">
 												<option value="${natl.teamId}"
 													<c:forEach items="${player.teamplayers }" var="teamN">
-														<c:if test="${teamN.team.teamId eq natl.teamId }">
+														<c:if test="${teamN.team.teamId eq natl.teamId and teamN.status eq true}">
 														selected
 														</c:if>
-													</c:forEach>
-												>${natl.fullName}</option>
+													</c:forEach>>${natl.fullName}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -109,31 +107,34 @@
 									<label for="natlKit">Kit No</label>
 									<div class="input-group ">
 										<span class="input-group-addon"> # </span> <input id="natlKit"
-											class="form-control input-sm" type="text" name="natlKit" 
+											class="form-control input-sm" type="text" name="natlKit"
 											<c:forEach items="${player.teamplayers }" var="teamN">
-														<c:if test="${teamN.team.teamType eq 'TNATL' }">
+														<c:if test="${teamN.team.teamType eq 'TNATL' and teamN.status eq true}">
 														value="${teamN.kitNumber }"
 														</c:if>
-													</c:forEach>/>
+													</c:forEach> />
 									</div>
 								</div>
 								<div class="form-group col-md-2">
 									<label for="natlCap">Captain?</label> <input type="checkbox"
 										id="natlCap" name="natlCap" data-size="small"
 										data-label-width="30" data-on-color="success"
-										data-off-color="danger" <c:forEach items="${player.teamplayers }" var="teamN">
-											<c:if test="${teamN.team.teamType eq 'TNATL' and teamN.isCaptain() eq true}">
+										data-off-color="danger"
+										<c:forEach items="${player.teamplayers }" var="teamN">
+											<c:if test="${teamN.team.teamType eq 'TNATL' and teamN.isCaptain() eq true and teamN.status eq true}">
 												checked
 											</c:if>
 										</c:forEach> />
 								</div>
 							</div>
-							<button type="submit" class="btn btn-success btn-sm" id="submitTeam">
+							<button type="submit" class="btn btn-success btn-sm"
+								id="submitTeam">
 								<span class=" glyphicon glyphicon-ok "></span> Submit Team
 							</button>
-							<a href="javascript:history.go(-1);"><button type="button" class="btn btn-danger btn-sm" id="">
-								<span class=" glyphicon glyphicon-remove "></span> Cancel
-							</button></a>
+							<a href="javascript:history.go(-1);"><button type="button"
+									class="btn btn-danger btn-sm" id="">
+									<span class=" glyphicon glyphicon-remove "></span> Cancel
+								</button></a>
 
 						</form>
 					</div>
@@ -162,24 +163,31 @@
 							<tbody>
 								<c:forEach var="team" items="${player.teamplayers }"
 									varStatus="no">
-									<tr>
-										<td>${team.team.fullName}</td>
-										<td>
-											<h4>
-												<span
-													<c:if test="${team.isCaptain() == true}">
+									<c:choose>
+										<c:when test="${team.isStatus() == true }">
+											<tr>
+												<td>${team.team.fullName}</td>
+												<td>
+													<h4>
+														<span
+															<c:if test="${team.isCaptain() == true}">
 												 class="label label-success label-lg">
 												Yes
 											</c:if>
-													<c:if test="${team.isCaptain() == false}">
+															<c:if test="${team.isCaptain() == false}">
 											 class="label label-danger label-lg">
 											No
 											</c:if></span>
-											</h4>
-										</td>
-										<td>${team.kitNumber} </td>
-										<td></td>
-									</tr>
+													</h4>
+												</td>
+												<td>${team.kitNumber}</td>
+												<td></td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
+
 								</c:forEach>
 							</tbody>
 						</table>
@@ -187,7 +195,7 @@
 				</c:choose>
 
 
-				
+
 			</div>
 		</div>
 	</div>

@@ -40,7 +40,7 @@ public class TeamPlayerDAO  {
 
 		try {
 			TypedQuery<TeamPlayer> query = em.createQuery(
-					"SELECT tp FROM TeamPlayer tp", TeamPlayer.class);
+					"SELECT tp FROM TeamPlayer tp WHERE tp.status = 1", TeamPlayer.class);
 			list = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class TeamPlayerDAO  {
 		TeamPlayer log = null;
 		try {
 			TypedQuery<TeamPlayer> query = em.createQuery(
-					"SELECT tp FROM TeamPlayer tp WHERE id = ?1", 
+					"SELECT tp FROM TeamPlayer tp WHERE id = ?1 and tp.status = 1", 
 					TeamPlayer.class);
 			query.setParameter(1, id);
 			log = query.getSingleResult();
@@ -120,7 +120,7 @@ public class TeamPlayerDAO  {
 
 		try {
 			TypedQuery<TeamPlayer> query = em.createQuery(
-					"SELECT tp FROM TeamPlayer tp where tp.team.teamId = ?1", 
+					"SELECT tp FROM TeamPlayer tp where tp.team.teamId = ?1 and tp.status = 1", 
 					TeamPlayer.class);
 			query.setParameter(1, teamId);
 			list = query.getResultList();
@@ -143,7 +143,7 @@ public class TeamPlayerDAO  {
 
 		try {
 			TypedQuery<TeamPlayer> query = em.createQuery(
-					"SELECT tp FROM TeamPlayer tp where tp.player.playerId = ?1", 
+					"SELECT tp FROM TeamPlayer tp where tp.player.playerId = ?1 and tp.status = 1", 
 					TeamPlayer.class);
 			query.setParameter(1, playerId);
 			list = query.getResultList();

@@ -625,13 +625,16 @@ public class ProfileService {
 				this.addTeamPlayer(teamPlayer);
 			}
 		} else {
-			
 			if (clubId.equals("No")) {
-				teamPlayer.setStatus(false);
+				if(teamPlayer != null) {
+					teamPlayer.setStatus(false);
+				}
 			} else {
 				teamPlayer.setStatus(true);
 			}
-			this.updateTeamPlayer(teamPlayer);
+			if(teamPlayer != null) {
+				this.updateTeamPlayer(teamPlayer);
+			}
 		}
 
 		// National
@@ -683,12 +686,16 @@ public class ProfileService {
 				this.addTeamPlayer(teamPlayer);
 			}
 		} else {
-			if (clubId.equals("No")) {
-				teamPlayer.setStatus(false);
+			if (natlId.equals("No")) {
+				if(teamPlayer != null) {
+					teamPlayer.setStatus(false);
+				}
 			} else {
 				teamPlayer.setStatus(true);
 			}
-			this.updateTeamPlayer(teamPlayer);
+			if(teamPlayer != null) {
+				this.updateTeamPlayer(teamPlayer);
+			}
 		}
 
 		return true;
@@ -751,7 +758,8 @@ public class ProfileService {
 	 * @author Nigellus
 	 */
 	public TeamPlayer findByPlayer(String playerId, String teamType) {
-		for (TeamPlayer tp : teamPlayerDAO.getByPlayer(playerId)) {
+		List<TeamPlayer> list = teamPlayerDAO.getByPlayer(playerId);
+		for (TeamPlayer tp : list) {
 			if (tp.getTeam().getTeamType().equals(teamType)) {
 				return tp;
 			}

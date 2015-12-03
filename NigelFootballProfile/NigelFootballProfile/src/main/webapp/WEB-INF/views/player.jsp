@@ -15,11 +15,12 @@
 		Player <a href="toAddPlayer">
 			<button type="button" class="btn btn-success">
 				<span class=" glyphicon glyphicon-plus"></span> Add
-			</button></a>&nbsp;<button type="button" 
-			class="btn btn-primary" id="showSearch">
-								<span class=" glyphicon glyphicon-search"></span> Search
-							</button>
-		
+			</button>
+		</a>&nbsp;
+		<button type="button" class="btn btn-primary" id="showSearch">
+			<span class=" glyphicon glyphicon-search"></span> Search
+		</button>
+
 	</h2>
 	<c:if test="${sessionScope.txtError != null}">
 		<div class="alert alert-danger" role="alert">
@@ -37,43 +38,47 @@
 		</div>
 	</c:if>
 	<div class="container-fluid">
-		<div class="row" id="search" style = "display: none;">
+		<div class="row" id="search" style="display: none;">
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel panel-body">
 						<form action="player" class="form-inline">
 
-							<div class="form-group" id="frmSearch" >
+							<div class="form-group" id="frmSearch">
 								<label for="team">Select team</label>
 								<div class="input-group ">
 									<span class="input-group-addon"> <span
 										class=" glyphicon glyphicon-search"></span>
-									</span>
-									<select id="srcTeam" class="form-control input-sm"
-											type="text" name="srcTeam">
-											<option value="All">All</option>
-											<c:forEach items="${listTeam }" var="team">
-												<option value="${team.teamId}">${team.fullName}
-												</option>
-											</c:forEach>
-										</select>
+									</span> <select id="srcTeam" class="form-control input-sm" type="text"
+										name="srcTeam">
+										<option value="All">All</option>
+										<c:forEach items="${listTeam }" var="team">
+											<option value="${team.teamId}">${team.fullName}</option>
+										</c:forEach>
+									</select>
 								</div>
 							</div>
-							<button type="submit" class="btn btn-info btn-sm" id="submitSearch">
+							<button type="submit" class="btn btn-info btn-sm"
+								id="submitSearch">
 								<span class=" glyphicon glyphicon-search "></span> Search
 							</button>
-							
-							
+
+
 
 						</form>
 					</div>
-						
+
 				</div>
 			</div>
-			
+
 		</div>
-		<div class="col-lg-10"><h4>${teamName }&nbsp;
-			</div>
+		<c:if test="${teamName != null  }">
+				<div class="col-lg-10">
+					<h4><img alt="${teamName }" width="25px"
+						src="<c:url value="${logoUrl}" />" />
+					${teamName }&nbsp;<h4>
+				</div>
+		</c:if>
 		<div class="row">
 			<div class="col-lg-10">
 				<c:choose>
@@ -99,7 +104,8 @@
 										<td>${player.firstName}</td>
 										<td>${player.lastName}</td>
 										<td><h4>
-												<span class="
+												<span
+													class="
 													<c:if test="${player.position == 'GK' }">
 											label label-warning label-lg
 										</c:if>
@@ -112,19 +118,17 @@
 													<c:if test="${player.position == 'FW' }">
 											label label-danger label-lg
 										</c:if>
-											">	
-												<c:if test="${player.position == 'GK' }">
+											">
+													<c:if test="${player.position == 'GK' }">
 											Goalkeeper
-										</c:if>
-												<c:if test="${player.position == 'DF' }">
+										</c:if> <c:if test="${player.position == 'DF' }">
 											Defender
-										</c:if>
-												<c:if test="${player.position == 'MF' }">
+										</c:if> <c:if test="${player.position == 'MF' }">
 											Midfielder
-										</c:if>
-												<c:if test="${player.position == 'FW' }">
+										</c:if> <c:if test="${player.position == 'FW' }">
 											Forward
-										</c:if></span>
+										</c:if>
+												</span>
 											</h4></td>
 										<td><fmt:formatDate value="${player.birthdate}"
 												pattern="dd.MM.yyyy" /></td>
@@ -191,8 +195,7 @@
 									</dl>
 									<dl class="dl-horizontal">
 										<dt>Birthdate</dt>
-										<dd id="birthdate">
-										</dd>
+										<dd id="birthdate"></dd>
 									</dl>
 									<dl class="dl-horizontal">
 										<dt>Nationality</dt>
@@ -249,42 +252,47 @@
 					"#dtlPlayer",
 					function() {
 						/* var name = ; */
-						$("dd#name").html($(this).data('firstname') + " "
-								+ $(this).data('lastname'));
+						$("dd#name").html(
+								$(this).data('firstname') + " "
+										+ $(this).data('lastname'));
 						$("dd#birthdate").html($(this).data("birthdate"));
 
 						if ($(this).data('position') == "GK") {
 							$("dd#position")
-									.html('<h5><span class="label label-warning label-lg">Goalkeeper</span></h5>');
+									.html(
+											'<h5><span class="label label-warning label-lg">Goalkeeper</span></h5>');
 						} else if ($(this).data('position') == "DF") {
 							$("dd#position")
-									.html('<h5><span class="label label-success label-lg">Defender</span></h5>');
+									.html(
+											'<h5><span class="label label-success label-lg">Defender</span></h5>');
 						} else if ($(this).data('position') == "MF") {
 							$("dd#position")
-									.html('<h5><span class="label label-primary label-lg">Midfielder</span></h5>');
+									.html(
+											'<h5><span class="label label-primary label-lg">Midfielder</span></h5>');
 						} else if ($(this).data('position') == "FW") {
 							$("dd#position")
-									.html('<h5><span class="label label-danger label-lg">Forward</span></h5>');
+									.html(
+											'<h5><span class="label label-danger label-lg">Forward</span></h5>');
 						}
 
 						$("dd#weight").html($(this).data('weight') + " kg");
 						$("dd#height").html($(this).data('height') + " cm");
 						$("dd#nationality").html($(this).data('nationality'));
-						if($(this).data('club') != null)
-							$("dd#club").html($(this).data('club') + " - " + "#<b>" + $(this).data('clubkit') + "</b>");
-						if($(this).data('natl') != null)	
-							$("dd#natl").html($(this).data('natl') + " - " + "#<b>" + $(this).data('natlkit') + "</b><br>");
+						if ($(this).data('club') != null)
+							$("dd#club").html(
+									$(this).data('club') + " - " + "#<b>"
+											+ $(this).data('clubkit') + "</b>");
+						if ($(this).data('natl') != null)
+							$("dd#natl").html(
+									$(this).data('natl') + " - " + "#<b>"
+											+ $(this).data('natlkit')
+											+ "</b><br>");
 
-						
 					});
-	
-	$(document)
-	.on(
-			"click",
-			"#showSearch",
-			function() {
-				$("#search").fadeIn();
-				$("#showSearch").hide();
-			});
+
+	$(document).on("click", "#showSearch", function() {
+		$("#search").fadeIn();
+		$("#showSearch").hide();
+	});
 </script>
 </html>
