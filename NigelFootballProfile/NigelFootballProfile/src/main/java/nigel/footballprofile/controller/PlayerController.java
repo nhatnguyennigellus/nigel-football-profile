@@ -107,6 +107,26 @@ public class PlayerController {
 	 * @param request
 	 * @return
 	 *
+	 *         Dec 4, 2015 11:37:20 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/toUpdatePlayer")
+	public String redirectModifyPlayer(Model model, HttpServletRequest request) {
+		String playerId = request.getParameter("id");
+		Player player = profileService.getPlayerById(playerId);
+		if (!model.containsAttribute("player")) {
+			model.addAttribute("player", player);
+		}
+		model.addAttribute("countries", profileService.getCountryList());
+		return "modifyPlayer";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
 	 *         Nov 21, 2015 4:49:56 PM
 	 * @author Nigellus
 	 */
@@ -208,6 +228,63 @@ public class PlayerController {
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		return redirectToAddPlayer(model, request);
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Dec 5, 2015 6:30:28 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/modifyPlayer", method = RequestMethod.POST)
+	public String updatePlayer(@ModelAttribute("player") @Valid Player player,
+			BindingResult result, Model model, HttpServletRequest request) {
+		String[] nationalityIds = request.getParameterValues("nationality");
+		List<Country> nationalities = new ArrayList<Country>();
+		for (String id : nationalityIds) {
+			nationalities.add(profileService.getCountryById(id));
+		}
+		String position = request.getParameter("position");
+		Date birthdate = null;
+		try {
+			birthdate = DateUtil.shortStringToDate(request
+					.getParameter("birthdate"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		player.setBirthdate(birthdate);
+		player.setPosition(position);
+		player.setNationalities(new HashSet<Country>(nationalities));
+		if (profileService.updatePlayer(player)) {
+			String successMsg = "Modified player successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			request.getSession().setAttribute("pId", player.getPlayerId());
+
+			StringBuilder nations = new StringBuilder();
+			nations.append(" (");
+			for (int i = 0; i < nationalities.size(); i++) {
+				nations.append(nationalities.get(i).getName());
+				if (i < nationalities.size() - 1) {
+					nations.append(", ");
+				} else {
+					nations.append(")");
+				}
+			}
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE, "Modified player ["
+					+ player.toString() + nations.toString() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		return redirectModifyPlayer(model, request);
 	}
 
 	@RequestMapping(value = "/addTeamPlayer")

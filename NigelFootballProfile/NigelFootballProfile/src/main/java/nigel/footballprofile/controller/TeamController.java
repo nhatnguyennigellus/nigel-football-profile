@@ -136,7 +136,7 @@ public class TeamController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyTeam", method = RequestMethod.POST)
-	public String modifyStadium(HttpServletRequest request) {
+	public String modifyTeam(HttpServletRequest request) {
 		String id = request.getParameter("tmId");
 
 		Team team = profileService.getTeamById(id);

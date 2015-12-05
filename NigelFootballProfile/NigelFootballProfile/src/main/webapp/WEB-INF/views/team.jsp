@@ -224,11 +224,10 @@
 												class="form-control input-sm" name="tmCoach" />
 										</div>
 										<div class="form-group col-md-4">
-											<label for="tmType"> Type
-												</label> 
-											<input type="button" class="btn btn-danger btn-sm" id="tmType" 
-												name="tmType" value="" />
-												<input type="hidden" class="btn btn-danger btn-sm" id="tmTypeUpd" 
+											<label for="tmType"> Type </label> <input type="button"
+												class="btn btn-danger btn-sm" id="tmType" name="tmType"
+												value="" /> <input type="hidden"
+												class="btn btn-danger btn-sm" id="tmTypeUpd"
 												name="tmTypeUpd" value="" />
 										</div>
 										<div class="form-group col-md-8">
@@ -270,22 +269,19 @@
 				'aTargets' : [ 0, 7 ]
 			} ]
 		});
-		
+
 	});
-	$(document).on(
-			"click",
-			"#tmType",
-			function() {
-				if ($("input#tmType").attr("value") == 'Club') {
-					$("input#tmType").attr("value", "National");
-					$("input#tmTypeUpd").attr("value", "TNATL");
-					$("input#tmType").attr("class", "btn btn-info btn-sm");
-				} else {
-					$("input#tmType").attr("value", "Club");
-					$("input#tmTypeUpd").attr("value", "TCLUB");
-					$("input#tmType").attr("class", "btn btn-warning btn-sm");
-				}
-			});
+	$(document).on("click", "#tmType", function() {
+		if ($("input#tmType").attr("value") == 'Club') {
+			$("input#tmType").attr("value", "National");
+			$("input#tmTypeUpd").attr("value", "TNATL");
+			$("input#tmType").attr("class", "btn btn-info btn-sm");
+		} else {
+			$("input#tmType").attr("value", "Club");
+			$("input#tmTypeUpd").attr("value", "TCLUB");
+			$("input#tmType").attr("class", "btn btn-warning btn-sm");
+		}
+	});
 	$(document).on(
 			"click",
 			"#updTeam",
@@ -299,18 +295,16 @@
 					$("option#tmStd" + $(this).data('stadium')).attr(
 							"selected", "selected");
 				}
-				
-				
+
 				if ($(this).data('type') == "TCLUB") {
 					$("input#tmType").attr("value", "Club");
 					$("input#tmTypeUpd").attr("value", "TCLUB");
 					$("input#tmType").attr("class", "btn btn-warning btn-sm");
-				}
-				else if ($(this).data('type') == "TNATL") {
+				} else if ($(this).data('type') == "TNATL") {
 					$("input#tmType").attr("value", "National");
 					$("input#tmTypeUpd").attr("value", "TNATL");
 					$("input#tmType").attr("class", "btn btn-info btn-sm");
-				} 
+				}
 
 				$("input#stadiumId").attr("value", $(this).data('stadium'));
 

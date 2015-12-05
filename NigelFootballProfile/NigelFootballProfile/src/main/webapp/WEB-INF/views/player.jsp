@@ -152,10 +152,10 @@
 											data-position="${player.position}"
 											data-weight="${player.weight}" data-height="${player.height}"
 											<c:forEach var="teamP" items="${player.teamplayers }">
-												<c:if test="${teamP.team.teamType == 'TCLUB'}">
+												<c:if test="${teamP.team.teamType == 'TCLUB' and teamP.status == true}">
 													data-club="${teamP.team.fullName}" data-clubkit="${teamP.kitNumber}"
 												</c:if>
-												<c:if test="${teamP.team.teamType == 'TNATL'}">
+												<c:if test="${teamP.team.teamType == 'TNATL' and teamP.status == true}">
 													data-natl="${teamP.team.fullName}" data-natlkit="${teamP.kitNumber}" 
 												</c:if>
 											</c:forEach>
