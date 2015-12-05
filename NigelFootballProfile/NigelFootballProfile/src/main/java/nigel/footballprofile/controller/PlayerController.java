@@ -145,6 +145,9 @@ public class PlayerController {
 			request.setAttribute("selectedId", request.getParameter("srcTeam"));
 			model.addAttribute("teamName", team.getFullName());
 			model.addAttribute("logoUrl", team.getLogoUrl());
+			Player captain = profileService.findCaptain(team);
+					
+			model.addAttribute("captain", captain.getPlayerId());
 		}
 
 		List<Team> listTeam = profileService.getTeamList();

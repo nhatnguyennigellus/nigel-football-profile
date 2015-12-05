@@ -94,6 +94,7 @@
 									<th>Last Name</th>
 									<th>Position</th>
 									<th>Birthdate</th>
+									<th>Club</th>
 									<th>&nbsp;</th>
 								</tr>
 							</thead>
@@ -130,8 +131,22 @@
 										</c:if>
 												</span>
 											</h4></td>
-										<td><fmt:formatDate value="${player.birthdate}"
-												pattern="dd.MM.yyyy" /></td>
+										<td>
+											<fmt:formatDate value="${player.birthdate}"
+												pattern="dd.MM.yyyy" />
+										</td>
+										<td>
+											<c:forEach var="teamPl" items="${player.teamplayers }">
+												<c:if test="${teamPl.team.teamType == 'TCLUB' and teamPl.status == true}">
+													${teamPl.team.fullName}
+												</c:if>
+											</c:forEach>
+											<c:if test="${teamName != null and captain == player.playerId}">
+													<span class="badge">C</span>
+											</c:if>
+											
+										</td>
+										
 										<td><c:url var="urlUpd" value="toUpdatePlayer">
 												<c:param name="id" value="${player.playerId}" />
 											</c:url> <c:url var="urlTeam" value="toTeamPlayer">

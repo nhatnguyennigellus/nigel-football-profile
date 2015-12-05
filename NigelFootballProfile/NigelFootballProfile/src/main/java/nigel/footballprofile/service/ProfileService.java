@@ -737,7 +737,7 @@ public class ProfileService {
 	 *         Nov 29, 2015 1:41:23 PM
 	 * @author Nigellus
 	 */
-	private Player findCaptain(Team team) {
+	public Player findCaptain(Team team) {
 		Player player = null;
 		for (TeamPlayer tp : this.findByTeam(team.getTeamId())) {
 			if (tp.isCaptain()) {
