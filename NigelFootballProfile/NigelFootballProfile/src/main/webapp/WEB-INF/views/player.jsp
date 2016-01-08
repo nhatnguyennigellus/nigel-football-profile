@@ -73,17 +73,22 @@
 
 		</div>
 		<c:if test="${teamName != null  }">
-				<div class="col-lg-10">
-					<h4><img alt="${teamName }" width="25px"
-						src="<c:url value="${logoUrl}" />" />
-					${teamName }&nbsp;<h4>
-				</div>
+			<div class="col-lg-10">
+				<h4>
+					<img alt="${teamName }" width="25px"
+						src="<c:url value="${logoUrl}" />" /> ${teamName }&nbsp;
+					<h4>
+			</div>
 		</c:if>
 		<div class="row">
 			<div class="col-lg-10">
 				<c:choose>
 					<c:when test="${listPlayer.size() == 0 || listPlayer == null}">
-						<font color="red">No data</font>
+						<div class="alert alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>No data</div>
 					</c:when>
 					<c:otherwise>
 						<table class="table table-hover" id="tablePlayer">
@@ -131,22 +136,19 @@
 										</c:if>
 												</span>
 											</h4></td>
-										<td>
-											<fmt:formatDate value="${player.birthdate}"
-												pattern="dd.MM.yyyy" />
-										</td>
-										<td>
-											<c:forEach var="teamPl" items="${player.teamplayers }">
-												<c:if test="${teamPl.team.teamType == 'TCLUB' and teamPl.status == true}">
+										<td><fmt:formatDate value="${player.birthdate}"
+												pattern="dd.MM.yyyy" /></td>
+										<td><c:forEach var="teamPl"
+												items="${player.teamplayers }">
+												<c:if
+													test="${teamPl.team.teamType == 'TCLUB' and teamPl.status == true}">
 													${teamPl.team.fullName}
 												</c:if>
-											</c:forEach>
-											<c:if test="${teamName != null and captain == player.playerId}">
-													<span class="badge">C</span>
-											</c:if>
-											
-										</td>
-										
+											</c:forEach> <c:if
+												test="${teamName != null and captain == player.playerId}">
+												<span class="badge">C</span>
+											</c:if></td>
+
 										<td><c:url var="urlUpd" value="toUpdatePlayer">
 												<c:param name="id" value="${player.playerId}" />
 											</c:url> <c:url var="urlTeam" value="toTeamPlayer">

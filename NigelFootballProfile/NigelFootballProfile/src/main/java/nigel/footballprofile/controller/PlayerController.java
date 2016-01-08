@@ -146,8 +146,9 @@ public class PlayerController {
 			model.addAttribute("teamName", team.getFullName());
 			model.addAttribute("logoUrl", team.getLogoUrl());
 			Player captain = profileService.findCaptain(team);
-					
-			model.addAttribute("captain", captain.getPlayerId());
+			if(captain != null) {		
+				model.addAttribute("captain", captain.getPlayerId());
+			}
 		}
 
 		List<Team> listTeam = profileService.getTeamList();

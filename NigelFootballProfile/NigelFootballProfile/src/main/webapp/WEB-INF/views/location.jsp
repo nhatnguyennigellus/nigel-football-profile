@@ -278,7 +278,7 @@
 			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
-				'aTargets' : [ 0, 1, 2 ]
+				'aTargets' : [ 0,  2 ]
 			} ]
 		});
 	});

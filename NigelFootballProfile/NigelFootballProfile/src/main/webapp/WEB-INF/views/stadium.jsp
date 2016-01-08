@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -41,7 +41,11 @@
 			<div class="col-lg-9">
 				<c:choose>
 					<c:when test="${listStadium.size() == 0 || listStadium == null}">
-						<font color="red">No data</font>
+						<div class="alert alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>No data</div>
 					</c:when>
 					<c:otherwise>
 						<table class="table table-striped" id="tableStadium">
@@ -66,8 +70,8 @@
 										<td>${stadium.city.name }</td>
 										<td>${stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
-											data-target="#modalModifyStadium" data-id="${stadium.stadiumId }"
-											data-name="${stadium.name }"
+											data-target="#modalModifyStadium"
+											data-id="${stadium.stadiumId }" data-name="${stadium.name }"
 											data-uefaname="${stadium.uefaName }"
 											data-capacity="${stadium.capacity }"
 											data-city="${stadium.city.cityId}" id="updStad">
@@ -217,7 +221,7 @@
 										</div>
 										<div class="form-group col-md-12">
 											<input class="btn btn-success btn-sm" name="submit"
-												bmit" value="Update" />
+												type="submit" value="Update" />
 										</div>
 									</form>
 

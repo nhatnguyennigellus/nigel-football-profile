@@ -76,6 +76,15 @@ public class StadiumController {
 		return "stadium";
 	}
 
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 *         Nov 10, 2015 9:24:34 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/importStadium", method = RequestMethod.POST)
 	public String importStadium(@RequestParam("file") MultipartFile file,
 			HttpServletRequest request, Model model) {

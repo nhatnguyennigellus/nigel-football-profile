@@ -37,7 +37,11 @@
 			<div class="col-lg-12">
 				<c:choose>
 					<c:when test="${listTeam.size() == 0 || listTeam == null}">
-						<font color="red">No data</font>
+						<div class="alert alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>No data</div>
 					</c:when>
 					<c:otherwise>
 						<table class="table table-striped" id="tableTeam">
@@ -76,12 +80,12 @@
 											data-type="${team.teamType }"
 											data-shortname="${team.shortName }"
 											data-stadium="${team.stadium.stadiumId}" id="updTeam">
-												<button type="button" class="btn btn-primary btn-sm">
+												<button type="button" class="btn btn-primary btn-xs">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 										</a> <a href="#" data-toggle="modal" data-target="#modalLogo"
 											data-id="${team.teamId }" id="updLogo">
-												<button type="button" class="btn btn-warning btn-sm">
+												<button type="button" class="btn btn-warning btn-xs">
 													<span class="glyphicon glyphicon-bookmark"></span>
 												</button>
 										</a></td>
