@@ -66,11 +66,11 @@
 										<td>${stadium.city.name }</td>
 										<td>${stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
-											data-target="#modalModifyStadium" data-id="${stadium.id }"
+											data-target="#modalModifyStadium" data-id="${stadium.stadiumId }"
 											data-name="${stadium.name }"
 											data-uefaname="${stadium.uefaName }"
 											data-capacity="${stadium.capacity }"
-											data-city="${stadium.city.id}" id="updStad">
+											data-city="${stadium.city.cityId}" id="updStad">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
@@ -153,7 +153,7 @@
 												id="stdLocation" class="form-control input-sm"
 												name="stdLocation">
 												<c:forEach var="city" items="${listCity }">
-													<option value="${city.id }">${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
+													<option value="${city.cityId }">${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -210,7 +210,7 @@
 												id="stdLocation" class="form-control input-sm"
 												name="stdLocation">
 												<c:forEach var="city" items="${listCity }">
-													<option id="stdCity${city.id }" value="${city.id }">
+													<option id="stdCity${city.cityId }" value="${city.cityId }">
 														${city.name },&nbsp;${city.country.name.toUpperCase() }</option>
 												</c:forEach>
 											</select>

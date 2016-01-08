@@ -75,8 +75,6 @@
 	src="<c:url value='/resources/docs/js/main.js' /> "></script>
 </head>
 <body>
-	<div id="wrapper">
-
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -97,26 +95,12 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="#">NIGEL'S FOOTBALL PROFILE</a></li>
-				<li><a href="about">About</a></li>
-			</ul>
-			<ul class="nav navbar-right navbar-nav">
-
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <font size="2"><tiles:insertAttribute
-								name="title" /></font> <i class="glyphicon glyphicon-file"></i></a></li>
-			</ul>
-		</div>
-
-		<div id="page-heading"></div>
-
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav side-nav">
 				<li><a href="home"><i class="glyphicon glyphicon-home"></i>
 						&nbsp;Dashboard</a></li>
-				<li><a href="javascript:;" data-toggle="collapse"
-					data-target="#customer"><i class="glyphicon glyphicon-user"></i>
-						&nbsp;System &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></a>
-					<ul id="customer" class="collapse">
+				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown"
+					class="dropdown-toggle">
+						&nbsp;System &nbsp;<b class="caret"></b></a>
+					<ul class="dropdown-menu">
 						<li><a href="toLocation"><i
 								class="glyphicon glyphicon-map-marker"></i> Location</a></li>
 						<li><a href="toStadium"><i
@@ -132,29 +116,23 @@
 						<li><a href="worklog"><i class="glyphicon glyphicon-edit"></i>
 								Work Log</a></li>
 					</ul></li>
+					
+				<li><a href="about">About</a></li>
+			</ul>
+			<ul class="nav navbar-right navbar-nav">
 
-				<li><a href="#"><i class="glyphicon glyphicon-play"></i>
-						&nbsp;Be-In-Game</a></li>
-				<li><a href="javascript:;" data-toggle="collapse"
-					data-target="#trans"><i class="glyphicon glyphicon-paperclip"></i>
-						&nbsp;Data &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></a>
-					<ul id="trans" class="collapse">
-						<li><a href="#"><i class="glyphicon glyphicon-list-alt"></i>
-								Standings</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-king"></i>
-								Top scorer</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-hourglass"></i>
-								History</a></li>
-
-					</ul></li>
-
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"> <font size="2"><tiles:insertAttribute
+								name="title" /></font> <i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;</a></li>
 			</ul>
 		</div>
+
+		<div id="page-heading"></div>
+
+		
 		<!-- /.navbar-collapse --> </nav>
 
-		<div id="page-wrapper">
-
-			<div class="container-fluid">
+			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<tiles:insertAttribute name="body" />
@@ -163,10 +141,6 @@
 			</div>
 			<!-- /.container-fluid -->
 
-		</div>
-		<!-- /#page-wrapper -->
-
-	</div>
 </body>
 <script>
 	function formSubmit() {
