@@ -98,7 +98,7 @@
 				<li><a href="home"><i class="glyphicon glyphicon-home"></i>
 						&nbsp;Dashboard</a></li>
 				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown"
-					class="dropdown-toggle">
+					class="dropdown-toggle"><i class="glyphicon glyphicon-duplicate"></i>
 						&nbsp;System &nbsp;<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="toLocation"><i
@@ -117,7 +117,7 @@
 								Work Log</a></li>
 					</ul></li>
 					
-				<li><a href="about">About</a></li>
+				<li><a href="about"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;About</a></li>
 			</ul>
 			<ul class="nav navbar-right navbar-nav">
 

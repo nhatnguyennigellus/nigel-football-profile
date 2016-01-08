@@ -105,7 +105,7 @@
 				<li><a href="#"><i class="glyphicon glyphicon-play"></i>
 						&nbsp;Be-In-Game</a></li>
 				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown"
-					class="dropdown-toggle">
+					class="dropdown-toggle"><i class="glyphicon glyphicon-duplicate"></i>
 						&nbsp;Data &nbsp;<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="#"><i class="glyphicon glyphicon-list-alt"></i>
@@ -116,9 +116,9 @@
 								History</a></li>
 
 					</ul></li>
-				<li><a href="about">About</a></li>
+				<li><a href="about"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;About</a></li>
 				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown"
-					class="dropdown-toggle">
+					class="dropdown-toggle"><i class="glyphicon glyphicon-user"></i>
 						&nbsp;System &nbsp;<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="toLocation"><i
@@ -141,7 +141,7 @@
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"> <font size="2"><tiles:insertAttribute
-								name="title" /></font> <i class="glyphicon glyphicon-file"></i></a></li>
+								name="title" /></font> <i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;</a></li>
 			</ul>
 		</div>
 
