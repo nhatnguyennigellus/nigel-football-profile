@@ -95,10 +95,12 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="#">NIGEL'S FOOTBALL PROFILE</a></li>
-				<li><a href="home"><i class="glyphicon glyphicon-home"></i>
+				<li><a href="admin"><i class="glyphicon glyphicon-briefcase"></i>
 						&nbsp;Dashboard</a></li>
+						<li><a href="home"><i class="glyphicon glyphicon-home"></i>
+						&nbsp;Home</a></li>
 				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown"
-					class="dropdown-toggle"><i class="glyphicon glyphicon-duplicate"></i>
+					class="dropdown-toggle"><i class="glyphicon glyphicon-tasks"></i>
 						&nbsp;System &nbsp;<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="toLocation"><i
@@ -112,7 +114,7 @@
 						<li><a href="#"><i class="glyphicon glyphicon-calendar"></i>
 								Match Schedule</a></li>
 						<li><a href="toChampionship"><i
-								class="glyphicon glyphicon-star-empty"></i> Championship</a></li>
+								class="glyphicon glyphicon-glass"></i> Championship</a></li>
 						<li><a href="worklog"><i class="glyphicon glyphicon-edit"></i>
 								Work Log</a></li>
 					</ul></li>

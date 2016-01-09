@@ -281,20 +281,38 @@ a
 }
 
 .panel-green {
-	border-color: #5cb85c;
+	border-color: #327232;
 }
 
 .panel-green .panel-heading {
+	border-color: #327232;
+	color: #fff;
+	background-color: #327232;
+}
+
+.panel-green a {
+	color: #327232;
+}
+
+.panel-green a:hover {
+	color: #2b622b;
+}
+
+.panel-light-green {
+	border-color: #5cb85c;
+}
+
+.panel-light-green .panel-heading {
 	border-color: #5cb85c;
 	color: #fff;
 	background-color: #5cb85c;
 }
 
-.panel-green a {
+.panel-light-green a {
 	color: #5cb85c;
 }
 
-.panel-green a:hover {
+.panel-light-green a:hover {
 	color: #3d8b3d;
 }
 
@@ -332,4 +350,40 @@ a
 
 .panel-yellow a:hover {
 	color: #df8a13;
+}
+
+.panel-purple {
+    border-color: #B02EFF;
+}
+
+.panel-purple .panel-heading {
+    border-color: #B02EFF;
+    color: #fff;
+    background-color: #B02EFF;
+}
+
+.panel-purple a {
+    color: #B02EFF;
+}
+
+.panel-purple a:hover {
+    color: #8700DB;
+}
+
+.panel-info {
+    border-color: #56a7d8;
+}
+
+.panel-info .panel-heading {
+    border-color: #56a7d8;
+    color: #fff;
+    background-color: #5fa6e0;
+}
+
+.panel-info a {
+    color: #5fa6e0;
+}
+
+.panel-info a:hover {
+    color: #0080ff;
 }

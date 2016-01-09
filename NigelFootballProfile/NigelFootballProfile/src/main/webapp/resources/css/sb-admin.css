@@ -333,3 +333,21 @@ a
 .panel-yellow a:hover {
 	color: #df8a13;
 }
+
+.panel-purple {
+    border-color: #B02EFF;
+}
+
+.panel-purple .panel-heading {
+    border-color: #B02EFF;
+    color: #fff;
+    background-color: #B02EFF;
+}
+
+.panel-purple a {
+    color: #B02EFF;
+}
+
+.panel-purple a:hover {
+    color: #8700DB;
+}

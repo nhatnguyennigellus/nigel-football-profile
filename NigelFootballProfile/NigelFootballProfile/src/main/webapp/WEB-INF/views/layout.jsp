@@ -95,7 +95,7 @@
 		<ul class="nav navbar-nav">
 			<li><a href="#">NIGEL'S FOOTBALL PROFILE</a></li>
 			<li><a href="home"><i class="glyphicon glyphicon-home"></i>
-					&nbsp;Dashboard</a></li>
+					&nbsp;Home</a></li>
 
 			<li><a href="javascript:;" data-toggle="dropdown"
 				class="dropdown-toggle"><i class="glyphicon glyphicon-play"></i>
@@ -121,7 +121,8 @@
 
 				</ul></li>
 			<li><a href="about"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;About</a></li>
-			<li class="dropdown"><a href="javascript:;"
+			<li><a href="admin"><i class="glyphicon glyphicon-briefcase"></i>&nbsp;System Page</a></li>
+			<!-- <li class="dropdown"><a href="javascript:;"
 				data-toggle="dropdown" class="dropdown-toggle"><i
 					class="glyphicon glyphicon-user"></i> &nbsp;System &nbsp;<b
 					class="caret"></b></a>
@@ -140,7 +141,7 @@
 							class="glyphicon glyphicon-star-empty"></i> Championship</a></li>
 					<li><a href="worklog"><i class="glyphicon glyphicon-edit"></i>
 							Work Log</a></li>
-				</ul></li>
+				</ul></li> -->
 		</ul>
 		<ul class="nav navbar-right navbar-nav">
 

@@ -78,8 +78,15 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/admin")
 	public String redirectAdmin(Model model, HttpServletRequest request) {
-		// HttpSession session = request.getSession();
-
+		HttpSession session = request.getSession();
+		session.setAttribute("CountryNo", profileService.getCountryList().size());
+		session.setAttribute("CityNo", profileService.getCityList().size());
+		session.setAttribute("StadeNo", profileService.getStadiumList().size());
+		session.setAttribute("TeamNo", profileService.getTeamList().size());
+		session.setAttribute("PlayerNo", profileService.getPlayerList().size());
+		session.setAttribute("ChampNo", profileService.getChampionshipList().size());
+		session.setAttribute("MatchNo", 0);
+		session.setAttribute("LogNo", profileService.getWorkLogList().size());
 		return "admin";
 	}
 }
