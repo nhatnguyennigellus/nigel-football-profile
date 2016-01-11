@@ -17,6 +17,7 @@
 		<class>nigel.footballprofile.entity.Match</class>
 		<class>nigel.footballprofile.entity.MatchTeam</class>
 		<class>nigel.footballprofile.entity.StandingsData</class>
+		<class>nigel.footballprofile.entity.Item</class>
 		<properties>
 			<property name="hibernate.connection.charSet" value="UTF-8" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nigelfootballprofile" />

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import nigel.footballprofile.dao.ChampionshipDAO;
 import nigel.footballprofile.dao.CityDAO;
 import nigel.footballprofile.dao.CountryDAO;
+import nigel.footballprofile.dao.ItemDAO;
 import nigel.footballprofile.dao.MatchDAO;
 import nigel.footballprofile.dao.MatchTeamDAO;
 import nigel.footballprofile.dao.PlayerDAO;
@@ -22,6 +23,7 @@ import nigel.footballprofile.dao.WorkLogDAO;
 import nigel.footballprofile.entity.Championship;
 import nigel.footballprofile.entity.City;
 import nigel.footballprofile.entity.Country;
+import nigel.footballprofile.entity.Item;
 import nigel.footballprofile.entity.Match;
 import nigel.footballprofile.entity.MatchTeam;
 import nigel.footballprofile.entity.Player;
@@ -71,6 +73,8 @@ public class ProfileService {
 	private TeamPlayerDAO teamPlayerDAO;
 	@Autowired
 	private ScorerDAO scorerDAO;
+	@Autowired
+	private ItemDAO itemDAO;
 
 	public ProfileService() {
 	}
@@ -476,36 +480,98 @@ public class ProfileService {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 10, 2016 9:58:45 PM
+	 * @author Nigellus
+	 */
 	public List<Match> getMatchList() {
-		return null;
+		return matchDAO.getList();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Jan 10, 2016 10:00:41 PM
+	 * @author Nigellus
+	 */
 	public Match getMatchById(String id) {
-		return null;
+		return matchDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param match
+	 * @return
+	 *
+	 * Jan 10, 2016 10:00:44 PM
+	 * @author Nigellus
+	 */
 	public boolean addMatch(Match match) {
-		return false;
+		return matchDAO.add(match);
 	}
 
+	/**
+	 * 
+	 * @param match
+	 * @return
+	 *
+	 * Jan 10, 2016 10:00:54 PM
+	 * @author Nigellus
+	 */
 	public boolean updateMatch(Match match) {
-		return false;
+		return matchDAO.update(match);
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 10, 2016 10:01:19 PM
+	 * @author Nigellus
+	 */
 	public List<MatchTeam> getMatchTeamList() {
-		return null;
+		return matchTeamDAO.getList();
 	}
 
-	public MatchTeam getMatchTeamById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Jan 10, 2016 10:02:52 PM
+	 * @author Nigellus
+	 */
+	public MatchTeam getMatchTeamById(int id) {
+		return matchTeamDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param matchTeam
+	 * @return
+	 *
+	 * Jan 10, 2016 10:03:30 PM
+	 * @author Nigellus
+	 */
 	public boolean addMatchTeam(MatchTeam matchTeam) {
-		return false;
+		return matchTeamDAO.add(matchTeam);
 	}
 
+	/**
+	 * 
+	 * @param matchTeam
+	 * @return
+	 *
+	 * Jan 10, 2016 10:05:03 PM
+	 * @author Nigellus
+	 */
 	public boolean updateMatchTeam(MatchTeam matchTeam) {
-		return false;
+		return matchTeamDAO.update(matchTeam);
 	}
 
 	/**
@@ -893,6 +959,78 @@ public class ProfileService {
 
 	public boolean updateStandingsData(StandingsData StandingsData) {
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param lang
+	 * @return
+	 *
+	 * Jan 11, 2016 10:40:20 PM
+	 * @author Nigellus
+	 */
+	public List<Item> getItemList(String lang) {
+		return itemDAO.getList(lang);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 11, 2016 10:40:26 PM
+	 * @author Nigellus
+	 */
+	public List<Item> getItemList() {
+		return itemDAO.getList();
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Jan 11, 2016 8:44:52 PM
+	 * @author Nigellus
+	 */
+	public Item getItemById(int id) {
+		return itemDAO.getById(id);
+	}
+
+	/**
+	 * 
+	 * @param item
+	 * @param lang
+	 * @return
+	 *
+	 * Jan 11, 2016 8:45:23 PM
+	 * @author Nigellus
+	 */
+	public Item getItemByItem(String item, String lang) {
+		return itemDAO.getByItem(item, lang);
+	}
+
+	/**
+	 * 
+	 * @param Item
+	 * @return
+	 *
+	 * Jan 11, 2016 8:43:33 PM
+	 * @author Nigellus
+	 */
+	public boolean addItem(Item item) {
+		return itemDAO.add(item);
+	}
+
+	/**
+	 * 
+	 * @param Item
+	 * @return
+	 *
+	 * Jan 11, 2016 8:43:38 PM
+	 * @author Nigellus
+	 */
+	public boolean updateItem(Item item) {
+		return itemDAO.update(item);
 	}
 
 	/**

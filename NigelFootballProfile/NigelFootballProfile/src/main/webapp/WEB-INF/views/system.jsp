@@ -111,7 +111,7 @@
 								class="glyphicon glyphicon-th-list"></i> Team</a></li>
 						<li><a href="toPlayer"><i class="glyphicon glyphicon-user"></i>
 								Player</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-calendar"></i>
+						<li><a href="toMatch"><i class="glyphicon glyphicon-calendar"></i>
 								Match Schedule</a></li>
 						<li><a href="toChampionship"><i
 								class="glyphicon glyphicon-glass"></i> Championship</a></li>

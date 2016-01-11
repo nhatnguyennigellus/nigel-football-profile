@@ -87,6 +87,7 @@ public class HomeController {
 		session.setAttribute("ChampNo", profileService.getChampionshipList().size());
 		session.setAttribute("MatchNo", 0);
 		session.setAttribute("LogNo", profileService.getWorkLogList().size());
+		session.setAttribute("Items", profileService.getItemList());
 		return "admin";
 	}
 }

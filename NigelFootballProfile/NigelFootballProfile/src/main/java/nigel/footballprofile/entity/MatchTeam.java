@@ -3,6 +3,7 @@ package nigel.footballprofile.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,9 +17,11 @@ public class MatchTeam {
 	private Integer id;
 	
 	@ManyToOne
+	@JoinColumn(name = "matchId")
 	private Match match;
 	
 	@ManyToOne
+	@JoinColumn(name = "teamId")
 	private Team team;
 	
 	@NotEmpty

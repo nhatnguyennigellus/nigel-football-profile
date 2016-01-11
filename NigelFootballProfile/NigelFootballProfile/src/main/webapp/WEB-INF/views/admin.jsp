@@ -164,7 +164,7 @@
 						</div>
 
 						<div class="panel-body">
-							<a href="#"> <span class="pull-left">View
+							<a href="toMatch"> <span class="pull-left">View
 									Matches</span> <span class="pull-right"> <i
 									class="glyphicon glyphicon-circle-arrow-right"></i>
 							</span></a>
