@@ -502,6 +502,17 @@ public class ProfileService {
 	public Match getMatchById(String id) {
 		return matchDAO.getById(id);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 12, 2016 7:50:55 AM
+	 * @author Nigellus
+	 */
+	public List<Match> getMatchListByChamp(int champId) {
+		return matchDAO.getByChamp(champId);
+	}
 
 	/**
 	 * 

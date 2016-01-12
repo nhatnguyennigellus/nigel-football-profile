@@ -108,8 +108,19 @@ public class MatchDAO  {
 		return match;
 	}
 
-	public List<Match> getByType(String u) {
-		return null;
+	public List<Match> getByChamp(int champId) {
+		List<Match> list = null;
+		try {
+			TypedQuery<Match> query = em.createQuery(
+					"SELECT m FROM Match m WHERE m.championship.champId = ?1", 
+					Match.class);
+			query.setParameter(1, champId);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
 	}
 
 }
