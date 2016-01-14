@@ -88,7 +88,11 @@
 												<button type="button" class="btn btn-warning btn-xs">
 													<span class="glyphicon glyphicon-bookmark"></span>
 												</button>
-										</a></td>
+										</a> <a href="participant?champId=${champ.champId }" id="part">
+												<button type="button" class="btn btn-success btn-sm">
+													<span class="glyphicon glyphicon-list-alt"></span>
+												</button>
+										</a> </td>
 									</tr>
 								</c:forEach>
 							</tbody>

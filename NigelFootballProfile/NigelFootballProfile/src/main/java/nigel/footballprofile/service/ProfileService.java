@@ -382,22 +382,78 @@ public class ProfileService {
 		return teamDAO.update(team);
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 13, 2016 9:25:56 PM
+	 * @author Nigellus
+	 */
 	public List<State> getStateList() {
-		return null;
+		return stateDAO.getList();
 	}
 
-	public State getStateById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Jan 13, 2016 9:25:59 PM
+	 * @author Nigellus
+	 */
+	public State getStateById(Integer id) {
+		return stateDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param state
+	 * @return
+	 *
+	 * Jan 13, 2016 9:26:04 PM
+	 * @author Nigellus
+	 */
 	public boolean addState(State state) {
-		return false;
+		return stateDAO.add(state);
 	}
 
+	/**
+	 * 
+	 * @param state
+	 * @return
+	 *
+	 * Jan 13, 2016 9:26:09 PM
+	 * @author Nigellus
+	 */
 	public boolean updateState(State state) {
-		return false;
+		return stateDAO.update(state);
 	}
 
+	/**
+	 * 
+	 * @param team
+	 * @return
+	 *
+	 * Jan 13, 2016 9:28:16 PM
+	 * @author Nigellus
+	 */
+	public List<State> getStateListByTeam(Team team) {
+		return stateDAO.getListByTeam(team);
+	}
+	
+	/**
+	 * 
+	 * @param champ
+	 * @return
+	 *
+	 * Jan 13, 2016 9:28:45 PM
+	 * @author Nigellus
+	 */
+	public List<State> getStateListByChamp(Championship champ) {
+		return stateDAO.getListByChamp(champ);
+	}
+	
+	
 	/**
 	 * 
 	 * @return
@@ -1127,5 +1183,25 @@ public class ProfileService {
 	public boolean existedChamp(String shortName, String name) {
 		return (this.getChampionshipByShortName(shortName) != null)
 				|| (championshipDAO.getChampByName(name) != null);
+	}
+	
+	/**
+	 * 
+	 * @param team
+	 * @param champ
+	 * @return
+	 *
+	 * Jan 14, 2016 12:20:45 AM
+	 * @author Nigellus
+	 */
+	public boolean existedTeamInChamp(Team team, Championship champ) {
+		List<State> partChamp = stateDAO.getListByChamp(champ);
+		for (State state : partChamp) {
+			if (team.getTeamId().equals(state.getTeam().getTeamId())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

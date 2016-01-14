@@ -131,7 +131,7 @@ public class PlayerController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/player")
-	public String toPlayer(Model model, HttpServletRequest request) {
+	public String addPlayer(Model model, HttpServletRequest request) {
 		List<Player> listPlayer = new ArrayList<Player>();
 		if (request.getParameter("srcTeam") == null
 				|| request.getParameter("srcTeam").equals("All")) {

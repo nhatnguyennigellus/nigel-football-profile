@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import nigel.footballprofile.entity.Championship;
 import nigel.footballprofile.entity.State;
 import nigel.footballprofile.entity.Team;
 
@@ -36,12 +37,12 @@ public class StateDAO {
 	 * Oct 24, 2015 1:00:47 PM
 	 * @author Nigellus
 	 */
-	public List<StateDAO> getList() {
-		List<StateDAO> list = null;
+	public List<State> getList() {
+		List<State> list = null;
 
 		try {
-			TypedQuery<StateDAO> query = em.createQuery("SELECT s FROM State s",
-					StateDAO.class);
+			TypedQuery<State> query = em.createQuery("SELECT s FROM State s",
+					State.class);
 			list = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +58,7 @@ public class StateDAO {
 	 * Oct 24, 2015 1:01:40 PM
 	 * @author Nigellus
 	 */
-	public boolean add(StateDAO state) {
+	public boolean add(State state) {
 		try {
 			em.persist(state);
 		} catch (Exception e) {
@@ -75,7 +76,7 @@ public class StateDAO {
 	 * Oct 24, 2015 1:01:59 PM
 	 * @author Nigellus
 	 */
-	public boolean update(StateDAO state) {
+	public boolean update(State state) {
 		try {
 			em.merge(state);
 		} catch (Exception e) {
@@ -93,12 +94,12 @@ public class StateDAO {
 	 * Oct 24, 2015 1:02:01 PM
 	 * @author Nigellus
 	 */
-	public StateDAO getById(Integer id) {
-		StateDAO state = null;
+	public State getById(Integer id) {
+		State state = null;
 		try {
-			TypedQuery<StateDAO> query = em.createQuery(
+			TypedQuery<State> query = em.createQuery(
 					"SELECT s FROM State s WHERE id = ?1", 
-					StateDAO.class);
+					State.class);
 			query.setParameter(1, id);
 			state = query.getSingleResult();
 		} catch (Exception e) {
@@ -117,14 +118,14 @@ public class StateDAO {
 	 * Oct 24, 2015 1:07:14 PM
 	 * @author Nigellus
 	 */
-	public State getListByTeam(Team team) {
-		State state = null;
+	public List<State> getListByTeam(Team team) {
+		List<State> state = null;
 		try {
 			TypedQuery<State> query = em.createQuery(
 					"SELECT s FROM State s WHERE s.team.teamId = ?1", 
 					State.class);
 			query.setParameter(1, team.getTeamId());
-			state = query.getSingleResult();
+			state = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -132,7 +133,26 @@ public class StateDAO {
 		return state;
 	}
 
-	public List<StateDAO> getByType(Integer u) {
-		return null;
+	/**
+	 * 
+	 * @param champ
+	 * @return
+	 *
+	 * Jan 13, 2016 9:24:10 PM
+	 * @author Nigellus
+	 */
+	public List<State> getListByChamp(Championship champ) {
+		List<State> state = null;
+		try {
+			TypedQuery<State> query = em.createQuery(
+					"SELECT s FROM State s WHERE s.championship.champId = ?1", 
+					State.class);
+			query.setParameter(1, champ.getChampId());
+			state = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return state;
 	}
 }
