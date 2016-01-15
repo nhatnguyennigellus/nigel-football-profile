@@ -29,6 +29,9 @@ public class Item {
 	@NotEmpty
 	private String language;
 	
+	@NotEmpty
+	private String type;
+	
 	public Item() {
 	}
 
@@ -64,5 +67,12 @@ public class Item {
 		this.language = language;
 	}
 	
-	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }

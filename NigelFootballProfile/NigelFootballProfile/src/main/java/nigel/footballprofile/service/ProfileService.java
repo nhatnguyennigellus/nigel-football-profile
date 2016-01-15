@@ -450,7 +450,13 @@ public class ProfileService {
 	 * @author Nigellus
 	 */
 	public List<State> getStateListByChamp(Championship champ) {
-		return stateDAO.getListByChamp(champ);
+		List<State> list = new ArrayList<State>();
+		for(State state : stateDAO.getListByChamp(champ)) {
+			if (!state.getStatuz().contains("OFFL")) {
+				list.add(state);
+			}
+		}
+		return list;
 	}
 	
 	
@@ -1075,6 +1081,19 @@ public class ProfileService {
 	public Item getItemByItem(String item, String lang) {
 		return itemDAO.getByItem(item, lang);
 	}
+	
+	/**
+	 * 
+	 * @param lang
+	 * @param type
+	 * @return
+	 *
+	 * Jan 15, 2016 7:50:28 AM
+	 * @author Nigellus
+	 */
+	public List<Item> getItemByType(String type, String lang) {
+		return itemDAO.getByType(type, lang);
+	}
 
 	/**
 	 * 
@@ -1197,7 +1216,8 @@ public class ProfileService {
 	public boolean existedTeamInChamp(Team team, Championship champ) {
 		List<State> partChamp = stateDAO.getListByChamp(champ);
 		for (State state : partChamp) {
-			if (team.getTeamId().equals(state.getTeam().getTeamId())) {
+			if (team.getTeamId().equals(state.getTeam().getTeamId())
+					&& !state.getStatuz().equals("OFFL")) {
 				return true;
 			}
 		}

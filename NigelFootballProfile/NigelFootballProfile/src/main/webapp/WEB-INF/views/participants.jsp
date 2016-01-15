@@ -30,13 +30,18 @@
 		<c:if test="${champ != null  }">
 			<div class="col-lg-10">
 				<h4>
-					
+
 					<form method="POST" role="form" action="addParticipant"
 						class="form-inline" id="frmAddParti">
+						<a href="toChampionship">
+						<button type="button" class="btn btn-danger btn-sm" >
+							<span class="glyphicon glyphicon-arrow-left"></span> Back
+						</button></a>
 						<img alt="${champ.fullName }" width="25px"
-						src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
+							src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
 						<input id="champId" class="form-control input-sm" name="champId"
 							type="hidden" value="${champ.champId }" />
+
 						<div class="form-group">
 							<select id="partTeam" class="form-control input-sm"
 								name="partTeam">
@@ -82,8 +87,13 @@
 												${it.description }
 												</c:if>
 											</c:forEach></td>
-										<td><c:url var="updParti" value="${part.stateId }"></c:url>
-											<a href="toUpdateParti" id="updStad">
+										<td><a href="#" data-toggle="modal"
+											data-target="#modalModifyPart"
+											data-stateid="${part.stateId }"
+											data-champid="${part.championship.champId }"
+											data-champname="${part.championship.fullName }"
+											data-team="${part.team.fullName}"
+											data-statuz="${part.statuz }" id="updState">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
@@ -94,7 +104,7 @@
 						</table>
 					</c:otherwise>
 				</c:choose>
-				<div class="modal fade" id="modalAddPart" tabindex="-1"
+				<div class="modal fade" id="modalModifyPart" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -102,34 +112,39 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">NEW PARTICIPANT</h4>
+								<h4 class="modal-title" id="myModalLabel">MODIFY STATE</h4>
 							</div>
 
 							<div class="col-md-12">
 								<div class="modal-body">
 
-									<form method="POST" role="form" action="addParticipant"
+									<form method="POST" role="form" action="modifyState"
 										id="frmAddParti">
+										<input id="stateId" class="form-control input-sm"
+											name="stateId" type="hidden" />
 										<input id="champId" class="form-control input-sm"
-											name="champId" type="text" />
+											name="champId" type="hidden" />
 										<div class="form-group col-md-6">
-											<label for="stdTeam">Team</label> <select id="partTeam"
-												class="form-control input-sm" name="partTeam">
-												<c:forEach var="team" items="${listTeam}">
-													<option value="${team.teamId }">${team.fullName}</option>
-												</c:forEach>
+											<label for="partTeam">Team</label> <input id="partTeam"
+												class="form-control input-sm" name="partTeam" 
+												 readonly="readonly">
+												
 											</select>
 										</div>
 										<div class="form-group col-md-6">
-											<label for="stdTeam">Championship</label>
-											<div class="input-group input-group-sm">
-												<input type="text" class="form-control" id="champName"
-													name="champName" aria-describedby="basic-addon2"
-													readonly="readonly"> <span
-													class="input-group-addon" id="champShrtName"
-													name="champShrtName"></span>
-											</div>
+											<label for="stdTeam">Championship</label> <input type="text"
+												class="form-control input-sm" id="champName" name="champName"
+												aria-describedby="basic-addon2" readonly="readonly">
 
+										</div>
+										<div class="form-group col-md-6">
+											<label for="stdTeam">Status</label> <select id="statuz"
+												class="form-control input-sm" name="statuz">
+												<c:forEach var="it" items="${listItem}">
+													<option id="partStt${it.item }" value="${it.item }">
+													${it.description}</option>
+												</c:forEach>
+											</select>
 										</div>
 										<div class="form-group col-md-12">
 											<button class="btn btn-success btn-sm" name="submit"
@@ -161,42 +176,19 @@
 		});
 	});
 
-	$(document).on("click", "#addPart", function() {
+	$(document).on("click", "#updState", function() {
+		$("input#stateId").attr("value", $(this).data('stateid'));
 		$("input#champId").attr("value", $(this).data('champid'));
-		$("input#champName").attr("value", $(this).data('name'));
-		$("span#champShrtName").html($(this).data('shortname'));
-
+		$("input#champName").attr("value", $(this).data('champname'));
+		$("input#partTeam").attr("value", $(this).data('team'));
+		if ($(this).data('statuz') == $(
+				"option#partStt" + $(this).data('statuz')).val()) {
+			$("option#partStt" + $(this).data('statuz')).attr(
+					"selected", "selected");
+		}
 	});
 
 	$(function() {
-		$("#frmAddStadium").validate({
-			rules : {
-				name : {
-					required : true,
-				},
-				uefaName : {
-					required : true,
-				},
-				capacity : {
-					required : true,
-					number : true,
-					minStrict : 0
-				}
-			},
-			messages : {
-				name : {
-					required : "Stadium Name is required!",
-				},
-				uefaName : {
-					required : "Stadium UEFA Name is required!",
-				},
-				capacity : {
-					required : "Capacity is required!",
-					number : "Capacity must be a number!",
-					minStrict : "Capacity must be above zero!"
-				}
-			}
-		});
 		$("#frmModifyStadium").validate({
 			rules : {
 				stdName : {

@@ -151,4 +151,19 @@ public class ItemDAO {
 		}
 		return items;
 	}
+	
+	public List<Item> getByType(String type, String lang) {
+		List<Item> items = null;
+		try {
+			TypedQuery<Item> query = em.createQuery(
+					"SELECT c FROM Item c WHERE c.type = ?1 AND c.language = ?2", 
+					Item.class);
+			query.setParameter(1, type);
+			query.setParameter(2, lang);
+			items = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return items;
+	}
 }

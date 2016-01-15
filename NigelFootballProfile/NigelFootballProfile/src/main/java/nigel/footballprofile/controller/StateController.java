@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import nigel.footballprofile.entity.Championship;
 import nigel.footballprofile.entity.Item;
@@ -17,7 +18,10 @@ import nigel.footballprofile.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class StateController {
@@ -54,21 +58,28 @@ public class StateController {
 	public String toState(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		List<State> listState = new ArrayList<State>();
+		Championship champ = new Championship();
 		if (request.getParameter("champId") == null
 				||request.getParameter("champId").equals("All")) {
 			listState = profileService.getStateList();
 		} else {
 			int champId = Integer.parseInt(request.getParameter("champId"));
-			Championship champ = profileService.getChampionshipById(champId);
+			champ = profileService.getChampionshipById(champId);
 			listState = profileService.getStateListByChamp(champ);
-			//model.addAttribute("champName", champ.getFullName()); 
-			//model.addAttribute("logoUrl", champ.getLogoUrl()); 
 			session.setAttribute("champ", champ); 
 		}
 		
-		List<Item> listItem = profileService.getItemList();
+		List<Item> listItem = new ArrayList<Item>();
+		if (champ != null) {
+			if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
+				listItem = profileService.getItemByType("LEAGUE", "E");
+			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_PLAY_OFF)) {
+				listItem = profileService.getItemByType("CUP", "E");
+			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_TOUR)) {
+				listItem = profileService.getItemByType("TOUR", "E");
+			} 
+		} 
 		List<Team> listTeam = profileService.getTeamList();
-		
 		
 		model.addAttribute("listPtcp", listState); 
 		model.addAttribute("listItem", listItem); 
@@ -78,6 +89,15 @@ public class StateController {
 		return "participant";
 	}
 	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Jan 15, 2016 10:57:22 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/addParticipant")
 	public String addParticipate(Model model, HttpServletRequest request) {
 		State state = new State();
@@ -103,7 +123,7 @@ public class StateController {
 		}
 		
 		if (profileService.addState(state)) {
-			String successMsg = "Added stadium successfully!";
+			String successMsg = "Added participant successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
@@ -115,5 +135,27 @@ public class StateController {
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		return "redirect:participant?champId=" + champ.getChampId();
+	}
+	
+	@RequestMapping(value = "/modifyState", method = RequestMethod.POST)
+	public String updateState(Model model, HttpServletRequest request) {
+		Integer stateId = Integer.parseInt(request.getParameter("stateId"));
+		Integer champId = Integer.parseInt(request.getParameter("champId"));
+		State state = profileService.getStateById(stateId);
+		state.setStatuz(request.getParameter("statuz"));
+		
+		if (profileService.updateState(state)) {
+			String successMsg = "Modified participant successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE, "Modify state/participant ["
+					+ state.getTeam().getFullName() + ", " 
+					+ state.getStatuz() + ", " + state.getChampionship().getFullName() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		return "redirect:participant?champId=" + champId;
 	}
 }
