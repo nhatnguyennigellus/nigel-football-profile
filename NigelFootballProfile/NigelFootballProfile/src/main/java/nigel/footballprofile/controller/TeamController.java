@@ -3,15 +3,14 @@ package nigel.footballprofile.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import nigel.footballprofile.entity.Item;
 import nigel.footballprofile.entity.Stadium;
 import nigel.footballprofile.entity.Team;
-import nigel.footballprofile.entity.WorkLog;
 import nigel.footballprofile.service.AppConstant;
 import nigel.footballprofile.service.IDGenerator;
 import nigel.footballprofile.service.ProfileService;
@@ -68,9 +67,11 @@ public class TeamController {
 	public String toStadium(Model model, HttpServletRequest request) {
 		List<Stadium> listStadium = profileService.getStadiumList();
 		List<Team> listTeam = profileService.getTeamList();
+		List<Item> listItem = profileService.getItemList();	
 
 		model.addAttribute("listStadium", listStadium);
 		model.addAttribute("listTeam", listTeam);
+		model.addAttribute("listItem", listItem);
 		if (!model.containsAttribute("team")) {
 			model.addAttribute("team", new Team());
 		}

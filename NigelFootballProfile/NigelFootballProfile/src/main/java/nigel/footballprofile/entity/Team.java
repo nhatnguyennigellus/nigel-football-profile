@@ -55,7 +55,7 @@ public class Team {
 	@OneToMany(mappedBy = "team")
 	private Set<StandingsData> standingdatas = new HashSet<StandingsData>();
 
-	@OneToMany(mappedBy = "team")
+	@OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
 	private Set<State> states = new HashSet<State>();
 
 	@OneToMany(mappedBy = "team")

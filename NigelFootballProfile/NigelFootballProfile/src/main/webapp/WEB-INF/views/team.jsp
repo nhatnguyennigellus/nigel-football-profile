@@ -32,8 +32,6 @@
 			</button>${sessionScope.success }
 		</div>
 	</c:if>
-	<div class="container-fluid">
-		<div class="row">
 			<div class="col-lg-12">
 				<c:choose>
 					<c:when test="${listTeam.size() == 0 || listTeam == null}">
@@ -52,8 +50,7 @@
 									<th>Short Name</th>
 									<th>Coach</th>
 									<th>Stadium</th>
-									<th>City</th>
-									<th>Country</th>
+									<th>Location</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -72,8 +69,7 @@
 										<td>${team.shortName}</td>
 										<td>${team.coach}</td>
 										<td>${team.stadium.name}</td>
-										<td>${team.stadium.city.name }</td>
-										<td>${team.stadium.city.country.name }</td>
+										<td>${team.stadium.city.name }, ${team.stadium.city.country.name }</td>
 										<td><a href="#" data-toggle="modal"
 											data-target="#modalModifyTeam" data-id="${team.teamId }"
 											data-fullname="${team.fullName }" data-coach="${team.coach }"
@@ -88,9 +84,23 @@
 												<button type="button" class="btn btn-warning btn-xs">
 													<span class="glyphicon glyphicon-bookmark"></span>
 												</button>
-										</a> <a href="participant?champId=${champ.champId }" id="part">
-												<button type="button" class="btn btn-success btn-sm">
-													<span class="glyphicon glyphicon-list-alt"></span>
+										</a> 
+										
+										<a href="#" id="tmStt" data-toggle="modal" data-target="#modalState"
+										data-statuz="<c:forEach var="stt" items="${team.states}">
+											${stt.championship.fullName} : 
+											<c:forEach var="it" items="${listItem }">
+												<b><i><c:if test="${it.item eq stt.statuz and it.language eq 'E' }">
+													${it.description } 
+												</c:if>
+												<c:if test="${it.item eq stt.statuz and it.language eq 'D' }">
+													- ${it.description } 
+												</c:if></i></b>
+											</c:forEach><br/>
+										</c:forEach>"
+											>
+												<button type="button" class="btn btn-success btn-xs">
+													<span class="glyphicon glyphicon-eye-close"></span>
 												</button>
 										</a> </td>
 									</tr>
@@ -133,7 +143,35 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="modalState" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">STATES</h4>
+							</div>
 
+							
+								<div class="modal-body">
+									<input type="hidden" id="tmId" name="tmId" />
+									<dl class="dl-horizontal form-group">
+										<dt>States</dt>
+										<dd id="stt">
+											
+										</dd>
+									</dl>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger btn-sm"
+										data-dismiss="modal">Close</button>
+								</div>
+						</div>
+					</div>
+				</div>
 				<div class="modal fade" id="modalAddTeam" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -263,8 +301,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 </body>
 <script type="text/javascript">
 	$("[name='teamType']").bootstrapSwitch();
@@ -274,7 +310,7 @@
 			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
-				'aTargets' : [ 0, 7 ]
+				'aTargets' : [ 0, 6 ]
 			} ]
 		});
 
@@ -319,6 +355,11 @@
 			});
 	$(document).on("click", "#updLogo", function() {
 		$("input#tmId").attr("value", $(this).data('id'));
+
+	});
+	
+	$(document).on("click", "#tmStt", function() {
+		$("dd#stt").html($(this).data('statuz'));
 
 	});
 
