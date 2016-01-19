@@ -105,13 +105,13 @@ public class IDGenerator {
 
 		StringBuilder idBuilder = new StringBuilder();
 		/* Add prefix */
-		String prefix = AppConstant.PRE_COUNTRY_ID;
+		String prefix = AppConstant.PRE_MATCH_ID;
 		idBuilder.append(prefix);
 
 		/* Add suffix */
 		String suffix = "";
 		StringBuilder formatPattern = new StringBuilder();
-		for (int i = 0; i < AppConstant.LEN_COUNTRY_ID - 1; i++) {
+		for (int i = 0; i < AppConstant.LEN_MATCH_ID - 1; i++) {
 			formatPattern.append("0");
 		}
 

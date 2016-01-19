@@ -30,7 +30,7 @@ public class Match {
 	@Length(max = 8)
 	private String matchId;
 	
-	@NotEmpty
+	@NotNull
 	private Date dateTime;
 	
 	@NotNull
@@ -39,10 +39,10 @@ public class Match {
 	@NotEmpty
 	private String round;
 	
-	@NotEmpty
+	@NotNull
 	private Integer goalA;
 	
-	@NotEmpty
+	@NotNull
 	private Integer goalB;
 	
 	private Integer aggA;

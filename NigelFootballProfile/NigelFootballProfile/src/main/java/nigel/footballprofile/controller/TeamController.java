@@ -64,7 +64,7 @@ public class TeamController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/team")
-	public String toStadium(Model model, HttpServletRequest request) {
+	public String toTeam(Model model, HttpServletRequest request) {
 		List<Stadium> listStadium = profileService.getStadiumList();
 		List<Team> listTeam = profileService.getTeamList();
 		List<Item> listItem = profileService.getItemList();	
@@ -100,13 +100,13 @@ public class TeamController {
 		if (profileService.existedTeam(team.getFullName(), team.getShortName())) {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Existed team!");
-			return toStadium(model, request);
+			return toTeam(model, request);
 		}
 
 		if (profileService.existedCoach(team.getCoach())) {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Existed coach!");
-			return toStadium(model, request);
+			return toTeam(model, request);
 		}
 
 		team.setLogoUrl("/resources/images/logoteam/nologo.png");

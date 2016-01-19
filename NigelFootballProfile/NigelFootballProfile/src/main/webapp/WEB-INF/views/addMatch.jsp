@@ -13,14 +13,35 @@
 	href="<c:url value='/resources/css/bootstrap-datetimepicker.min.css' /> ">
 </head>
 <body>
-	<h2>Add Player</h2>
+	<p/>
 	<div class="container-fluid">
+		<c:if test="${champ != null  }">
+			<div class="col-lg-10">
+				<h4>
+
+					<form method="POST" role="form" action="addParticipant"
+						class="form-inline" id="frmAddParti">
+						<a href="toMatch?champId=${champ.champId }">
+							<button type="button" class="btn btn-danger btn-sm">
+								<span class="glyphicon glyphicon-arrow-left"></span>
+							</button>
+						</a> <img alt="${champ.fullName }" width="25px"
+							src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
+						<input id="champId" class="form-control input-sm" name="champId"
+							type="hidden" value="${champ.champId }" />
+
+					</form>
+					</a>
+					<h4>
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-info">
 					<div class="panel-body">
-						<form:form action="addPlayer" method="post" role="form"
-							modelAttribute="match" id="frmAddMatch">
+						<form:form action="addMatch" method="post" role="form"
+							modelAttribute="match" id="frmAddMatch" >
+							<input id="champId" type="hidden" name="champId"  value="${champ.champId }">
 							<c:if test="${txtError != null }">
 
 								<div class="alert alert-danger" role="alert">
@@ -36,106 +57,92 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>${success }
-									<strong><a href="toPlayer" class="alert-link">Back
-											to player list</a></strong>
+									<strong><a href="toMatch?champId=${champ.champId }"
+										class="alert-link">Back to match list</a></strong>
 								</div>
 							</c:if>
-							<div class="row">
-								<div class="form-group col-md-3">
-									<label class="control-label" for="lastName">Last name</label> <font
+							<div class="row" >
+								<div class="form-group col-md-4">
+									<label class="control-label" for="teamA">Team A</label> <font
 										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
 											class=" glyphicon glyphicon-user"></span>
-										</span>
-										<form:input id="lastName" class="form-control input-sm"
-											type="text" name="lastName" path="lastName" />
+										</span> <select id="teamA" class="form-control input-sm" name="teamA">
+											<c:forEach items="${listTeam }" var="team">
+												<option value="${team.teamId }">${team.fullName }</option>
+											</c:forEach>
+										</select>
 									</div>
 								</div>
-
-								<div class="form-group col-md-3">
-									<label class="control-label" for="firstName">First name</label>
+								<div class="form-group col-md-4">
+									<label class="control-label" for="teamB">Team B</label> <font
+										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
 											class=" glyphicon glyphicon-user"></span>
-										</span>
-										<form:input id="firstName" class="form-control input-sm"
-											type="text" name="firstName" path="firstName" />
-									</div>
-								</div>
-								<div class="form-group col-md-3">
-									<label class="control-label" for="birthdate">Date of
-										birth </label>
-									<div class="input-group date form_datetime col-md-12"
-										data-date-format="dd.mm.yyyy" data-link-field="dtp_input1">
-										<input class="form-control input-sm" size="16" type="text"
-											value="" readonly name="birthdate" id="birthdate"> <span
-											class="input-group-addon"><span
-											class="glyphicon glyphicon-calendar"></span></span>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-md-3">
-
-									<label class="control-label" for="nationality">Nationality</label>
-									<font color="red">* </font>
-									<div class="input-group ">
-										<select id="nationality" class="form-control input-sm"
-											type="text" name="nationality" path="nationality"
-											multiple="multiple" size="5">
-											<c:forEach items="${countries }" var="country">
-												<option value="${country.countryId }">${country.name }</option>
+										</span> <select id="teamB" class="form-control input-sm" name="teamB">
+											<c:forEach items="${listTeam }" var="team">
+												<option value="${team.teamId }">${team.fullName }</option>
 											</c:forEach>
 										</select>
 									</div>
 								</div>
 
-								<div class="form-group col-md-2">
-									<label class="control-label" for="weight">Weight (kg)</label>
-									<div class="input-group ">
-										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-modal-window"></span>
-										</span>
-										<form:input id="weight" class="form-control input-sm"
-											type="text" name="weight" path="weight" />
+
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label class="control-label" for="dateTime">Datetime</label>
+									<div class="input-group date form_datetime col-md-12"
+										data-date-format="dd.mm.yyyy hh:ii:00"
+										data-link-field="dtp_input1">
+										<input class="form-control input-sm" size="16" type="text"
+											value="" readonly name="dateTime" id="dateTime"> <span
+											class="input-group-addon"><span
+											class="glyphicon glyphicon-calendar"></span></span>
 									</div>
 								</div>
-								<div class="form-group col-md-2">
-									<label class="control-label" for="height">Height (cm)</label>
+								<div class="form-group col-md-4">
+
+									<label class="control-label" for="stadium">Venue</label> <font
+										color="red">* </font>
 									<div class="input-group ">
 										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-resize-vertical"></span>
-										</span>
-										<form:input class="form-control input-sm" type="text"
-											id="height" name="height" path="height" />
+											class=" glyphicon glyphicon-map-marker"></span> 
+											</span><select
+											id="stadium" class="form-control input-sm" type="text"
+											name="stadium">
+												<c:forEach var="stadium" items="${listStadium }">
+													<option value="${stadium.stadiumId }">
+														${stadium.name },&nbsp;${stadium.city.name},&nbsp;${stadium.city.country.name.toUpperCase() }</option>
+												</c:forEach>
+										</select>
 									</div>
 								</div>
 								<div class="form-group col-md-3">
 
-									<label class="control-label" for="position">Position</label> <font
+									<label class="control-label" for="round">Round</label> <font
 										color="red">* </font>
 									<div class="input-group ">
-										<span class="input-group-addon"> <span
-											class=" glyphicon glyphicon-map-marker"></span>
-										</span> <select id="position" class="form-control input-sm"
-											name="position">
-											<option value="GK">Goalkeeper</option>
-											<option value="DF">Defender</option>
-											<option value="MF">Midfielder</option>
-											<option value="FW">Forward</option>
+									<span class="input-group-addon"> <span
+											class=" glyphicon glyphicon-hourglass"></span> 
+											</span>
+										<select id="round" class="form-control input-sm" type="text"
+											name="round">
+											<c:forEach var="it" items="${listItem}">
+												<option value="${it.item }">${it.description}</option>
+											</c:forEach>
 										</select>
 									</div>
 								</div>
+
 							</div>
 							<div class="row"></div>
 							<div class="form-group col-md-8">
 
 								<button type="submit" class="btn btn-success">
 									<span class="glyphicon glyphicon-check">&nbsp;</span> Submit
-								</button>
-								<button type="reset" class="btn btn-danger">
-									<span class="glyphicon glyphicon-refresh">&nbsp;</span> Reset
 								</button>
 							</div>
 					</div>
@@ -158,51 +165,27 @@
 		weekStart : 1,
 		todayHighlight : 1,
 		startView : 2,
-		minView : 2,
 		forceParse : 0,
 		orientation : "auto",
 	}).on('changeDate', function(ev) {
 		$(this).datetimepicker('hide');
 	});
+	
 	$(function() {
-		$("#frmAddPlayer").validate({
+		$("#frmAddMatch").validate({
 			rules : {
-				lastName : {
+				
+				dateTime : {
 					required : true,
 				},
-				birthdate : {
-					required : true,
-				},
-				weight : {
-					digits : true,
-					minStrict : 30
-				},
-				height : {
-					digits : true,
-					minStrict : 100
-				},
-				nationality : {
-					required : true,
-				}
+				
 			},
 			messages : {
-				lastName : {
-					required : "Last name is required",
+				
+				dateTime : {
+					required : "Datetime is required",
 				},
-				birthdate : {
-					required : "Birthdate is required",
-				},
-				weight : {
-					digits : "Must be a number",
-					minStrict : "Must be above 30kg"
-				},
-				height : {
-					digits : "Must be a number",
-					minStrict : "Must be above 100cm"
-				},
-				nationality : {
-					required : "Please select one or more countries"
-				}
+				
 			}
 		})
 	});
@@ -227,6 +210,6 @@
 				error.insertAfter(element);
 			}
 		}
-	});
+	}); 
 </script>
 </html>

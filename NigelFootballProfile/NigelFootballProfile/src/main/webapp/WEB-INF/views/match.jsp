@@ -53,11 +53,7 @@
 								</select>
 							</div>
 						</div>
-						<a href="toAddPlayer">
-							<button type="button" class="btn btn-success btn-sm">
-								<span class="glyphicon glyphicon-plus"></span> Add
-							</button>
-						</a>
+						
 						<button type="submit" class="btn btn-info btn-sm"
 							id="submitSearch">
 							<span class="glyphicon glyphicon-search "></span> Search
@@ -70,12 +66,17 @@
 		</div>
 
 	</div>
-	<c:if test="${champName != null  }">
-		<div class="col-lg-10">
+	<c:if test="${champ.fullName != null  }">
+		<div class="col-lg-8">
 			<h4>
-				<img alt="${champName }" width="25px"
-					src="<c:url value="${logoUrl}" />" /> ${champName }&nbsp;
+				<img alt="${champ.fullName }" width="25px"
+					src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
+				<a href="toAddMatch?champId=${champ.champId }">
+			<button class="btn btn-success btn-sm" name="submit"
+												type="button" value="Add">Add Match</button>
+			</a>
 				<h4>
+				
 		</div>
 	</c:if>
 	<div class="row">
@@ -83,10 +84,6 @@
 			<c:choose>
 				<c:when test="${listMatch.size() == 0 || listMatch == null}">
 					<div class="alert alert-danger" role="alert">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
 						No data
 					</div>
 				</c:when>

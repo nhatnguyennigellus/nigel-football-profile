@@ -4,8 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -49,6 +53,10 @@ public class Championship {
 	@OneToMany(mappedBy = "championship")
 	private Set<State> states = new HashSet<State>();
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "champstadium", joinColumns = { @JoinColumn(name = "champId") }, inverseJoinColumns = { @JoinColumn(name = "stadiumId") })
+	private Set<Stadium> stadiums = new HashSet<Stadium>();
+	
 	public Championship() {
 		// TODO Auto-generated constructor stub
 	}
@@ -123,6 +131,14 @@ public class Championship {
 
 	public void setFormula(String formula) {
 		this.formula = formula;
+	}
+	
+	public Set<Stadium> getStadiums() {
+		return stadiums;
+	}
+
+	public void setStadiums(Set<Stadium> stadiums) {
+		this.stadiums = stadiums;
 	}
 
 	@Override

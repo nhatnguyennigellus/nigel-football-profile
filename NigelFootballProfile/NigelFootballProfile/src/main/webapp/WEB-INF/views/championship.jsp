@@ -96,6 +96,11 @@
 												<button type="button" class="btn btn-success btn-sm">
 													<span class="glyphicon glyphicon-list-alt"></span>
 												</button>
+										</a>
+										<a href="match?champId=${champ.champId }" id="part">
+												<button type="button" class="btn btn-danger btn-sm">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</button>
 										</a></td>
 									</tr>
 								</c:forEach>
