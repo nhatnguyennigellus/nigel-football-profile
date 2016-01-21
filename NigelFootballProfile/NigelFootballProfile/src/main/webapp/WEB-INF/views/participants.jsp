@@ -35,7 +35,7 @@
 						class="form-inline" id="frmAddParti">
 						<a href="toChampionship">
 						<button type="button" class="btn btn-danger btn-sm" >
-							<span class="glyphicon glyphicon-arrow-left"></span> Back
+							<span class="glyphicon glyphicon-arrow-left"></span>
 						</button></a>
 						<img alt="${champ.fullName }" width="25px"
 							src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
@@ -50,6 +50,13 @@
 								</c:forEach>
 							</select>
 						</div>
+						<div class="form-group "><input type="checkbox"
+										id="addStd" name="addStd" data-size="small"
+										data-label-width="auto" data-on-color="success"
+										data-off-color="danger" data-on-text="Yes" data-off-text="No"
+										data-label-text="Add Stadium"
+										 />
+								</div>
 						<button type="submit" class="btn btn-success btn-sm" id="addPart"
 							name="addPart">
 							<span class="glyphicon glyphicon-plus"></span> Add
@@ -60,7 +67,7 @@
 			</div>
 		</c:if>
 		<div class="row">
-			<div class="col-lg-9">
+			<div class="col-lg-10">
 				<c:choose>
 					<c:when test="${listPtcp.size() == 0 || listPtcp == null}">
 						<div class="alert alert-danger" role="alert">No data</div>
@@ -71,6 +78,11 @@
 								<tr>
 									<th>&nbsp;</th>
 									<th>Team</th>
+									<c:if test="${listPtcp.get(0).team.teamType eq 'TCLUB' }">
+									<th>Stadium</th>
+									<th>City</th>
+									<th>Country</th>
+									</c:if>
 									<th>Status</th>
 									<th>Action</th>
 								</tr>
@@ -81,6 +93,17 @@
 										<td><img alt="${part.team.fullName }" width="25px"
 											src="<c:url value="${part.team.logoUrl}" />" /></td>
 										<td>${part.team.fullName }</td>
+										<c:if test="${part.team.teamType eq 'TCLUB' }">
+										<td>
+										${part.team.stadium.name}
+										</td>
+										<td>
+										${part.team.stadium.city.name}
+										</td>
+										<td>
+										${part.team.stadium.city.country.name}
+										</td>
+										</c:if>
 										<td><c:forEach var="it" items="${listItem }">
 												<c:if
 													test="${ it.item eq part.statuz and it.language eq 'E' }">

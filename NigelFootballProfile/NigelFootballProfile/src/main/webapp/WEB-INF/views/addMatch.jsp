@@ -21,7 +21,7 @@
 
 					<form method="POST" role="form" action="addParticipant"
 						class="form-inline" id="frmAddParti">
-						<a href="toMatch?champId=${champ.champId }">
+						<a href="match?srcChamp=${champ.champId }">
 							<button type="button" class="btn btn-danger btn-sm">
 								<span class="glyphicon glyphicon-arrow-left"></span>
 							</button>
@@ -57,7 +57,7 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>${success }
-									<strong><a href="toMatch?champId=${champ.champId }"
+									<strong><a href="match?srcChamp=${champ.champId }"
 										class="alert-link">Back to match list</a></strong>
 								</div>
 							</c:if>

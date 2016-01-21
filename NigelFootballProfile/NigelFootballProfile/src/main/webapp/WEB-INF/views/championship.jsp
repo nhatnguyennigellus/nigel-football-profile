@@ -94,10 +94,10 @@
 												</button>
 										</a> <a href="participant?champId=${champ.champId }" id="part">
 												<button type="button" class="btn btn-success btn-sm">
-													<span class="glyphicon glyphicon-list-alt"></span>
+													<span class="glyphicon glyphicon-user"></span>
 												</button>
 										</a>
-										<a href="match?champId=${champ.champId }" id="part">
+										<a href="match?srcChamp=${champ.champId }" id="match">
 												<button type="button" class="btn btn-danger btn-sm">
 													<span class="glyphicon glyphicon-calendar"></span>
 												</button>

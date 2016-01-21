@@ -230,6 +230,6 @@ public class MatchController {
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 
-		return "redirect:match";
+		return toAddMatch(model, request);
 	}
 }

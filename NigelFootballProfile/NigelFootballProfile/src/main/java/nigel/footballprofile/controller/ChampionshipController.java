@@ -106,10 +106,8 @@ public class ChampionshipController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", "Added championship!");
 
-			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added team ["
-					+ champ.getChampId() + ", " + champ.getFullName() + ", "
-					+ champ.getShortName() + ", " + champ.getSeason() + ", "
-					+ champ.getFormula() + "]");
+			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added champion ["
+					+ champ.toString() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");

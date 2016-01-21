@@ -69,6 +69,10 @@
 	<c:if test="${champ.fullName != null  }">
 		<div class="col-lg-8">
 			<h4>
+			<a href="toChampionship">
+						<button type="button" class="btn btn-danger btn-sm" >
+							<span class="glyphicon glyphicon-arrow-left"></span>
+						</button></a>
 				<img alt="${champ.fullName }" width="25px"
 					src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
 				<a href="toAddMatch?champId=${champ.champId }">
