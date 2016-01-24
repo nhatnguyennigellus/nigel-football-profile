@@ -199,10 +199,7 @@ public class StadiumController {
 			request.getSession().setAttribute("success", successMsg);
 
 			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added stadium ["
-					+ stadium.getStadiumId() + ", " + stadium.getName() + ", "
-					+ stadium.getUefaName() + ", " + stadium.getCapacity()
-					+ "," + stadium.getCity() + ","
-					+ stadium.getCity().getCountry().getName() + "]");
+					+ stadium.toString());
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");

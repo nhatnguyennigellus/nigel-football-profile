@@ -62,11 +62,11 @@
 							</div>
 						</div>
 						<button type="submit" class="btn btn-info btn-sm"
-							id="submitSearch">
+							id="submitSearch" name="search" value="Search">
 							<span class="glyphicon glyphicon-search "></span> Search
 						</button>
 						<a href="#" data-toggle="modal" data-target="#modalAddItem">
-							<button type="button" class="btn btn-success btn-sm">
+							<button type="button" class="btn btn-success btn-sm" id="addItem">
 								<span class=" glyphicon glyphicon-plus"></span> Add
 							</button>
 						</a>
@@ -92,6 +92,7 @@
 								<th>Item</th>
 								<th>Description</th>
 								<th>Language</th>
+								<th>Type</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -102,6 +103,7 @@
 									<td>${it.item }</td>
 									<td>${it.description }</td>
 									<td>${it.language}</td>
+									<td>${it.type}</td>
 									<td><a href="#" data-toggle="modal"
 										data-target="#modalModifyPart" data-stateid="${part.stateId }"
 										data-champid="${part.championship.champId }"
@@ -120,6 +122,66 @@
 
 			</c:choose>
 
+			<!-- Add Modal -->
+			<div class="modal fade" id="modalAddItem" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">NEW ITEM</h4>
+						</div>
+
+						<div class="col-md-12">
+							<div class="modal-body">
+
+								<form:form method="POST" role="form" action="addItem"
+									id="frmAddItem" modelAttribute="item">
+
+									<div class="form-group col-md-4">
+										<label for="item">Item</label>
+										<form:input id="item" class="form-control input-sm"
+											name="item" path="item" />
+									</div>
+									<div class="form-group col-md-8">
+										<label for="desc">Description</label>
+										<form:input id="desc" class="form-control input-sm"
+											name="desc" path="description" />
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="type">Type</label> <select id="type"
+											class="form-control input-sm" name="type">
+											<c:forEach var="type" items="${listType}">
+												<option value="${type}">${type}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="language">Language</label> <select id="language"
+											class="form-control input-sm" name="language">
+											<c:forEach var="lang" items="${listLang}">
+												<option value="${lang}">${lang}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="form-group col-md-12">
+										<button class="btn btn-success btn-sm" name="submit"
+											type="submit" value="Add">Add</button>
+									</div>
+								</form:form>
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger btn-sm"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -175,5 +237,73 @@
 											+ "</b><br>");
 
 					});
+
+	$(function() {
+		$("#frmAddItem").validate({
+			rules : {
+				item : {
+					required : true,
+				},
+				description : {
+					required : true,
+				},
+				
+			},
+			messages : {
+				item : {
+					required : "Item is required!",
+				},
+				description : {
+					required : "Description is required!",
+				},
+			}
+		});
+		/* $("#frmModifyStadium").validate({
+			rules : {
+				stdName : {
+					required : true,
+				},
+				stdUefaName : {
+					required : true,
+				},
+				stdCapacity : {
+					required : true,
+					number : true,
+					minStrict : 0
+				}
+			},
+			messages : {
+				stdName : {
+					required : "Stadium Name is required!",
+				},
+				stdUefaName : {
+					required : "Stadium UEFA Name is required!",
+				},
+				stdCapacity : {
+					required : "Capacity is required!",
+					number : "Capacity must be a number!",
+					minStrict : "Capacity must be above zero!"
+				}
+			}
+		}); */
+	});
+
+	$.validator.setDefaults({
+		highlight : function(element) {
+			$(element).closest('.form-group').addClass('has-error');
+		},
+		unhighlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-error');
+		},
+		errorElement : 'span',
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
+		}
+	});
 </script>
 </html>

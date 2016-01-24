@@ -75,4 +75,9 @@ public class Item {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + id + ", " + item + ", " + description + ", "
+				+ type + ", " + language + "]";
+	}
 }

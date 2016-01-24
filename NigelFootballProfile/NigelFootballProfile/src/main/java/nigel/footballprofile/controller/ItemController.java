@@ -5,14 +5,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import nigel.footballprofile.entity.Item;
+import nigel.footballprofile.entity.Stadium;
+import nigel.footballprofile.service.AppConstant;
 import nigel.footballprofile.service.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 
@@ -53,6 +59,10 @@ public class ItemController {
 	 */
 	@RequestMapping(value = "/item")
 	public String item(Model model, HttpServletRequest request) {
+		if (request.getParameter("search") != null) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().removeAttribute("success");
+		}
 		List<Item> listItem = new ArrayList<Item>();
  		String[] listLang = {"E", "D"};
 		String[] listType = {"LEAGUE", "TOUR", "CUP", "WLOG", "TEAM", "CHAMP", 
@@ -76,6 +86,36 @@ public class ItemController {
 		model.addAttribute("listItem", listItem);
 		model.addAttribute("listType", listType);
 		model.addAttribute("listLang", listLang);
+		model.addAttribute("item", new Item());
 		return "item";
+	}
+	
+	/**
+	 * 
+	 * @param item
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Jan 24, 2016 3:05:36 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/addItem", method = RequestMethod.POST)
+	public String addItem(@ModelAttribute("item") @Valid Item item,
+			BindingResult result, Model model, HttpServletRequest request) {
+		if (profileService.addItem(item)) {
+			String successMsg = "Added item successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			
+			profileService.addWorkLog(AppConstant.WLOG_ADD,
+					"Added item " + item.toString());
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		return "redirect:item?lang=All&type=All";
 	}
 }
