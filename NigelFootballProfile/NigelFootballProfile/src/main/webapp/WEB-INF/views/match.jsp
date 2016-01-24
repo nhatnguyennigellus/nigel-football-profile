@@ -165,67 +165,7 @@
 						</c:forEach>
 					</div>
 				</c:otherwise>
-
 			</c:choose>
-
-
-			<!-- <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">
-									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-								</button>
-								<h4 class="modal-title" id="myModalLabel">PLAYER BIO</h4>
-							</div>
-
-							<div class="col-md-12">
-								<div class="modal-body">
-
-									<dl class="dl-horizontal">
-										<dt>Name</dt>
-										<dd id="name"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Birthdate</dt>
-										<dd id="birthdate"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Nationality</dt>
-										<dd id="nationality"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Position</dt>
-										<dd id="position"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Weight</dt>
-										<dd id="weight"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Height</dt>
-										<dd id="height"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>Club</dt>
-										<dd id="club"></dd>
-									</dl>
-									<dl class="dl-horizontal">
-										<dt>National Team</dt>
-										<dd id="natl"></dd>
-									</dl>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-danger btn-sm"
-									data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div> -->
-
-
 		</div>
 	</div>
 </body>

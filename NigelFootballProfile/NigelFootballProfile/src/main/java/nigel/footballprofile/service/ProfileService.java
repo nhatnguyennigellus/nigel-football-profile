@@ -1094,6 +1094,18 @@ public class ProfileService {
 	public List<Item> getItemByType(String type, String lang) {
 		return itemDAO.getByType(type, lang);
 	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 *
+	 * Jan 24, 2016 10:45:10 AM
+	 * @author Nigellus
+	 */
+	public List<Item> getItemByType(String type) {
+		return itemDAO.getByType(type);
+	}
 
 	/**
 	 * 

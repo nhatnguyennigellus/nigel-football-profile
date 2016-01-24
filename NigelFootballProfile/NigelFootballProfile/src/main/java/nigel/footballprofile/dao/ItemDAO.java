@@ -152,6 +152,14 @@ public class ItemDAO {
 		return items;
 	}
 	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 *
+	 * Jan 11, 2016 8:26:53 PM
+	 * @author Nigellus
+	 */
 	public List<Item> getByType(String type, String lang) {
 		List<Item> items = null;
 		try {
@@ -160,6 +168,28 @@ public class ItemDAO {
 					Item.class);
 			query.setParameter(1, type);
 			query.setParameter(2, lang);
+			items = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return items;
+	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 *
+	 * Jan 24, 2016 10:44:25 AM
+	 * @author Nigellus
+	 */
+	public List<Item> getByType(String type) {
+		List<Item> items = null;
+		try {
+			TypedQuery<Item> query = em.createQuery(
+					"SELECT c FROM Item c WHERE c.type = ?1", 
+					Item.class);
+			query.setParameter(1, type);
 			items = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

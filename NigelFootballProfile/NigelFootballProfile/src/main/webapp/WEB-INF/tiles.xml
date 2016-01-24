@@ -72,6 +72,10 @@
 		<put-attribute name="title" value="Championship Participants"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/participants.jsp"></put-attribute>
 	</definition>
+	<definition name="item" extends="system">
+		<put-attribute name="title" value="Item Maintenance"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/item.jsp"></put-attribute>
+	</definition>
 	
 	<definition name="404" extends="masterpage">
 		<put-attribute name="title" value="Page not found"></put-attribute>
