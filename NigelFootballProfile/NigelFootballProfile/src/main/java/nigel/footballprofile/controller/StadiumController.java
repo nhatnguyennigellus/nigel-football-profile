@@ -217,7 +217,6 @@ public class StadiumController {
 	 */
 	@RequestMapping(value = "/modifyStadium", method = RequestMethod.POST)
 	public String modifyStadium(HttpServletRequest request) {
-		boolean isOK = true;
 		String id = request.getParameter("stdId");
 		String name = request.getParameter("stdName");
 		String uefaName = request.getParameter("stdUefaName");
@@ -239,9 +238,7 @@ public class StadiumController {
 					"Stadium was modified successfully!");
 
 			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
-					"Modify stadium => [" + id + ", " + name + ", " + uefaName
-							+ ", " + capacity + "," + city + ","
-							+ stadium.getCity().getCountry().getName() + "]");
+					"Modify stadium => " + stadium.toString());
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");

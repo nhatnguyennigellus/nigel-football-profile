@@ -105,11 +105,11 @@
 									<td>${it.language}</td>
 									<td>${it.type}</td>
 									<td><a href="#" data-toggle="modal"
-										data-target="#modalModifyPart" data-stateid="${part.stateId }"
-										data-champid="${part.championship.champId }"
-										data-champname="${part.championship.fullName }"
-										data-team="${part.team.fullName}"
-										data-statuz="${part.statuz }" id="updState">
+										data-target="#modalModifyItem" data-id="${it.id }"
+										data-item="${it.item }"
+										data-desc="${it.description }"
+										data-lang="${it.language}"
+										data-type="${it.type }" id="updItem">
 											<button type="button" class="btn btn-primary btn-sm">
 												<span class="glyphicon glyphicon-edit"></span>
 											</button>
@@ -182,6 +182,67 @@
 					</div>
 				</div>
 			</div>
+			<!-- Update modal -->
+			<div class="modal fade" id="modalModifyItem" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">MODIFY ITEM</h4>
+						</div>
+
+						<div class="col-md-12">
+							<div class="modal-body">
+
+								<form:form method="POST" role="form" action="modifyItem"
+									id="frmAddItem" modelAttribute="item">
+									<form:hidden id="id" class="form-control input-sm"
+											name="id" path="id" />
+									<div class="form-group col-md-4">
+										<label for="item">Item</label>
+										<form:input id="item" class="form-control input-sm"
+											name="item" path="item" />
+									</div>
+									<div class="form-group col-md-8">
+										<label for="desc">Description</label>
+										<form:input id="description" class="form-control input-sm"
+											name="description" path="description" />
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="type">Type</label> <select id="type"
+											class="form-control input-sm" name="type">
+											<c:forEach var="type" items="${listType}">
+												<option id="type${type}" value="${type}">${type}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="language">Language</label> <select id="language"
+											class="form-control input-sm" name="language">
+											<c:forEach var="lang" items="${listLang}">
+												<option id="lang${lang}" value="${lang}">${lang}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="form-group col-md-12">
+										<button class="btn btn-success btn-sm" name="submit"
+											type="submit" value="Add">Update</button>
+									</div>
+								</form:form>
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger btn-sm"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -197,44 +258,21 @@
 	$(document)
 			.on(
 					"click",
-					"#dtlPlayer",
+					"#updItem",
 					function() {
-						/* var name = ; */
-						$("dd#name").html(
-								$(this).data('firstname') + " "
-										+ $(this).data('lastname'));
-						$("dd#birthdate").html($(this).data("birthdate"));
-
-						if ($(this).data('position') == "GK") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-warning label-lg">Goalkeeper</span></h5>');
-						} else if ($(this).data('position') == "DF") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-success label-lg">Defender</span></h5>');
-						} else if ($(this).data('position') == "MF") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-primary label-lg">Midfielder</span></h5>');
-						} else if ($(this).data('position') == "FW") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-danger label-lg">Forward</span></h5>');
+						$("input#id").attr("value", $(this).data('id'));
+						$("input#item").attr("value", $(this).data('item'));
+						$("input#description").attr("value", $(this).data('desc'));
+						if ($(this).data('lang') == $(
+								"option#lang" + $(this).data('lang')).val()) {
+							$("option#lang" + $(this).data('lang')).attr("selected",
+									"selected");
 						}
-
-						$("dd#weight").html($(this).data('weight') + " kg");
-						$("dd#height").html($(this).data('height') + " cm");
-						$("dd#nationality").html($(this).data('nationality'));
-						if ($(this).data('club') != null)
-							$("dd#club").html(
-									$(this).data('club') + " - " + "#<b>"
-											+ $(this).data('clubkit') + "</b>");
-						if ($(this).data('natl') != null)
-							$("dd#natl").html(
-									$(this).data('natl') + " - " + "#<b>"
-											+ $(this).data('natlkit')
-											+ "</b><br>");
+						if ($(this).data('type') == $(
+								"option#type" + $(this).data('type')).val()) {
+							$("option#type" + $(this).data('type')).attr("selected",
+									"selected");
+						}
 
 					});
 

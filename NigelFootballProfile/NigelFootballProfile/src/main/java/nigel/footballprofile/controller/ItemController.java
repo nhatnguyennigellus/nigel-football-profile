@@ -118,4 +118,34 @@ public class ItemController {
 		
 		return "redirect:item?lang=All&type=All";
 	}
+	
+	/**
+	 * 
+	 * @param item
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Jan 25, 2016 11:24:15 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/modifyItem", method = RequestMethod.POST)
+	public String modifyItem(@ModelAttribute("item") @Valid Item item,
+			BindingResult result, Model model, HttpServletRequest request) {
+		if (profileService.updateItem(item)) {
+			String successMsg = "Modified item successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modified item " + item.toString());
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		
+		return "redirect:item?lang=All&type=All";
+	}
 }
