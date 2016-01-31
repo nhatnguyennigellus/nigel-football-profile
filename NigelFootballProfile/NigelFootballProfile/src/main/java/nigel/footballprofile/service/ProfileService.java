@@ -622,6 +622,19 @@ public class ProfileService {
 	public MatchTeam getMatchTeamById(int id) {
 		return matchTeamDAO.getById(id);
 	}
+	
+	/**
+	 * 
+	 * @param side
+	 * @param match
+	 * @return
+	 *
+	 * Jan 30, 2016 2:19:21 PM
+	 * @author Nigellus
+	 */
+	public MatchTeam getMatchTeamBySide(String side, Match match) {
+		return matchTeamDAO.getBySide(side, match);
+	}
 
 	/**
 	 * 

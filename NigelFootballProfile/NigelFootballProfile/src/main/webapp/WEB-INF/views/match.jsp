@@ -53,7 +53,7 @@
 								</select>
 							</div>
 						</div>
-						
+
 						<button type="submit" class="btn btn-info btn-sm"
 							id="submitSearch">
 							<span class="glyphicon glyphicon-search "></span> Search
@@ -69,27 +69,24 @@
 	<c:if test="${champ.fullName != null  }">
 		<div class="col-lg-8">
 			<h4>
-			<a href="toChampionship">
-						<button type="button" class="btn btn-danger btn-sm" >
-							<span class="glyphicon glyphicon-arrow-left"></span>
-						</button></a>
-				<img alt="${champ.fullName }" width="25px"
+				<a href="toChampionship">
+					<button type="button" class="btn btn-danger btn-sm">
+						<span class="glyphicon glyphicon-arrow-left"></span>
+					</button>
+				</a> <img alt="${champ.fullName }" width="25px"
 					src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
 				<a href="toAddMatch?champId=${champ.champId }">
-			<button class="btn btn-success btn-sm" name="submit"
-												type="button" value="Add">Add Match</button>
-			</a>
+					<button class="btn btn-success btn-sm" name="submit" type="button"
+						value="Add">Add Match</button>
+				</a>
 				<h4>
-				
 		</div>
 	</c:if>
 	<div class="row">
 		<div class="col-lg-12">
 			<c:choose>
 				<c:when test="${listMatch.size() == 0 || listMatch == null}">
-					<div class="alert alert-danger" role="alert">
-						No data
-					</div>
+					<div class="alert alert-danger" role="alert">No data</div>
 				</c:when>
 				<c:otherwise>
 					<div class="row">
@@ -132,7 +129,6 @@
 													<c:if test="${ matchT.side eq 'B' }">
 														<img alt="${matchT.team.fullName }" width="25px"
 															src="<c:url value="${matchT.team.logoUrl}" />" />
-
 													</c:if>
 
 												</c:forEach>
@@ -153,8 +149,14 @@
 										<br />
 										<div class="btn-group btn-group-xs" role="group"
 											aria-label="...">
+											<c:url var="modify" value="toModifyMatch" >
+												<c:param name="matchId" value="${match.matchId }"></c:param>
+												<c:param name="champId" value="${match.championship.champId}"></c:param>
+											</c:url>
 											<button type="button" class="btn btn-primary btm-xs">Detail</button>
-											<button type="button" class="btn btn-success btm-xs">Modify</button>
+											<button
+													type="button" class="btn btn-success btm-xs">
+													<a href="${modify }">Modify</a></button>
 											<button type="button" class="btn btn-warning btm-xs">Result</button>
 											<button type="button" class="btn btn-danger btm-xs">Live!</button>
 										</div>

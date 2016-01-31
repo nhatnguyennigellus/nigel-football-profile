@@ -7,10 +7,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import nigel.footballprofile.entity.Match;
 import nigel.footballprofile.entity.MatchTeam;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * DAO class for Match Team
@@ -107,8 +107,20 @@ public class MatchTeamDAO {
 		return matchTeam;
 	}
 
-	public List<MatchTeam> getByType(Integer u) {
-		return null;
+	public MatchTeam getBySide(String side, Match match) {
+		MatchTeam matchTeam = null;
+		try {
+			TypedQuery<MatchTeam> query = em.createQuery(
+					"SELECT m FROM MatchTeam m WHERE m.match.matchId = ?1 AND m.side = ?2", 
+					MatchTeam.class);
+			query.setParameter(2, side);
+			query.setParameter(1, match.getMatchId());
+			matchTeam = query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return matchTeam;
 	}
 	
 	

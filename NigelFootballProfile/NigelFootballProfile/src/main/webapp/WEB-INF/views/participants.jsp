@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Participant</h2>
+	<h3>Participant</h3>
 	<c:if test="${sessionScope.txtError != null}">
 		<div class="alert alert-danger" role="alert">
 			<button type="button" class="close" data-dismiss="alert"

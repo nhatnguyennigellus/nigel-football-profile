@@ -89,6 +89,8 @@ public class MatchController {
 					.parseInt(request.getParameter("srcChamp")));
 			request.setAttribute("selectedId", request.getParameter("srcChamp"));
 			model.addAttribute("champ", champ);
+			request.getSession().removeAttribute("txtError");
+			request.getSession().removeAttribute("success");
 
 		}
 		model.addAttribute("listStadium", listStadium);
@@ -231,5 +233,119 @@ public class MatchController {
 		}
 
 		return toAddMatch(model, request);
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Jan 29, 2016 8:08:14 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/toModifyMatch")
+	public String toModifyMatch(Model model, HttpServletRequest request) {
+		int champId = Integer.parseInt(request.getParameter("champId"));
+		Championship champ = profileService.getChampionshipById(champId);
+		List<Item> listItem = new ArrayList<Item>();
+		List<Stadium> listStadium = new ArrayList<Stadium>(champ.getStadiums());
+		List<Team> listTeams = new ArrayList<Team>();
+
+		for (State state : profileService.getStateListByChamp(champ)) {
+			listTeams.add(state.getTeam());
+		}
+
+		if (champ != null) {
+			if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
+				if (champ.getFullName().contains("Bundesliga")) {
+					listItem = profileService
+							.getItemByType("LEAGUE ROUND", "D");
+				} else {
+					listItem = profileService
+							.getItemByType("LEAGUE ROUND", "E");
+				}
+
+			} else if (champ.getFormula().equals(
+					AppConstant.CHAMP_FORM_PLAY_OFF)) {
+				if (champ.getFullName().contains("DFB")) {
+					listItem = profileService.getItemByType("CUP ROUND", "D");
+				} else {
+					listItem = profileService.getItemByType("CUP ROUND", "E");
+				}
+			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_TOUR)) {
+				listItem = profileService.getItemByType("TOUR ROUND", "E");
+			}
+		}
+
+		model.addAttribute("listItem", listItem);
+		model.addAttribute("listStadium", listStadium);
+		model.addAttribute("listTeam", listTeams);
+		
+		String matchId = request.getParameter("matchId");
+		Match match = profileService.getMatchById(matchId);
+		MatchTeam teamA = profileService.getMatchTeamBySide("A", match);
+		MatchTeam teamB = profileService.getMatchTeamBySide("B", match);
+		model.addAttribute("match", match);
+		model.addAttribute("champ", champ);
+		model.addAttribute("teamA", teamA);
+		model.addAttribute("teamB", teamB);
+		
+		return "modifyMatch";
+	}
+	
+	
+	@RequestMapping(value = "/modifyMatch", method = RequestMethod.POST)
+	public String modifyMatch(Model model, HttpServletRequest request) {
+		Team teamA = profileService.getTeamById(request.getParameter("teamA")
+				.toString());
+		Team teamB = profileService.getTeamById(request.getParameter("teamB")
+				.toString());
+		if (teamA.getTeamId().equals(teamB.getTeamId())) {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError",
+					"Team A must not be the same as Team B!");
+			return toModifyMatch(model, request);
+		}
+		
+		String matchId = request.getParameter("matchId");
+		Match match = profileService.getMatchById(matchId);
+		int champId = Integer.parseInt(request.getParameter("champId"));
+		Date dateTime = null;
+		try {
+			dateTime = DateUtil.stringToDate(request.getParameter("dateTime"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Stadium stadium = profileService.getStadiumById(request
+				.getParameter("stadium"));
+		String round = request.getParameter("round");
+		match.setDateTime(dateTime);
+		match.setRound(round);
+		match.setStadium(stadium);
+		
+		MatchTeam mteamA = profileService.getMatchTeamBySide("A", match);
+		MatchTeam mteamB = profileService.getMatchTeamBySide("B", match);
+		mteamA.setTeam(teamA);
+		mteamB.setTeam(teamB);
+		
+		if (profileService.updateMatch(match)
+				&& profileService.updateMatchTeam(mteamA)
+				&& profileService.updateMatchTeam(mteamB)) {
+			String successMsg = "Modified match successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE, "Modified match ["
+					+ mteamA.getTeam().getFullName() + " - "
+					+ mteamB.getTeam().getFullName() + ", "
+					+ match.getStadium().getName() + ", " + match.getRound()
+					+ ", " + match.getChampionship().getFullName() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		return toModifyMatch(model, request);
 	}
 }
