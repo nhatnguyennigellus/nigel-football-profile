@@ -149,16 +149,76 @@
 										<br />
 										<div class="btn-group btn-group-xs" role="group"
 											aria-label="...">
-											<c:url var="modify" value="toModifyMatch" >
+											<c:url var="modify" value="toModifyMatch">
 												<c:param name="matchId" value="${match.matchId }"></c:param>
-												<c:param name="champId" value="${match.championship.champId}"></c:param>
+												<c:param name="champId"
+													value="${match.championship.champId}"></c:param>
 											</c:url>
 											<button type="button" class="btn btn-primary btm-xs">Detail</button>
-											<button
-													type="button" class="btn btn-success btm-xs">
-													<a href="${modify }">Modify</a></button>
-											<button type="button" class="btn btn-warning btm-xs">Result</button>
+											<button onclick="location.href='${modify }'" type="button"
+												class="btn btn-success btm-xs">Modify</button>
+											<button id="btnDetail" type="button"
+												class="btn btn-warning btm-xs">
+												<a href="#" data-toggle="modal"
+													data-target="#modalUpdateScore" data-id="${match.matchId }"
+													data-champid="${match.championship.champId }"
+													data-goala="${match.goalA }" data-goalb="${match.goalB }"
+													<c:forEach var="matchT" items="${match.matchTeams }">
+														<c:if test="${ matchT.side eq 'A' }">
+															data-teama="${matchT.team.fullName }"
+														</c:if>
+													</c:forEach>
+													<c:forEach var="matchT" items="${match.matchTeams }">
+														<c:if test="${ matchT.side eq 'B' }">
+															data-teamb="${matchT.team.fullName }"
+														</c:if>
+													</c:forEach>
+													id="btnDetail">Result</a>
+											</button>
 											<button type="button" class="btn btn-danger btm-xs">Live!</button>
+										</div>
+										<div class="modal fade" id="modalUpdateScore" tabindex="-1"
+											role="dialog" aria-labelledby="myModalLabel"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">
+															<span aria-hidden="true">&times;</span><span
+																class="sr-only">Close</span>
+														</button>
+														<h4 class="modal-title" id="myModalLabel">UPDATE
+															SCORE</h4>
+													</div>
+
+													<form method="POST" role="form" action="updateScore"
+														id="frmUpdateScore" class="form-inline">
+														<div class="modal-body" align="center">
+															<input id="matchId" class="form-control input-sm"
+																name="matchId" type="hidden" /> <input id="champId"
+																class="form-control input-sm" name="srcChamp"
+																type="hidden" />
+															<div class="form-group">
+																<label for="goalA" id="teamA"></label> <input id="goalA"
+																	class="form-control input-sm" name="goalA" value="0"
+																	width="15px" />
+															</div>
+															<div class="form-group">
+																<input id="goalB" value="0" width="15px"
+																	class="form-control input-sm" name="goalB" /> <label
+																	for="goalB" id="teamB"></label>
+															</div>
+
+														</div>
+														<div class="modal-footer">
+															<input class="btn btn-success btn-sm" type="submit"
+																value="Update">
+															<button type="button" class="btn btn-danger btn-sm"
+																data-dismiss="modal">Close</button>
+														</div>
+													</form>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -181,53 +241,68 @@
 			} ]
 		});
 	});
-	$(document)
-			.on(
-					"click",
-					"#dtlPlayer",
-					function() {
-						/* var name = ; */
-						$("dd#name").html(
-								$(this).data('firstname') + " "
-										+ $(this).data('lastname'));
-						$("dd#birthdate").html($(this).data("birthdate"));
+	$(document).on("click", "#btnDetail", function() {
+		$("input#matchId").attr("value", $(this).data('id'));
+		$("input#champId").attr("value", $(this).data('champid'));
+		$("input#goalA").attr("value", $(this).data('goala'));
+		$("input#goalB").attr("value", $(this).data('goalb'));
+		$("label#teamA").html($(this).data('teama'));
+		$("label#teamB").html($(this).data('teamb'));
+	});
 
-						if ($(this).data('position') == "GK") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-warning label-lg">Goalkeeper</span></h5>');
-						} else if ($(this).data('position') == "DF") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-success label-lg">Defender</span></h5>');
-						} else if ($(this).data('position') == "MF") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-primary label-lg">Midfielder</span></h5>');
-						} else if ($(this).data('position') == "FW") {
-							$("dd#position")
-									.html(
-											'<h5><span class="label label-danger label-lg">Forward</span></h5>');
-						}
+	$(function() {
+		$("#frmUpdateScore").validate({
+			rules : {
+				goalA : {
+					required : true,
+					number : true,
+					minStrict : 0
+				},
+				goalB : {
+					required : true,
+					number : true,
+					minStrict : 0
+				}
+			},
+			messages : {
+				goalA : {
+					required : "Goal is required!",
+					number : "Please enter a number!",
+					minStrict : "At least 0!"
+				},
+				goalB : {
+					required : "Goal is required!",
+					number : "Please enter a number!",
+					minStrict : "At least 0!"
+				}
+			}
+		});
+	});
 
-						$("dd#weight").html($(this).data('weight') + " kg");
-						$("dd#height").html($(this).data('height') + " cm");
-						$("dd#nationality").html($(this).data('nationality'));
-						if ($(this).data('club') != null)
-							$("dd#club").html(
-									$(this).data('club') + " - " + "#<b>"
-											+ $(this).data('clubkit') + "</b>");
-						if ($(this).data('natl') != null)
-							$("dd#natl").html(
-									$(this).data('natl') + " - " + "#<b>"
-											+ $(this).data('natlkit')
-											+ "</b><br>");
-
-					});
-
+	$.validator.addMethod('minStrict', function(value, el, param) {
+		return value >= param;
+	});
 	$(document).on("click", "#showSearch", function() {
 		$("#search").fadeIn();
 		$("#showSearch").hide();
+	});
+
+	$.validator.setDefaults({
+		highlight : function(element) {
+			$(element).closest('.form-group').addClass('has-error');
+		},
+		unhighlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-error');
+		},
+		errorElement : 'span',
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
+		}
 	});
 </script>
 </html>

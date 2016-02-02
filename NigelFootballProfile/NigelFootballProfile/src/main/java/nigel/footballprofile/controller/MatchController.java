@@ -89,9 +89,7 @@ public class MatchController {
 					.parseInt(request.getParameter("srcChamp")));
 			request.setAttribute("selectedId", request.getParameter("srcChamp"));
 			model.addAttribute("champ", champ);
-			request.getSession().removeAttribute("txtError");
-			request.getSession().removeAttribute("success");
-
+			
 		}
 		model.addAttribute("listStadium", listStadium);
 		model.addAttribute("listTeam", listTeam);
@@ -234,14 +232,14 @@ public class MatchController {
 
 		return toAddMatch(model, request);
 	}
-	
+
 	/**
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 *
-	 * Jan 29, 2016 8:08:14 AM
+	 *         Jan 29, 2016 8:08:14 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toModifyMatch")
@@ -281,7 +279,7 @@ public class MatchController {
 		model.addAttribute("listItem", listItem);
 		model.addAttribute("listStadium", listStadium);
 		model.addAttribute("listTeam", listTeams);
-		
+
 		String matchId = request.getParameter("matchId");
 		Match match = profileService.getMatchById(matchId);
 		MatchTeam teamA = profileService.getMatchTeamBySide("A", match);
@@ -290,11 +288,19 @@ public class MatchController {
 		model.addAttribute("champ", champ);
 		model.addAttribute("teamA", teamA);
 		model.addAttribute("teamB", teamB);
-		
+
 		return "modifyMatch";
 	}
-	
-	
+
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 *         Feb 1, 2016 11:05:26 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/modifyMatch", method = RequestMethod.POST)
 	public String modifyMatch(Model model, HttpServletRequest request) {
 		Team teamA = profileService.getTeamById(request.getParameter("teamA")
@@ -307,10 +313,9 @@ public class MatchController {
 					"Team A must not be the same as Team B!");
 			return toModifyMatch(model, request);
 		}
-		
+
 		String matchId = request.getParameter("matchId");
 		Match match = profileService.getMatchById(matchId);
-		int champId = Integer.parseInt(request.getParameter("champId"));
 		Date dateTime = null;
 		try {
 			dateTime = DateUtil.stringToDate(request.getParameter("dateTime"));
@@ -323,12 +328,12 @@ public class MatchController {
 		match.setDateTime(dateTime);
 		match.setRound(round);
 		match.setStadium(stadium);
-		
+
 		MatchTeam mteamA = profileService.getMatchTeamBySide("A", match);
 		MatchTeam mteamB = profileService.getMatchTeamBySide("B", match);
 		mteamA.setTeam(teamA);
 		mteamB.setTeam(teamB);
-		
+
 		if (profileService.updateMatch(match)
 				&& profileService.updateMatchTeam(mteamA)
 				&& profileService.updateMatchTeam(mteamB)) {
@@ -336,16 +341,47 @@ public class MatchController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			profileService.addWorkLog(AppConstant.WLOG_UPDATE, "Modified match ["
-					+ mteamA.getTeam().getFullName() + " - "
-					+ mteamB.getTeam().getFullName() + ", "
-					+ match.getStadium().getName() + ", " + match.getRound()
-					+ ", " + match.getChampionship().getFullName() + "]");
+			profileService.addWorkLog(
+					AppConstant.WLOG_UPDATE,
+					"Modified match [" + mteamA.getTeam().getFullName() + " - "
+							+ mteamB.getTeam().getFullName() + ", "
+							+ match.getStadium().getName() + ", "
+							+ match.getRound() + ", "
+							+ match.getChampionship().getFullName() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+
+		return toModifyMatch(model, request);
+	}
+
+	@RequestMapping(value = "/updateScore", method = RequestMethod.POST)
+	public String updateScore(Model model, HttpServletRequest request) {
+		String matchId = request.getParameter("matchId");
+		int champId =  Integer.parseInt(request.getParameter("srcChamp"));
+		int goalA = Integer.parseInt(request.getParameter("goalA"));
+		int goalB = Integer.parseInt(request.getParameter("goalB"));
+
+		Match match = profileService.getMatchById(matchId);
+		match.setGoalA(goalA);
+		match.setGoalB(goalB);
+		match.setPlayed(true);
+
+		if (profileService.updateMatch(match)) {
+			String successMsg = "Updated score successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Updated "
+					+ "score for match " + match.toString() + " - " + goalA
+					+ ":" + goalB);
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
 		
-		return toModifyMatch(model, request);
+		model.addAttribute("champ", profileService.getChampionshipById(champId));
+		return "redirect:match?srcChamp=" + champId;
 	}
 }
