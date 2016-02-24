@@ -112,7 +112,7 @@ public class MatchDAO  {
 		List<Match> list = null;
 		try {
 			TypedQuery<Match> query = em.createQuery(
-					"SELECT m FROM Match m WHERE m.championship.champId = ?1", 
+					"SELECT m FROM Match m WHERE m.championship.champId = ?1 order by m.dateTime", 
 					Match.class);
 			query.setParameter(1, champId);
 			list = query.getResultList();

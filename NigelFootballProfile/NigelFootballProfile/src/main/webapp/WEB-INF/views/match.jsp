@@ -89,64 +89,81 @@
 					<div class="alert alert-danger" role="alert">No data</div>
 				</c:when>
 				<c:otherwise>
-					<div class="row">
-						<c:forEach var="match" items="${listMatch}" varStatus="no">
+					<table class="table table-hover" id="tableParti">
 
-							<div class="col-lg-4">
-								<div class="panel panel-primary">
-									<div class="panel-body">
-										<h5 align="center">
-											<c:forEach var="matchT" items="${match.matchTeams }">
-
+						<tbody>
+							<c:forEach var="match" items="${listMatch}">
+								<tr class="active">
+									<td><i><fmt:formatDate value="${match.dateTime}"
+												pattern="dd.MM.yyyy HH:mm" /></i></td>
+									<td><b> <c:forEach var="matchT"
+												items="${match.matchTeams }">
+												<c:if test="${ matchT.side eq 'A' }">
+													<img alt="${matchT.team.fullName }" width="25px"
+														src="<c:url value="${matchT.team.logoUrl}" />" />
+												</c:if>
+											</c:forEach> <c:forEach var="matchT" items="${match.matchTeams }">
 												<c:if test="${ matchT.side eq 'A' }">
 													<b>${matchT.team.fullName}</b>
 												</c:if>
 											</c:forEach>
-											&nbsp;:&nbsp;
-											<c:forEach var="matchT" items="${match.matchTeams }">
+									</b></td>
+									<td>
+										<button id="btnDetail" type="button"
+											class="
+												<c:if test="${match.isPlayed() eq true }">btn btn-success btn-xs</c:if>
+												<c:if test="${match.isPlayed() eq false }">btn btn-default btn-xs</c:if>">
+											<a href="#" data-toggle="modal"
+												style="text-decoration: none;"
+												data-target="#modalUpdateScore" data-id="${match.matchId }"
+												data-champid="${match.championship.champId }"
+												data-goala="${match.goalA }" data-goalb="${match.goalB }"
+												<c:forEach var="matchT" items="${match.matchTeams }">
+														<c:if test="${ matchT.side eq 'A' }">
+															data-teama="${matchT.team.fullName }"
+														</c:if>
+													</c:forEach>
+												<c:forEach var="matchT" items="${match.matchTeams }">
+														<c:if test="${ matchT.side eq 'B' }">
+															data-teamb="${matchT.team.fullName }"
+														</c:if>
+													</c:forEach>
+												id="btnDetail"> <c:if
+													test="${match.isPlayed() eq true }">
+													<font color="white"
+														style="font-size: small; font-weight: bold;">&nbsp;${match.goalA }&nbsp;:&nbsp;${match.goalB }&nbsp;</font>
+												</c:if> <c:if test="${match.isPlayed() eq false }">
+													<font color="black"
+														style="font-size: small; font-weight: bold;">&nbsp;&nbsp;-&nbsp;:&nbsp;-&nbsp;&nbsp;</font>
+												</c:if>
+											</a>
+										</button>
+									</td>
+									<td><b> <c:forEach var="matchT"
+												items="${match.matchTeams }">
 												<c:if test="${ matchT.side eq 'B' }">
-
 													<b>${matchT.team.fullName}</b>
 												</c:if>
 
-											</c:forEach>
-
-										</h5>
-										<center>
-											<h4>
-												<c:forEach var="matchT" items="${match.matchTeams }">
-
-													<c:if test="${ matchT.side eq 'A' }">
-														<img alt="${matchT.team.fullName }" width="25px"
-															src="<c:url value="${matchT.team.logoUrl}" />" />
-													</c:if>
-												</c:forEach>
-												<c:if test="${match.isPlayed() eq true }">
-													<span class="label label-success label-lg">
-														&nbsp;${match.goalA }&nbsp;:&nbsp;${match.goalB }&nbsp;</span>
+											</c:forEach> <c:forEach var="matchT" items="${match.matchTeams }">
+												<c:if test="${ matchT.side eq 'B' }">
+													<img alt="${matchT.team.fullName }" width="25px"
+														align="right"
+														src="<c:url value="${matchT.team.logoUrl}" />" />
 												</c:if>
-												<c:forEach var="matchT" items="${match.matchTeams }">
-													<c:if test="${ matchT.side eq 'B' }">
-														<img alt="${matchT.team.fullName }" width="25px"
-															src="<c:url value="${matchT.team.logoUrl}" />" />
-													</c:if>
 
-												</c:forEach>
-											</h4>
-										</center>
-										<i><fmt:formatDate value="${match.dateTime}"
-												pattern="dd.MM.yyyy HH:mm" /></i> <br />
-										<c:forEach var="it" items="${sessionScope.Items}">
+											</c:forEach>
+									</b></td>
+
+									<td>${match.stadium.name},&nbsp;${match.stadium.city.name }</td>
+									<td><c:forEach var="it" items="${sessionScope.Items}">
 
 											<c:if
 												test="${ it.item eq match.round and it.language eq 'E' }">
 												<i>${it.description }</i>
 											</c:if>
-										</c:forEach>
-										<br /> ${match.championship.fullName } <br />
-										${match.stadium.name}, ${match.stadium.city.name }
-										<!-- Buttons here -->
-										<br />
+										</c:forEach></td>
+									<td>
 										<div class="btn-group btn-group-xs" role="group"
 											aria-label="...">
 											<c:url var="modify" value="toModifyMatch">
@@ -156,25 +173,8 @@
 											</c:url>
 											<button type="button" class="btn btn-primary btm-xs">Detail</button>
 											<button onclick="location.href='${modify }'" type="button"
-												class="btn btn-success btm-xs">Modify</button>
-											<button id="btnDetail" type="button"
-												class="btn btn-warning btm-xs">
-												<a href="#" data-toggle="modal"
-													data-target="#modalUpdateScore" data-id="${match.matchId }"
-													data-champid="${match.championship.champId }"
-													data-goala="${match.goalA }" data-goalb="${match.goalB }"
-													<c:forEach var="matchT" items="${match.matchTeams }">
-														<c:if test="${ matchT.side eq 'A' }">
-															data-teama="${matchT.team.fullName }"
-														</c:if>
-													</c:forEach>
-													<c:forEach var="matchT" items="${match.matchTeams }">
-														<c:if test="${ matchT.side eq 'B' }">
-															data-teamb="${matchT.team.fullName }"
-														</c:if>
-													</c:forEach>
-													id="btnDetail">Result</a>
-											</button>
+												class="btn btn-warning btm-xs">Modify</button>
+
 											<button type="button" class="btn btn-danger btm-xs">Live!</button>
 										</div>
 										<div class="modal fade" id="modalUpdateScore" tabindex="-1"
@@ -190,42 +190,39 @@
 														<h4 class="modal-title" id="myModalLabel">UPDATE
 															SCORE</h4>
 													</div>
+													<div class="modal-body"><div class="row"><div class="col-md-12">
+														<form method="POST" role="form" action="updateScore"
+															id="frmUpdateScore">
 
-													<form method="POST" role="form" action="updateScore"
-														id="frmUpdateScore" class="form-inline">
-														<div class="modal-body" align="center">
 															<input id="matchId" class="form-control input-sm"
 																name="matchId" type="hidden" /> <input id="champId"
 																class="form-control input-sm" name="srcChamp"
 																type="hidden" />
-															<div class="form-group">
+															<div class="form-group col-md-3">
 																<label for="goalA" id="teamA"></label> <input id="goalA"
-																	class="form-control input-sm" name="goalA" value="0"
-																	width="15px" />
+																	class="form-control input-sm" name="goalA" value="0" />
 															</div>
-															<div class="form-group">
-																<input id="goalB" value="0" width="15px"
-																	class="form-control input-sm" name="goalB" /> <label
-																	for="goalB" id="teamB"></label>
+															<div class="form-group col-md-3">
+																<label for="goalB" id="teamB"></label> <input id="goalB"
+																	value="0" class="form-control input-sm" name="goalB" />
 															</div>
-
-														</div>
-														<div class="modal-footer">
 															<input class="btn btn-success btn-sm" type="submit"
 																value="Update">
-															<button type="button" class="btn btn-danger btn-sm"
-																data-dismiss="modal">Close</button>
-														</div>
-													</form>
+
+
+														</form>
+													</div></div></div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
 
-						</c:forEach>
-					</div>
+					</table>
+
+
 				</c:otherwise>
 			</c:choose>
 		</div>
