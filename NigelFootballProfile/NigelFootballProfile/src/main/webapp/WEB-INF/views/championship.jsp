@@ -101,6 +101,11 @@
 												<button type="button" class="btn btn-danger btn-sm">
 													<span class="glyphicon glyphicon-calendar"></span>
 												</button>
+										</a>
+										<a href="group?srcChamp=${champ.champId }" id="group">
+												<button type="button" class="btn btn-info btn-sm">
+													<span class="glyphicon glyphicon-list-alt"></span>
+												</button>
 										</a></td>
 									</tr>
 								</c:forEach>
@@ -267,7 +272,7 @@
 			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
-				'aTargets' : [ 0, 2 ]
+				'aTargets' : [ 0, 2, 5 ]
 			} ]
 		});
 	});

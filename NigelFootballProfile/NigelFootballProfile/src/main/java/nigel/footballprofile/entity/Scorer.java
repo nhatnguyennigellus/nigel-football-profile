@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,15 +25,19 @@ public class Scorer {
 	private Integer id;
 	
 	@NotEmpty
+	private String team;
+	
+	
+	@NotNull
 	private Integer time;
 	
-	@NotEmpty
+	@NotNull
 	private Integer addedTime;
 	
-	@NotEmpty
+	@NotNull
 	private boolean isOwnGoal;
 	
-	@NotEmpty
+	@NotNull
 	private boolean isPenalty;
 	
 	@ManyToOne
@@ -52,6 +57,14 @@ public class Scorer {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
 	}
 
 	public Integer getTime() {

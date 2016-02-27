@@ -13,6 +13,8 @@ import nigel.footballprofile.entity.Championship;
 import nigel.footballprofile.entity.Item;
 import nigel.footballprofile.entity.Match;
 import nigel.footballprofile.entity.MatchTeam;
+import nigel.footballprofile.entity.Player;
+import nigel.footballprofile.entity.Scorer;
 import nigel.footballprofile.entity.Stadium;
 import nigel.footballprofile.entity.State;
 import nigel.footballprofile.entity.Team;
@@ -355,7 +357,16 @@ public class MatchController {
 
 		return toModifyMatch(model, request);
 	}
-
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Feb 2, 2016 8:55:51 PM
+	 * @author Nigellus
+	 */
 	@RequestMapping(value = "/updateScore", method = RequestMethod.POST)
 	public String updateScore(Model model, HttpServletRequest request) {
 		String matchId = request.getParameter("matchId");
@@ -383,5 +394,88 @@ public class MatchController {
 		
 		model.addAttribute("champ", profileService.getChampionshipById(champId));
 		return "redirect:match?srcChamp=" + champId;
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Feb 26, 2016 23:23:13 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/toScorer")
+	public String redirectToScorer(Model model, HttpServletRequest request) {
+		if (!model.containsAttribute("addScr")) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().removeAttribute("success");
+		}
+		
+		String matchId = request.getParameter("matchId");
+		int champId =  Integer.parseInt(request.getParameter("champId"));
+		Match match = profileService.getMatchById(matchId);
+		Championship champ = profileService.getChampionshipById(champId);
+		model.addAttribute("match", match);
+		model.addAttribute("champ", champ);
+		Team teamA = profileService.getMatchTeamBySide("A", match).getTeam();
+		Team teamB = profileService.getMatchTeamBySide("B", match).getTeam();
+		model.addAttribute("teamPlayerA", teamA.getTeamplayers());
+		model.addAttribute("teamPlayerB", teamB.getTeamplayers());
+		
+		return "modifyScorer";
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Feb 27, 2016 8:08:11 AM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/addScorer")
+	public String addScorer(Model model, HttpServletRequest request) {
+		String matchId = request.getParameter("matchId");
+		Match match = profileService.getMatchById(matchId);
+		
+		int time = Integer.parseInt(request.getParameter("time"));
+		int addedTime = Integer.parseInt(request.getParameter("addedTime"));
+		String side = request.getParameter("side");
+		String oppo = side.equals("A") ? "B" : "A";
+		boolean og = request.getParameter("og") != null;
+		boolean pen = request.getParameter("pen") != null;
+		Player player = new Player();
+		if(og) {
+			player = profileService.getPlayerById(request.getParameter("player" + side + oppo));
+		}
+		else {
+			player = profileService.getPlayerById(request.getParameter("player" + side));
+		}
+		
+		Scorer scorer = new Scorer();
+		scorer.setMatch(match);
+		scorer.setOwnGoal(og);
+		scorer.setPenalty(pen);
+		scorer.setPlayer(player);
+		scorer.setTeam(side);
+		scorer.setTime(time);
+		scorer.setAddedTime(addedTime);
+		
+		model.addAttribute("addScr", "Y");
+		if (profileService.addScorer(scorer)) {
+			String successMsg = "Added scorer successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Added scorer ["
+					+ scorer.toString() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		return redirectToScorer(model, request);
 	}
 }

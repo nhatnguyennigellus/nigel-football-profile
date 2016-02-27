@@ -60,7 +60,7 @@ public class Match {
 	@OneToMany(mappedBy = "match", fetch = FetchType.EAGER)
 	private Set<MatchTeam> matchTeams = new HashSet<MatchTeam>();
 	
-	@OneToMany(mappedBy = "match")
+	@OneToMany(mappedBy = "match", fetch = FetchType.EAGER)
 	private Set<Scorer> scorers = new HashSet<Scorer>();
 	
 	public Match() {

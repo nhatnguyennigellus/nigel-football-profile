@@ -171,10 +171,59 @@
 												<c:param name="champId"
 													value="${match.championship.champId}"></c:param>
 											</c:url>
-											<button type="button" class="btn btn-primary btm-xs">Detail</button>
-											<button onclick="location.href='${modify }'" type="button"
-												class="btn btn-warning btm-xs">Modify</button>
-
+											
+											<c:url var="lnkScorer" value="toScorer">
+												<c:param name="matchId" value="${match.matchId }"></c:param>
+												<c:param name="champId"
+													value="${match.championship.champId}"></c:param>
+											</c:url>
+											<button type="button"
+												class="btn btn-primary btn-xs dropdown-toggle"
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false">Detail</button>
+											<c:if test="${match.scorers.size() > 0 }">
+												<ul class="dropdown-menu">
+													<li><a><b><c:forEach var="matchT"
+																	items="${match.matchTeams }">
+																	<c:if test="${ matchT.side eq 'A' }">${matchT.team.fullName }</c:if>
+																</c:forEach> </b></a></li>
+													<c:forEach items="${match.scorers }" var="scorer">
+														<c:if test="${scorer.team == 'A' }">
+															<li><a>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
+																	${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
+																	<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if>
+																	<c:if test="${scorer.isPenalty() eq true }">(P)</c:if>
+																	&nbsp;
+															</a></li>
+														</c:if>
+													</c:forEach>
+													<li role="separator" class="divider"></li>
+													<li><a><b><c:forEach var="matchT"
+																	items="${match.matchTeams }">
+																	<c:if test="${ matchT.side eq 'B' }">${matchT.team.fullName }</c:if>
+																</c:forEach> </b></a></li>
+													<c:forEach items="${match.scorers }" var="scorer">
+														<c:if test="${scorer.team == 'B' }">
+															<li><a>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
+																	${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
+																	<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if>
+																	<c:if test="${scorer.isPenalty() eq true }">(P)</c:if>
+																	&nbsp;
+															</a></li>
+														</c:if>
+													</c:forEach>
+												</ul>
+											</c:if>
+											<div class="btn-group" role="group">
+												<button type="button"
+													class="btn btn-warning btn-xs dropdown-toggle"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Modify</button>
+												<ul class="dropdown-menu">
+													<li><a href="${modify }">Info</a></li>
+													<c:if test="${match.isPlayed() eq true }"><li><a href="${lnkScorer }">Scorer</a></li></c:if>
+												</ul>
+											</div>
 											<button type="button" class="btn btn-danger btm-xs">Live!</button>
 										</div>
 										<div class="modal fade" id="modalUpdateScore" tabindex="-1"
@@ -190,28 +239,34 @@
 														<h4 class="modal-title" id="myModalLabel">UPDATE
 															SCORE</h4>
 													</div>
-													<div class="modal-body"><div class="row"><div class="col-md-12">
-														<form method="POST" role="form" action="updateScore"
-															id="frmUpdateScore">
+													<div class="modal-body">
+														<div class="row">
+															<div class="col-md-12">
+																<form method="POST" role="form" action="updateScore"
+																	id="frmUpdateScore">
 
-															<input id="matchId" class="form-control input-sm"
-																name="matchId" type="hidden" /> <input id="champId"
-																class="form-control input-sm" name="srcChamp"
-																type="hidden" />
-															<div class="form-group col-md-3">
-																<label for="goalA" id="teamA"></label> <input id="goalA"
-																	class="form-control input-sm" name="goalA" value="0" />
+																	<input id="matchId" class="form-control input-sm"
+																		name="matchId" type="hidden" /> <input id="champId"
+																		class="form-control input-sm" name="srcChamp"
+																		type="hidden" />
+																	<div class="form-group col-md-3">
+																		<label for="goalA" id="teamA"></label> <input
+																			id="goalA" class="form-control input-sm" name="goalA"
+																			value="0" />
+																	</div>
+																	<div class="form-group col-md-3">
+																		<label for="goalB" id="teamB"></label> <input
+																			id="goalB" value="0" class="form-control input-sm"
+																			name="goalB" />
+																	</div>
+																	<input class="btn btn-success btn-sm" type="submit"
+																		value="Update">
+
+
+																</form>
 															</div>
-															<div class="form-group col-md-3">
-																<label for="goalB" id="teamB"></label> <input id="goalB"
-																	value="0" class="form-control input-sm" name="goalB" />
-															</div>
-															<input class="btn btn-success btn-sm" type="submit"
-																value="Update">
-
-
-														</form>
-													</div></div></div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>

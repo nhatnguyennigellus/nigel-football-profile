@@ -277,19 +277,19 @@
 						if ($(this).data('position') == "GK") {
 							$("dd#position")
 									.html(
-											'<h5><span class="label label-warning label-lg">Goalkeeper</span></h5>');
+											'<h4><span class="label label-warning label-lg">Goalkeeper</span></h4>');
 						} else if ($(this).data('position') == "DF") {
 							$("dd#position")
 									.html(
-											'<h5><span class="label label-success label-lg">Defender</span></h5>');
+											'<h4><span class="label label-success label-lg">Defender</span></h4>');
 						} else if ($(this).data('position') == "MF") {
 							$("dd#position")
 									.html(
-											'<h5><span class="label label-primary label-lg">Midfielder</span></h5>');
+											'<h4><span class="label label-primary label-lg">Midfielder</span></h4>');
 						} else if ($(this).data('position') == "FW") {
 							$("dd#position")
 									.html(
-											'<h5><span class="label label-danger label-lg">Forward</span></h5>');
+											'<h4><span class="label label-danger label-lg">Forward</span></h4>');
 						}
 
 						$("dd#weight").html($(this).data('weight') + " kg");

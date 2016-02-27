@@ -107,9 +107,22 @@ public class ScorerDAO {
 		return scorer;
 	}
 
-	public List<Scorer> getByType(Integer u) {
-		return null;
+	/**
+	 * 
+	 * @param scorer
+	 * @return
+	 *
+	 * Feb 27, 2016 1:39:15 PM
+	 * @author Nigellus
+	 */
+	public boolean remove(Scorer scorer) {
+		try {
+			em.remove(scorer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
-	
 	
 }

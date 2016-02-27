@@ -526,20 +526,63 @@ public class ProfileService {
 		return playerDAO.update(player);
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Feb 27, 2016 1:37:55 PM
+	 * @author Nigellus
+	 */
 	public List<Scorer> getScorerList() {
-		return null;
+		return scorerDAO.getList();
 	}
 
-	public Scorer getScorerById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 *
+	 * Feb 27, 2016 1:37:59 PM
+	 * @author Nigellus
+	 */
+	public Scorer getScorerById(Integer id) {
+		return scorerDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param scorer
+	 * @return
+	 *
+	 * Feb 27, 2016 1:38:02 PM
+	 * @author Nigellus
+	 */
 	public boolean addScorer(Scorer scorer) {
-		return false;
+		return scorerDAO.add(scorer);
 	}
 
+	/**
+	 * 
+	 * @param scorer
+	 * @return
+	 *
+	 * Feb 27, 2016 1:38:06 PM
+	 * @author Nigellus
+	 */
 	public boolean updateScorer(Scorer scorer) {
-		return false;
+		return scorerDAO.update(scorer);
+	}
+	
+	/**
+	 * 
+	 * @param scorer
+	 * @return
+	 *
+	 * Feb 27, 2016 1:40:56 PM
+	 * @author Nigellus
+	 */
+	public boolean removeScorer(Scorer scorer) {
+		return scorerDAO.remove(scorer);
 	}
 
 	/**
