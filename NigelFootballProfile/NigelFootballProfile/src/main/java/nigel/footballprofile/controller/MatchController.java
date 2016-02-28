@@ -462,6 +462,7 @@ public class MatchController {
 		scorer.setTeam(side);
 		scorer.setTime(time);
 		scorer.setAddedTime(addedTime);
+		scorer.setStatus(true);
 		
 		model.addAttribute("addScr", "Y");
 		if (profileService.addScorer(scorer)) {
@@ -470,6 +471,36 @@ public class MatchController {
 			request.getSession().setAttribute("success", successMsg);
 			
 			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Added scorer ["
+					+ scorer.toString() + "]");
+		} else {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+		}
+		
+		return redirectToScorer(model, request);
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 *
+	 * Feb 28, 2016 12:22:59 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/removeScorer")
+	public String removeScorer(Model model, HttpServletRequest request) {
+		int scorerId = Integer.parseInt(request.getParameter("scorerId"));
+		Scorer scorer = profileService.getScorerById(scorerId);
+		scorer.setStatus(false);
+		model.addAttribute("addScr", "Y");
+		if (profileService.updateScorer(scorer)) {
+			String successMsg = "Removed scorer successfully!";
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+			
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Removed scorer ["
 					+ scorer.toString() + "]");
 		} else {
 			request.getSession().removeAttribute("success");

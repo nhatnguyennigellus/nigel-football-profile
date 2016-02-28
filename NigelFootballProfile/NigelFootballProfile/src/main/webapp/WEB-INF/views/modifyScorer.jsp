@@ -83,9 +83,8 @@
 												<option value="${teamP.player.playerId }">
 													${teamP.player.firstName }&nbsp;${teamP.player.lastName }</option>
 											</c:forEach>
-										</select>
-										<select id="playerAB" class="form-control input-sm" style="display: none;"
-											name="playerAB">
+										</select> <select id="playerAB" class="form-control input-sm"
+											style="display: none;" name="playerAB">
 											<c:forEach items="${teamPlayerB }" var="teamP">
 												<option value="${teamP.player.playerId }">
 													${teamP.player.firstName }&nbsp;${teamP.player.lastName }</option>
@@ -105,7 +104,7 @@
 							</div>
 							<div class="row">
 
-								<div class="form-group col-md-3" >
+								<div class="form-group col-md-3">
 									<input type="checkbox" name="og" data-size="small" id="ogA"
 										data-label-width="auto" data-on-color="success"
 										data-off-color="danger" data-on-text="Yes" data-off-text="No"
@@ -130,13 +129,20 @@
 								<tbody>
 									<c:forEach items="${match.scorers }" var="scorer">
 										<tr>
-											<c:if test="${scorer.team == 'A' }">
+											<c:if
+												test="${scorer.team == 'A' and scorer.isStatus() eq true }">
+												<input id="scorerIdA" class="form-control input-sm"
+													name="scorerId" type="hidden" value="${scorer.id }" />
 												<td>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
 													${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
 													<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if> <c:if
-														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp; <a
-													href="removeScorer?scorerId=${scorer.id }"><button
-															type="button" class="close" >
+														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp; <c:url
+														var="rmvScorer" value="removeScorer">
+														<c:param name="scorerId" value="${scorer.id }"></c:param>
+														<c:param name="champId" value="${champ.champId }"></c:param>
+														<c:param name="matchId" value="${match.matchId}"></c:param>
+													</c:url> <a href="${rmvScorer}"><button type="button"
+															class="close">
 
 															<span aria-hidden="true">&times;</span>
 														</button></a>
@@ -186,9 +192,8 @@
 												<option value="${teamP.player.playerId }">
 													${teamP.player.firstName }&nbsp;${teamP.player.lastName }</option>
 											</c:forEach>
-										</select>
-										<select id="playerBA" class="form-control input-sm" style="display: none;"
-											name="playerBA">
+										</select> <select id="playerBA" class="form-control input-sm"
+											style="display: none;" name="playerBA">
 											<c:forEach items="${teamPlayerA }" var="teamP">
 												<option value="${teamP.player.playerId }">
 													${teamP.player.firstName }&nbsp;${teamP.player.lastName }</option>
@@ -210,7 +215,7 @@
 							<div class="row">
 
 								<div class="form-group col-md-3">
-									<input type="checkbox" name="og" data-size="small" id="ogB" 
+									<input type="checkbox" name="og" data-size="small" id="ogB"
 										data-label-width="auto" data-on-color="success"
 										data-off-color="danger" data-on-text="Yes" data-off-text="No"
 										data-label-text="OG" />
@@ -229,23 +234,31 @@
 							</div>
 						</form>
 						<c:if test="${match.scorers.size() > 0 }">
-							<table class="table table-hover" id="tableScorerA">
+							<table class="table table-hover" id="tableScorerB">
 								<tbody>
 									<c:forEach items="${match.scorers }" var="scorer">
-										<c:if test="${scorer.team == 'B' }">
-											<tr>
+										<tr>
+											<c:if
+												test="${scorer.team == 'B' and scorer.isStatus() eq true }">
+												<input id="scorerIdB" class="form-control input-sm"
+													name="scorerId" type="hidden" value="${scorer.id }" />
 												<td>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
 													${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
 													<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if> <c:if
-														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp;
-													<a
-													href="removeScorer?scorerId=${scorer.id }"><button type="button" 
-													class="close" >
-														<span aria-hidden="true">&times;</span>
-													</button></a>
+														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp; <c:url
+														var="rmvScorer" value="removeScorer">
+														<c:param name="scorerId" value="${scorer.id }"></c:param>
+														<c:param name="champId" value="${champ.champId }"></c:param>
+														<c:param name="matchId" value="${match.matchId}"></c:param>
+													</c:url> <a href="${rmvScorer}"><button type="button"
+															class="close">
+
+															<span aria-hidden="true">&times;</span>
+														</button></a>
 												</td>
-											</tr>
-										</c:if>
+
+											</c:if>
+										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -276,27 +289,27 @@
 	}).on('changeDate', function(ev) {
 		$(this).datetimepicker('hide');
 	});
-	$('input[id="ogA"]').on('switchChange.bootstrapSwitch', function(event, state) {
-		if(state) {
-			$("#playerAB").show();
-			$("#playerA").hide();
-		}
-		else {
-			$("#playerA").show();
-			$("#playerAB").hide();
-		}
-	});
-	$('input[id="ogB"]').on('switchChange.bootstrapSwitch', function(event, state) {
-		
-		if(state) {
-			$("#playerBA").show();
-			$("#playerB").hide();
-		}
-		else {
-			$("#playerB").show();
-			$("#playerBA").hide();
-		}
-	});
+	$('input[id="ogA"]').on('switchChange.bootstrapSwitch',
+			function(event, state) {
+				if (state) {
+					$("#playerAB").show();
+					$("#playerA").hide();
+				} else {
+					$("#playerA").show();
+					$("#playerAB").hide();
+				}
+			});
+	$('input[id="ogB"]').on('switchChange.bootstrapSwitch',
+			function(event, state) {
+
+				if (state) {
+					$("#playerBA").show();
+					$("#playerB").hide();
+				} else {
+					$("#playerB").show();
+					$("#playerBA").hide();
+				}
+			});
 	$(function() {
 		$("#frmModifyMatch").validate({
 			rules : {

@@ -188,7 +188,7 @@
 																	<c:if test="${ matchT.side eq 'A' }">${matchT.team.fullName }</c:if>
 																</c:forEach> </b></a></li>
 													<c:forEach items="${match.scorers }" var="scorer">
-														<c:if test="${scorer.team == 'A' }">
+														<c:if test="${scorer.team == 'A' and scorer.isStatus() eq true}">
 															<li><a>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
 																	${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
 																	<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if>
@@ -203,7 +203,7 @@
 																	<c:if test="${ matchT.side eq 'B' }">${matchT.team.fullName }</c:if>
 																</c:forEach> </b></a></li>
 													<c:forEach items="${match.scorers }" var="scorer">
-														<c:if test="${scorer.team == 'B' }">
+														<c:if test="${scorer.team == 'B' and scorer.isStatus() eq true }">
 															<li><a>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
 																	${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
 																	<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if>

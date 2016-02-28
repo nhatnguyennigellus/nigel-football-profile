@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Nigellus
  *
- * Oct 24, 2015 6:36:31 AM
+ *         Oct 24, 2015 6:36:31 AM
  */
 @Entity
 @Table(name = "scorer")
@@ -23,31 +23,33 @@ public class Scorer {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
+
 	@NotEmpty
 	private String team;
-	
-	
+
 	@NotNull
 	private Integer time;
-	
+
 	@NotNull
 	private Integer addedTime;
-	
+
 	@NotNull
 	private boolean isOwnGoal;
-	
+
 	@NotNull
 	private boolean isPenalty;
 	
+	@NotNull
+	private boolean status;
+
 	@ManyToOne
 	@JoinColumn(name = "playerId")
 	private Player player;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "matchId")
 	private Match match;
-	
+
 	public Scorer() {
 	}
 
@@ -114,6 +116,21 @@ public class Scorer {
 	public void setMatch(Match match) {
 		this.match = match;
 	}
-	
-	
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return player.getFirstName() + " " + player.getLastName() + ", " + time
+				+ (addedTime != 0 ? "+" + addedTime : "") + "'"
+				+ (isOwnGoal ? "(OG)" : "") + (isPenalty ? "(P)" : "") + ", "
+				+ team + ", [" + match.toString() + "]";
+
+	}
 }

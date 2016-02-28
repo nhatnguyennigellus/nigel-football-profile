@@ -39,7 +39,7 @@ public class ScorerDAO {
 		List<Scorer> list = null;
 
 		try {
-			TypedQuery<Scorer> query = em.createQuery("SELECT s FROM Scorer s",
+			TypedQuery<Scorer> query = em.createQuery("SELECT s FROM Scorer s WHERE s.status = 1",
 					Scorer.class);
 			list = query.getResultList();
 		} catch (Exception e) {
