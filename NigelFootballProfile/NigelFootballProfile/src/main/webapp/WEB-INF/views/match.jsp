@@ -190,7 +190,7 @@
 													<c:forEach items="${match.scorers }" var="scorer">
 														<c:if test="${scorer.team == 'A' and scorer.isStatus() eq true}">
 															<li><a>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
-																	${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
+																	${scorer.time }<c:if test="${scorer.addedTime != 0}">+${scorer.addedTime}</c:if>'
 																	<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if>
 																	<c:if test="${scorer.isPenalty() eq true }">(P)</c:if>
 																	&nbsp;

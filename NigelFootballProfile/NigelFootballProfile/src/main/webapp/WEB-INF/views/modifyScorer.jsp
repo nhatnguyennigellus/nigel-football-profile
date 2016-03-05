@@ -93,12 +93,13 @@
 									</div>
 								</div>
 								<div class="form-group col-md-2">
-									<label class="control-label" for="dateTime">Time</label> <input
-										id="time" class="form-control input-sm" name="time" />
+									<label class="control-label" for="dateTime">Time</label><font
+										color="red">* </font> <input id="time"
+										class="form-control input-sm" name="time" />
 								</div>
 								<div class="form-group col-md-2">
-									<label class="control-label" for="addedTime">Added</label> <font
-										color="red">* </font> <input id="addedTime"
+									<label class="control-label" for="addedTime">Added</label> <input
+										id="addedTime" readonly="readonly"
 										class="form-control input-sm" name="addedTime" value="0" />
 								</div>
 							</div>
@@ -134,7 +135,7 @@
 												<input id="scorerIdA" class="form-control input-sm"
 													name="scorerId" type="hidden" value="${scorer.id }" />
 												<td>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
-													${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
+													${scorer.time }<c:if test="${scorer.addedTime != 0}">+${scorer.addedTime}</c:if>'
 													<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if> <c:if
 														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp; <c:url
 														var="rmvScorer" value="removeScorer">
@@ -202,14 +203,15 @@
 									</div>
 								</div>
 								<div class="form-group col-md-2">
-									<label class="control-label" for="dateTime">Time</label> <input
-										id="time" class="form-control input-sm" name="time" />
+									<label class="control-label" for="timeB">Time</label> <font
+										color="red">* </font> <input id="timeB"
+										class="form-control input-sm" name="timeB" />
 								</div>
 								<div class="form-group col-md-2">
 
-									<label class="control-label" for="addedTime">Added</label> <font
-										color="red">* </font> <input id="addedTime"
-										class="form-control input-sm" name="addedTime" value="0" />
+									<label class="control-label" for="addedTimeB">Added</label> <input
+										id="addedTimeB" readonly="readonly"
+										class="form-control input-sm" name="addedTimeB" value="0" />
 								</div>
 							</div>
 							<div class="row">
@@ -243,7 +245,7 @@
 												<input id="scorerIdB" class="form-control input-sm"
 													name="scorerId" type="hidden" value="${scorer.id }" />
 												<td>${scorer.player.firstName }&nbsp;${scorer.player.lastName }
-													${scorer.time }<c:if test="${scorer.addedTime != 0}">${scorer.addedTime}</c:if>'
+													${scorer.time }<c:if test="${scorer.addedTime != 0}">+${scorer.addedTime}</c:if>'
 													<c:if test="${scorer.isOwnGoal() eq true }">(OG)</c:if> <c:if
 														test="${scorer.isPenalty() eq true }">(P)</c:if> &nbsp; <c:url
 														var="rmvScorer" value="removeScorer">
@@ -311,22 +313,100 @@
 				}
 			});
 	$(function() {
-		$("#frmModifyMatch").validate({
+		$("#frmModifyScorerB").validate({
 			rules : {
-				dateTime : {
+				time : {
+					required : true,
+					digits : true,
+					minStrict : 0,
+					maxStrict : 90
+				},
+
+				playerB : {
+					required : true,
+				},
+
+				playerBA : {
 					required : true,
 				},
 			},
 			messages : {
-				dateTime : {
-					required : "Datetime is required",
+				time : {
+					required : "Time is required",
+					digits : "Must be a number",
+					minStrict : "Must be greater than 0",
+					maxStrict : "Must be less than or equal to 90"
+				},
+
+				playerB : {
+					required : "Please select scorer",
+				},
+
+				playerBA : {
+					required : "Please select scorer",
+				},
+			}
+		});
+		$("#frmModifyScorerA").validate({
+			rules : {
+				time : {
+					required : true,
+					digits : true,
+					minStrict : 0,
+					maxStrict : 90
+				},
+
+				playerA : {
+					required : true,
+				},
+
+				playerAB : {
+					required : true,
+				},
+			},
+			messages : {
+				time : {
+					required : "Time is required",
+					digits : "Must be a number",
+					minStrict : "Must be greater than 0",
+					maxStrict : "Must be less than or equal to 90"
+				},
+
+				playerA : {
+					required : "Please select scorer",
+				},
+
+				playerAB : {
+					required : "Please select scorer",
 				},
 			}
 		})
 	});
 
+	$("#time").change(function() {
+		if ($("#time").val() == '90' || $("#time").val() == '45') {
+			$("#addedTime").prop("readonly", false);
+		} else {
+			$("#addedTime").prop("readonly", true);
+			$("#addedTime").val("0");
+		}
+	});
+	
+	$("#timeB").change(function() {
+		if ($("#timeB").val() == '90' || $("#timeB").val() == '45') {
+			$("#addedTimeB").prop("readonly", false);
+		} else {
+			$("#addedTimeB").prop("readonly", true);
+			$("#addedTimeB").val("0");
+		}
+	});
+
 	$.validator.addMethod('minStrict', function(value, el, param) {
-		return (value >= param && value != null) || value == null;
+		return (value > param && value != null) || value == null;
+	});
+
+	$.validator.addMethod('maxStrict', function(value, el, param) {
+		return (value <= param && value != null) || value == null;
 	});
 
 	$.validator.setDefaults({

@@ -177,7 +177,7 @@
 															<c:if test="${team.isCaptain() == false}">
 											 class="label label-danger label-lg">
 											No
-											</c:if></span>
+											</c:if>> </span>
 													</h4>
 												</td>
 												<td>${team.kitNumber}</td>
