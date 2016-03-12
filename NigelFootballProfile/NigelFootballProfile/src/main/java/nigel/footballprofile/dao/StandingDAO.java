@@ -141,8 +141,28 @@ public class StandingDAO{
 		return data;
 	}
 
-	public List<StandingsData> getByType(Integer u) {
-		return null;
+	/**
+	 * 
+	 * @param champShortName
+	 * @param group
+	 * @return
+	 *
+	 * @author Nigellus
+	 */
+	public List<StandingsData> getByGroup(String champShortName, String group) {
+		List<StandingsData> data = null;
+		try {
+			TypedQuery<StandingsData> query = em.createQuery(
+					"SELECT s FROM StandingsData s WHERE s.group = ?1 AND s.championship.shortName = ?1", 
+					StandingsData.class);
+			query.setParameter(1, group);
+			query.setParameter(2, champShortName);
+			data = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return data;
 	}
 	
 }

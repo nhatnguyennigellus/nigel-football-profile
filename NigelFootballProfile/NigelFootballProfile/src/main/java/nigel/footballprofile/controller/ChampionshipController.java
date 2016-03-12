@@ -3,6 +3,7 @@ package nigel.footballprofile.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import nigel.footballprofile.entity.Championship;
+import nigel.footballprofile.entity.Item;
 import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.entity.WorkLog;
 import nigel.footballprofile.service.AppConstant;
@@ -67,8 +69,17 @@ public class ChampionshipController {
 	@RequestMapping(value = "/championship")
 	public String toChamp(Model model, HttpServletRequest request) {
 		List<Championship> listChamp = profileService.getChampionshipList();
-
+		
+		Item item = profileService.getItemByItem("LSTGN", "E");
+		List<Integer> listGrpNoOpt = new ArrayList<Integer>();
+		String desc = item.getDescription();
+		for (int i = 0; i < desc.length(); i += 2) {
+			listGrpNoOpt.add(Integer.parseInt(desc.substring(i, i+2)));
+		}
 		model.addAttribute("listChamp", listChamp);
+		model.addAttribute("lstGrpNo", listGrpNoOpt);
+		model.addAttribute("partiNoMin", profileService.getItemByItem("NPMIN", "E").getDescription());
+		model.addAttribute("partiNoMax", profileService.getItemByItem("NPMAX", "E").getDescription());
 		if (!model.containsAttribute("champ")) {
 			model.addAttribute("champ", new Championship());
 		}
@@ -100,7 +111,8 @@ public class ChampionshipController {
 					"Existed Championship!");
 			return toChamp(model, request);
 		}
-
+		champ.setGroupNo(Integer.parseInt(request.getParameter("champGrpNo")));
+		champ.setParticipantNo(Integer.parseInt(request.getParameter("champPartiNo")));
 		champ.setLogoUrl("/resources/images/champ/brazuca-ball.png");
 		if (profileService.addChampionship(champ)) {
 			request.getSession().removeAttribute("txtError");
@@ -181,19 +193,25 @@ public class ChampionshipController {
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyChamp", method = RequestMethod.POST)
-	public String modifyStadium(HttpServletRequest request) {
+	public String modifyChamp(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("champId"));
 
 		String fullName = request.getParameter("champName");
 		String shortName = request.getParameter("champShrtName");
 		String season = request.getParameter("champSeason");
-		String formula = request.getParameter("formula");
+		String formula = request.getParameter("champFormula");
+		Integer partiNo = Integer.parseInt(request.getParameter("champPartiNo"));
+		Integer groupNo = Integer.parseInt(request.getParameter("champGrpNo"));
+		Integer teamPerGrp = Integer.parseInt(request.getParameter("champTeamGrp"));
 
 		Championship champ = profileService.getChampionshipById(id);
 		champ.setFullName(fullName);
 		champ.setShortName(shortName);
 		champ.setFormula(formula);
 		champ.setSeason(season);
+		champ.setGroupNo(groupNo);
+		champ.setParticipantNo(partiNo);
+		champ.setTeamsPerGroup(teamPerGrp);
 
 		if (profileService.updateChampionship(champ)) {
 			request.getSession().removeAttribute("txtError");

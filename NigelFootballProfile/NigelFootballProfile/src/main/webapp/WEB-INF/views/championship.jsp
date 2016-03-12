@@ -35,7 +35,7 @@
 	</c:if>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-10">
+			<div class="col-lg-12">
 				<c:choose>
 					<c:when test="${listChamp.size() == 0 || listChamp == null}">
 						<font color="red">No data</font>
@@ -45,9 +45,9 @@
 							<thead>
 								<tr>
 									<th>&nbsp;</th>
-									<th>Championship</th>
-									<th>Short Name</th>
+									<th>Championship </th>
 									<th>Season</th>
+									<th>Teams--Groups--Teams/Group</th>
 									<th>Formula</th>
 									<th>Action</th>
 								</tr>
@@ -57,32 +57,37 @@
 									<tr>
 										<td><img alt="${champ.fullName }" width="30px"
 											src="<c:url value="${champ.logoUrl}" />" /></td>
-										<td>${champ.fullName}</td>
-										<td>${champ.shortName}</td>
+										<td><b>${champ.fullName}</b> #${champ.shortName}</td>
 										<td>${champ.season}</td>
-										<td><h4><span
-											<c:if test="${champ.formula == 'FTOUR' }">
+										<td>${champ.participantNo} -- ${champ.groupNo} -- ${champ.teamsPerGroup}</td>
+										<td><h4>
+												<span
+													<c:if test="${champ.formula == 'FTOUR' }">
 											class="label label-primary label-lg"
 										</c:if>
-											<c:if test="${champ.formula == 'FLEAG' }">
+													<c:if test="${champ.formula == 'FLEAG' }">
 											class="label label-danger label-lg"
 										</c:if>
-											<c:if test="${champ.formula == 'FPOFF' }">
+													<c:if test="${champ.formula == 'FPOFF' }">
 											class="label label-success label-lg"
 										</c:if>>
-												<c:if test="${champ.formula == 'FTOUR' }">
+													<c:if test="${champ.formula == 'FTOUR' }">
 											Tournament
 										</c:if> <c:if test="${champ.formula == 'FLEAG' }">
 											League
 										</c:if> <c:if test="${champ.formula == 'FPOFF' }">
 											Play-off
 										</c:if>
-										</span></h4></td>
+												</span>
+											</h4></td>
 										<td><a href="#" data-toggle="modal"
 											data-target="#modalModifyChamp" data-id="${champ.champId }"
 											data-fullname="${champ.fullName }"
 											data-formula="${champ.formula }"
 											data-season="${champ.season }"
+											data-groupno="${champ.groupNo}"
+											data-partino="${champ.participantNo}"
+											data-partigroup="${champ.teamsPerGroup}"
 											data-shortname="${champ.shortName }" id="updChamp">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
@@ -96,13 +101,11 @@
 												<button type="button" class="btn btn-success btn-sm">
 													<span class="glyphicon glyphicon-user"></span>
 												</button>
-										</a>
-										<a href="match?srcChamp=${champ.champId }" id="match">
+										</a> <a href="match?srcChamp=${champ.champId }" id="match">
 												<button type="button" class="btn btn-danger btn-sm">
 													<span class="glyphicon glyphicon-calendar"></span>
 												</button>
-										</a>
-										<a href="group?srcChamp=${champ.champId }" id="group">
+										</a> <a href="standing?srcChamp=${champ.champId }" id="group">
 												<button type="button" class="btn btn-info btn-sm">
 													<span class="glyphicon glyphicon-list-alt"></span>
 												</button>
@@ -179,11 +182,32 @@
 										<div class="form-group col-md-3">
 											<label for="champSeason">Season</label>
 											<form:input id="champSeason" class="form-control input-sm"
-												name="champSeason" path="season"  />
+												name="champSeason" path="season" />
+										</div>
+
+										<div class="form-group col-md-3">
+											<label for="champPartiNo">Participants</label> <input
+												type="number" step="2" min="${partiNoMin }"
+												max="${partiNoMax }" id="champPartiNo" value="4"
+												class="form-control input-sm" name="champPartiNo" />
+										</div>
+										<div class="form-group col-md-3">
+											<label for="champGrpNo">Groups</label> <select
+												id="champGrpNo" class="form-control input-sm"
+												name="champGrpNo">
+												<c:forEach items="${lstGrpNo }" var="no">
+													<option id="G${no }" value="${no }">${no }</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-group col-md-3">
+											<label for="champTeamGrp">Teams/Group</label>
+											<form:input id="champTeamGrp" class="form-control input-sm" value="4"
+												readonly="true" name="champTeamGrp" path="teamsPerGroup" />
 										</div>
 										<div class="form-group col-md-4">
-											<label for="formula"> Formula </label> <select
-												id="formula" class="form-control input-sm" name="formula">
+											<label for="formula"> Formula </label> <select id="formula"
+												class="form-control input-sm" name="formula">
 												<option id="FTOUR" value="FTOUR">Tournament</option>
 												<option id="FLEAG" value="FLEAG">League</option>
 												<option id="FPOFF" value="FPOFF">Play-off</option>
@@ -213,7 +237,8 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">MODIFY CHAMPIONSHIP</h4>
+								<h4 class="modal-title" id="myModalLabel">MODIFY
+									CHAMPIONSHIP</h4>
 							</div>
 
 							<div class="col-md-12">
@@ -221,27 +246,47 @@
 
 									<form method="POST" role="form" action="modifyChamp"
 										id="frmModifyChamp">
-										<input id="champId" class="form-control input-sm" name="champId"
-											type="hidden" />
+										<input id="champUpdId" class="form-control input-sm"
+											name="champId" type="hidden" />
 										<div class="form-group col-md-6">
-											<label for="champName">Championship</label>
-											<input id="champName" class="form-control input-sm"
+											<label for="champUpdName">Championship</label> <input
+												id="champUpdName" class="form-control input-sm"
 												name="champName" />
 										</div>
 										<div class="form-group col-md-3">
-											<label for="champShrtName">Short Name</label>
-											<input id="champShrtName" class="form-control input-sm"
-												name="champShrtName"  />
+											<label for="champUpdShrtName">Short Name</label> <input
+												id="champUpdShrtName" class="form-control input-sm"
+												name="champShrtName" />
 										</div>
 
 										<div class="form-group col-md-3">
-											<label for="champSeason">Season</label>
-											<input id="champSeason" class="form-control input-sm"
+											<label for="champUpdSeason">Season</label> <input
+												id="champUpdSeason" class="form-control input-sm"
 												name="champSeason" />
 										</div>
+										<div class="form-group col-md-3">
+											<label for="champPartiNo">Participants</label> <input
+												type="number" step="2" min="${partiNoMin }"
+												max="${partiNoMax }" id="champUpdPartiNo" value="4"
+												class="form-control input-sm" name="champPartiNo" />
+										</div>
+										<div class="form-group col-md-3">
+											<label for="champUpdGrpNo">Groups</label> <select
+												id="champUpdGrpNo" class="form-control input-sm"
+												name="champGrpNo">
+												<c:forEach items="${lstGrpNo }" var="no">
+													<option id="G${no }" value="${no }">${no }</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-group col-md-3">
+											<label for="champUpdTmGrp">Teams/Group</label>
+											<input id="champUpdTmGrp" class="form-control input-sm" value="4"
+												readonly="true" name="champTeamGrp"/>
+										</div>
 										<div class="form-group col-md-4">
-											<label for="formula"> Formula </label> <select
-												id="formula" class="form-control input-sm" name="formula">
+											<label for="champUpdFormula"> Formula </label> <select id="champUpdFormula"
+												class="form-control input-sm" name="champFormula">
 												<option id="FTOUR" value="FTOUR">Tournament</option>
 												<option id="FLEAG" value="FLEAG">League</option>
 												<option id="FPOFF" value="FPOFF">Play-off</option>
@@ -272,21 +317,32 @@
 			"pagingType" : "simple",
 			"aoColumnDefs" : [ {
 				'bSortable' : false,
-				'aTargets' : [ 0, 2, 5 ]
+				'aTargets' : [ 0, 1, 2, 3, 4 ]
 			} ]
 		});
+		
+		
 	});
 	$(document).on(
 			"click",
 			"#updChamp",
 			function() {
-				$("input#champId").attr("value", $(this).data('id'));
-				$("input#champName").attr("value", $(this).data('fullname'));
-				$("input#champShrtName").attr("value", $(this).data('shortname'));
-				$("input#champSeason").attr("value", $(this).data('season'));
+				$("input#champUpdId").attr("value", $(this).data('id'));
+				$("input#champUpdName").attr("value", $(this).data('fullname'));
+				$("input#champUpdShrtName").attr("value",
+						$(this).data('shortname'));
+				$("input#champUpdSeason").attr("value", $(this).data('season'));
+				$("input#champUpdPartiNo").attr("value", $(this).data('partino'));
+				$("input#champUpdTmGrp").attr("value", $(this).data('partigroup'));
+
+				if ($(this).data('champUpdGrpNo') == $(
+						"option#G" + $(this).data('groupno')).val()) {
+					$("option#G" + $(this).data('groupno')).attr("selected",
+							"selected");
+				}
 				
-				if ($(this).data('formula') == $("option#" + $(this).data('formula'))
-						.val()) {
+				if ($(this).data('formula') == $(
+						"option#" + $(this).data('formula')).val()) {
 					$("option#" + $(this).data('formula')).attr("selected",
 							"selected");
 				}
@@ -294,6 +350,45 @@
 	$(document).on("click", "#updLogo", function() {
 		$("input#champId").attr("value", $(this).data('id'));
 
+	});
+	$('select#formula').change(
+			function() {
+				if ($("select#formula option:selected").val() === "FLEAG"
+						|| $("select#formula option:selected").val() === "FPOFF") {
+					$("select#champGrpNo").val("1");
+					$("select#champGrpNo").attr("readonly", "true");
+				}
+				else {
+					$("select#champGrpNo").removeAttr("readonly");
+				}
+				
+				
+				var pNo = $("#champPartiNo").val();
+				var gNo = $("#champGrpNo option:selected").text();
+				$("#champTeamGrp").val(pNo / gNo);
+			});
+	$("#champPartiNo").change(function() {
+		var pNo = $("#champPartiNo").val();
+		var gNo = $("#champGrpNo option:selected").text();
+		$("#champTeamGrp").val(pNo / gNo);
+	});
+
+	$("#champGrpNo").change(function() {
+		var pNo = $("#champPartiNo").val();
+		var gNo = $("#champGrpNo option:selected").text();
+		$("#champTeamGrp").val(pNo / gNo);
+	});
+
+	$("#champUpdPartiNo").change(function() {
+		var pNo = $("#champUpdPartiNo").val();
+		var gNo = $("#champUpdGrpNo option:selected").text();
+		$("#champUpdTmGrp").val(pNo / gNo);
+	});
+
+	$("#champUpdGrpNo").change(function() {
+		var pNo = $("#champUpdPartiNo").val();
+		var gNo = $("#champUpdGrpNo option:selected").text();
+		$("#champUpdTmGrp").val(pNo / gNo);
 	});
 
 	$(function() {
@@ -307,6 +402,9 @@
 				},
 				season : {
 					required : true,
+				},
+				champPartiNo : {
+					required : true,
 				}
 			},
 			messages : {
@@ -318,6 +416,9 @@
 				},
 				season : {
 					required : "Season is required!",
+				},
+				champPartiNo : {
+					required : "No. of participants is required!",
 				}
 			}
 		});
@@ -331,6 +432,9 @@
 				},
 				champSeason : {
 					required : true,
+				},
+				champPartiNo : {
+					required : true,
 				}
 			},
 			messages : {
@@ -342,6 +446,9 @@
 				},
 				champSeason : {
 					required : "Season is required!",
+				},
+				champPartiNo : {
+					required : "No. of participants is required!",
 				}
 			}
 		});

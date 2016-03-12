@@ -141,7 +141,7 @@ public class ItemDAO {
 		Item items = null;
 		try {
 			TypedQuery<Item> query = em.createQuery(
-					"SELECT c FROM Item c WHERE c.name = ?1 AND c.language = ?2", 
+					"SELECT c FROM Item c WHERE c.item = ?1 AND c.language = ?2", 
 					Item.class);
 			query.setParameter(1, item);
 			query.setParameter(2, lang);

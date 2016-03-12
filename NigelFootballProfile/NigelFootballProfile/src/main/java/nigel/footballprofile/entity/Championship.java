@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -43,6 +44,15 @@ public class Championship {
 
 	@NotEmpty
 	private String logoUrl;
+	
+	@NotNull
+	private Integer participantNo;
+	
+	@NotNull
+	private Integer groupNo;
+	
+	@NotNull
+	private Integer teamsPerGroup;
 
 	@OneToMany(mappedBy = "championship")
 	private Set<StandingsData> standingDatas = new HashSet<StandingsData>();
@@ -58,7 +68,6 @@ public class Championship {
 	private Set<Stadium> stadiums = new HashSet<Stadium>();
 	
 	public Championship() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getChampId() {
@@ -139,6 +148,30 @@ public class Championship {
 
 	public void setStadiums(Set<Stadium> stadiums) {
 		this.stadiums = stadiums;
+	}
+
+	public Integer getParticipantNo() {
+		return participantNo;
+	}
+
+	public void setParticipantNo(Integer participantNo) {
+		this.participantNo = participantNo;
+	}
+
+	public Integer getGroupNo() {
+		return groupNo;
+	}
+
+	public void setGroupNo(Integer groupNo) {
+		this.groupNo = groupNo;
+	}
+
+	public Integer getTeamsPerGroup() {
+		return teamsPerGroup;
+	}
+
+	public void setTeamsPerGroup(Integer teamsPerGroup) {
+		this.teamsPerGroup = teamsPerGroup;
 	}
 
 	@Override

@@ -84,6 +84,14 @@
 		<put-attribute name="title" value="Modify Scorer"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/modifyScorer.jsp"></put-attribute>
 	</definition>
+	<definition name="standing" extends="system">
+		<put-attribute name="title" value="Standings and Fixture"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/standing.jsp"></put-attribute>
+	</definition>
+	<definition name="group" extends="system">
+		<put-attribute name="title" value="Group"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/group.jsp"></put-attribute>
+	</definition>
 	
 	<definition name="404" extends="masterpage">
 		<put-attribute name="title" value="Page not found"></put-attribute>

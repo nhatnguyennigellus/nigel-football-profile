@@ -1070,24 +1070,60 @@ public class ProfileService {
 		return championshipDAO.update(championship);
 	}
 
+	/**
+	 * 
+	 * @param champShortName
+	 * @return
+	 */
 	public List<StandingsData> getChampionshipStanding(String champShortName) {
-		return null;
+		return standingDAO.getStandingByChampionship(champShortName);
 	}
 
-	public StandingsData getStandingsDataById(String id) {
-		return null;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public StandingsData getStandingsDataById(Integer id) {
+		return standingDAO.getById(id);
 	}
 
+	/**
+	 * 
+	 * @param team
+	 * @param champShortName
+	 * @return
+	 */
 	public StandingsData getStandingsDataByTeam(Team team, String champShortName) {
-		return null;
+		return standingDAO.getByTeam(team, champShortName);
 	}
 
-	public boolean addStandingsData(StandingsData StandingsData) {
-		return false;
+	/**
+	 * 
+	 * @param standingsData
+	 * @return
+	 */
+	public boolean addStandingsData(StandingsData standingsData) {
+		return standingDAO.add(standingsData);
+	}
+	
+	/**
+	 * 
+	 * @param champShortName
+	 * @param group
+	 * @return
+	 */
+	public List<StandingsData> getGroupStanding(String champShortName, String group) {
+		return standingDAO.getByGroup(champShortName, group);
 	}
 
-	public boolean updateStandingsData(StandingsData StandingsData) {
-		return false;
+	/**
+	 * 
+	 * @param standingsData
+	 * @return
+	 */
+	public boolean updateStandingsData(StandingsData standingsData) {
+		return standingDAO.update(standingsData);
 	}
 	
 	/**
