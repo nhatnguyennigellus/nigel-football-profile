@@ -41,6 +41,9 @@ public class Championship {
 
 	@NotEmpty
 	private String formula;
+	
+	@NotEmpty
+	private String rounds;
 
 	@NotEmpty
 	private String logoUrl;
@@ -53,6 +56,9 @@ public class Championship {
 	
 	@NotNull
 	private Integer teamsPerGroup;
+	
+	@NotEmpty
+	private String language;
 
 	@OneToMany(mappedBy = "championship")
 	private Set<StandingsData> standingDatas = new HashSet<StandingsData>();
@@ -172,6 +178,22 @@ public class Championship {
 
 	public void setTeamsPerGroup(Integer teamsPerGroup) {
 		this.teamsPerGroup = teamsPerGroup;
+	}
+
+	public String getRounds() {
+		return rounds;
+	}
+
+	public void setRounds(String rounds) {
+		this.rounds = rounds;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	@Override

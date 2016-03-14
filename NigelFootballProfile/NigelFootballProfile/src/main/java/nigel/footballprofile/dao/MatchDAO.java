@@ -108,6 +108,13 @@ public class MatchDAO  {
 		return match;
 	}
 
+	/**
+	 * 
+	 * @return
+	 *
+	 * Jan 12, 2016 7:48:55 AM
+	 * @author Nigellus
+	 */
 	public List<Match> getByChamp(int champId) {
 		List<Match> list = null;
 		try {

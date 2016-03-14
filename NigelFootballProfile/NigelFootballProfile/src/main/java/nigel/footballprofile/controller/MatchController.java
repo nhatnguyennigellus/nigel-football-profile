@@ -130,23 +130,16 @@ public class MatchController {
 
 		if (champ != null) {
 			if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
-				if (champ.getFullName().contains("Bundesliga")) {
+				
 					listItem = profileService
-							.getItemByType("LEAGUE ROUND", "D");
-				} else {
-					listItem = profileService
-							.getItemByType("LEAGUE ROUND", "E");
-				}
+							.getItemByType("LEAGUE ROUND", champ.getLanguage());
 
 			} else if (champ.getFormula().equals(
 					AppConstant.CHAMP_FORM_PLAY_OFF)) {
-				if (champ.getFullName().contains("DFB")) {
-					listItem = profileService.getItemByType("CUP ROUND", "D");
-				} else {
-					listItem = profileService.getItemByType("CUP ROUND", "E");
-				}
+				
+					listItem = profileService.getItemByType("CUP ROUND", champ.getLanguage());
 			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_TOUR)) {
-				listItem = profileService.getItemByType("TOUR ROUND", "E");
+				listItem = profileService.getItemByType("TOUR ROUND", champ.getLanguage());
 			}
 		}
 

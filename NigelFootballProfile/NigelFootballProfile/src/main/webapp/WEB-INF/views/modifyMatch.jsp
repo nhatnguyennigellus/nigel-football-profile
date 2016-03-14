@@ -32,7 +32,6 @@
 							type="hidden" value="${champ.champId }" />
 
 					</form>
-					</a>
 					<h4>
 			</div>
 		</c:if>
@@ -43,9 +42,9 @@
 						<form action="modifyMatch" method="post" role="form"
 							id="frmModifyMatch">
 							<input id="champId" class="form-control input-sm" name="champId"
-							type="hidden" value="${champ.champId }" />
-								<input id="matchId" class="form-control input-sm" name="matchId"
-							type="hidden" value="${match.matchId }" />
+								type="hidden" value="${champ.champId }" /> <input id="matchId"
+								class="form-control input-sm" name="matchId" type="hidden"
+								value="${match.matchId }" />
 							<c:if test="${txtError != null }">
 
 								<div class="alert alert-danger" role="alert">
@@ -187,7 +186,6 @@
 		$(this).datetimepicker('hide');
 	});
 
-			
 	$(function() {
 		$("#frmModifyMatch").validate({
 			rules : {

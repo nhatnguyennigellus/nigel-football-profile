@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import nigel.footballprofile.dao.ChampionshipDAO;
 import nigel.footballprofile.dao.CityDAO;
 import nigel.footballprofile.dao.CountryDAO;
@@ -34,9 +37,6 @@ import nigel.footballprofile.entity.State;
 import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.entity.TeamPlayer;
 import nigel.footballprofile.entity.WorkLog;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Provides services for this application
@@ -618,6 +618,25 @@ public class ProfileService {
 	public List<Match> getMatchListByChamp(int champId) {
 		return matchDAO.getByChamp(champId);
 	}
+	
+	/**
+	 * 
+	 * @param champId
+	 * @param round
+	 * @return
+	 *
+	 * @author Nigellus
+	 */
+	public List<Match> getMatchListByGroup(int champId, String round) {
+		List<Match> list = this.getMatchListByChamp(champId);
+		List<Match> rtnList = new ArrayList<Match>();
+		for (Match match : list) {
+			if (match.getRound().equals(round)) {
+				rtnList.add(match);
+			}
+		}
+		return rtnList;
+	}
 
 	/**
 	 * 
@@ -1100,15 +1119,6 @@ public class ProfileService {
 
 	/**
 	 * 
-	 * @param standingsData
-	 * @return
-	 */
-	public boolean addStandingsData(StandingsData standingsData) {
-		return standingDAO.add(standingsData);
-	}
-	
-	/**
-	 * 
 	 * @param champShortName
 	 * @param group
 	 * @return
@@ -1117,6 +1127,16 @@ public class ProfileService {
 		return standingDAO.getByGroup(champShortName, group);
 	}
 
+	/**
+	 * 
+	 * @param standingsData
+	 * @return
+	 */
+	public boolean addStandingsData(StandingsData standingsData) {
+		return standingDAO.add(standingsData);
+	}
+	
+	
 	/**
 	 * 
 	 * @param standingsData
