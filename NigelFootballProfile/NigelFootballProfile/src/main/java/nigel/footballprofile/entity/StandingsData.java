@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,40 +27,37 @@ public class StandingsData {
 	private Integer id;
 	
 	@NotEmpty
-	private String season;
-	
-	@NotEmpty
 	@Column(name = "groupName")
 	private String group;
 	
-	@NotEmpty
+	@NotNull
 	private Integer rank;
 	
-	@NotEmpty
+	@NotNull
 	private Integer played;
 	
-	@NotEmpty
+	@NotNull
 	private Integer win;
 	
-	@NotEmpty
+	@NotNull
 	private Integer loss;
 	
-	@NotEmpty
+	@NotNull
 	private Integer draw;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "goalsFor")
 	private Integer forGoals;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "goalsAgainst")
 	private Integer againstGoals;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "goalsDiff")
 	private Integer diffGoals;
 	
-	@NotEmpty
+	@NotNull
 	private Integer points;
 	
 	@ManyToOne
@@ -72,7 +70,15 @@ public class StandingsData {
 
 	
 	public StandingsData() {
-		// TODO Auto-generated constructor stub
+		this.points = 0;
+		this.played = 0;
+		this.forGoals = 0;
+		this.againstGoals = 0;
+		this.diffGoals = 0;
+		this.win= 0;
+		this.loss = 0;
+		this.draw = 0;
+				
 	}
 
 
@@ -94,17 +100,6 @@ public class StandingsData {
 	public void setGroup(String group) {
 		this.group = group;
 	}
-
-
-	public String getSeason() {
-		return season;
-	}
-
-
-	public void setSeason(String season) {
-		this.season = season;
-	}
-
 
 	public Integer getRank() {
 		return rank;

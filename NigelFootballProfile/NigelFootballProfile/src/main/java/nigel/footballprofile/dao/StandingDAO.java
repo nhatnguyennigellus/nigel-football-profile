@@ -153,6 +153,22 @@ public class StandingDAO{
 		List<StandingsData> data = null;
 		try {
 			TypedQuery<StandingsData> query = em.createQuery(
+					"SELECT s FROM StandingsData s WHERE s.group = ?1 AND s.championship.shortName = ?2", 
+					StandingsData.class);
+			query.setParameter(1, group);
+			query.setParameter(2, champShortName);
+			data = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return data;
+	}
+	
+	public List<StandingsData> getRanking(String champShortName, String group) {
+		List<StandingsData> data = null;
+		try {
+			TypedQuery<StandingsData> query = em.createQuery(
 					"SELECT s FROM StandingsData s WHERE s.group = ?1 AND s.championship.shortName = ?2"
 					+ " order by s.points desc, s.diffGoals, s.forGoals desc, s.againstGoals asc", 
 					StandingsData.class);
@@ -165,5 +181,4 @@ public class StandingDAO{
 		}
 		return data;
 	}
-	
 }

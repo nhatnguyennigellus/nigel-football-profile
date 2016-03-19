@@ -22,12 +22,15 @@
 						</button>
 					</a> <img alt="${champ.fullName }" width="25px"
 						src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
-					<%-- <a href="toAddMatch?champId=${champ.champId }">
-					<button class="btn btn-success btn-sm" name="submit" type="button"
-						value="Add">Add Match</button>
-				</a> --%>
+
 				</h3>
-				<h4>Group and Fixture</h4>
+				<h4>
+					Group and Fixture&nbsp;<a
+						href="toAddGroup?champId=${champ.champId }"><button
+							class="btn btn-success btn-sm" name="submit" type="button"
+							value="Add">Groups</button></a>
+				</h4>
+
 			</div>
 		</div>
 	</c:if>
@@ -61,30 +64,6 @@
 					</c:forEach>
 				</div>
 				<div class="panel panel-body">
-					<%-- <c:if test='${round == "TRGRA" }'>
-						<c:set value="${TRGRA }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRB" }'>
-						<c:set value="${TRGRB }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRC" }'>
-						<c:set value="${TRGRC }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRD" }'>
-						<c:set value="${TRGRD }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRE" }'>
-						<c:set value="${TRGRE }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRF" }'>
-						<c:set value="${TRGRF }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRG" }'>
-						<c:set value="${TRGRG }" var="GR" />
-					</c:if>
-					<c:if test='${round == "TRGRH" }'>
-						<c:set value="${TRGRH }" var="GR" />
-					</c:if> --%>
 					<c:if test="${round.startsWith('TRGR') eq true}">
 
 						<div class="col-lg-10">
@@ -204,7 +183,7 @@
 							</c:if>
 							<c:if test="${D.size() > 0 and round eq 'TRGRD'}">
 								<!-- Group D -->
-								<table class="table table-hover" id="tableStandings" >
+								<table class="table table-hover" id="tableStandings">
 									<thead>
 										<tr>
 											<th>&nbsp;</th>

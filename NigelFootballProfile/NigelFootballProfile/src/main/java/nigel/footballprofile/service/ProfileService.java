@@ -1126,6 +1126,26 @@ public class ProfileService {
 	public List<StandingsData> getGroupStanding(String champShortName, String group) {
 		return standingDAO.getByGroup(champShortName, group);
 	}
+	
+	/**
+	 * 
+	 * @param groupName
+	 * @param champShortName
+	 * @param team
+	 * @return
+	 *
+	 * Mar 19, 2016 1:28:24 PM
+	 * @author Nigellus
+	 */
+	public boolean isInGroup(String groupName, String champShortName, Team team) {
+		List<StandingsData> group = getGroupStanding(champShortName, groupName);
+		for (StandingsData std : group) {
+			if (std.getTeam().getTeamId().equals(team.getTeamId())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 

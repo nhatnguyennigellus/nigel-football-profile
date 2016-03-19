@@ -327,6 +327,7 @@
 			"click",
 			"#updChamp",
 			function() {
+				alert($(this).data('id'));
 				$("input#champUpdId").attr("value", $(this).data('id'));
 				$("input#champUpdName").attr("value", $(this).data('fullname'));
 				$("input#champUpdShrtName").attr("value",
