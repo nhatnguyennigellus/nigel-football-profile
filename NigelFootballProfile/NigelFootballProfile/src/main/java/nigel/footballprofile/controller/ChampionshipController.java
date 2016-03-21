@@ -76,8 +76,14 @@ public class ChampionshipController {
 		for (int i = 0; i < desc.length(); i += 2) {
 			listGrpNoOpt.add(Integer.parseInt(desc.substring(i, i+2)));
 		}
+		
+		List<Item> listLang = profileService.getItemByType("LANGUAGE");
+		List<Item> listRndFmt = profileService.getItemByType("ROUND FORMAT");
+		
 		model.addAttribute("listChamp", listChamp);
 		model.addAttribute("lstGrpNo", listGrpNoOpt);
+		model.addAttribute("lstLang", listLang);
+		model.addAttribute("lstRndFmt", listRndFmt);
 		model.addAttribute("partiNoMin", profileService.getItemByItem("NPMIN", "E").getDescription());
 		model.addAttribute("partiNoMax", profileService.getItemByItem("NPMAX", "E").getDescription());
 		if (!model.containsAttribute("champ")) {
@@ -114,6 +120,8 @@ public class ChampionshipController {
 		champ.setGroupNo(Integer.parseInt(request.getParameter("champGrpNo")));
 		champ.setParticipantNo(Integer.parseInt(request.getParameter("champPartiNo")));
 		champ.setLogoUrl("/resources/images/champ/brazuca-ball.png");
+		champ.setRounds(request.getParameter("champRndFmt"));
+		champ.setLanguage(request.getParameter("champLanguage"));
 		if (profileService.addChampionship(champ)) {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", "Added championship!");

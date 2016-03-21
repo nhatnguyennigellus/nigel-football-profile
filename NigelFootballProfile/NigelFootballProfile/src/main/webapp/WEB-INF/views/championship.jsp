@@ -213,6 +213,22 @@
 												<option id="FPOFF" value="FPOFF">Play-off</option>
 											</select>
 										</div>
+										<div class="form-group col-md-4">
+											<label for="champLanguage"> Language </label> <select id="champLanguage"
+												class="form-control input-sm" name="champLanguage">
+												<c:forEach items="${lstLang }" var="lang">
+													<option id="G${lang.item}" value="${lang.item }">${lang.description}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="champRndFmt"> Round Format </label> <select id="champRndFmt"
+												class="form-control input-sm" name="champRndFmt">
+												<c:forEach items="${lstRndFmt }" var="rf">
+													<option id="G${rf.item}" value="${rf.item }">${rf.item}</option>
+												</c:forEach>
+											</select>
+										</div>
 										<div class="form-group col-md-12">
 											<button class="btn btn-success btn-sm" name="submit"
 												type="submit" value="Add">Add</button>
@@ -292,6 +308,22 @@
 												<option id="FPOFF" value="FPOFF">Play-off</option>
 											</select>
 										</div>
+										<div class="form-group col-md-4">
+											<label for="champUpdLang"> Language </label> <select id="champUpdLang"
+												class="form-control input-sm" name="champLanguage">
+												<c:forEach items="${lstLang }" var="lang">
+													<option id="G${lang.item}" value="${lang.item }">${lang.description}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="champUpdRndFmt"> Round Format </label> <select id="champUpdRndFmt"
+												class="form-control input-sm" name="champUpdRndFmt">
+												<c:forEach items="${lstRndFmt }" var="rf">
+													<option id="G${rf.item}" value="${rf.item }">${rf.item}</option>
+												</c:forEach>
+											</select>
+										</div>
 										<div class="form-group col-md-12">
 											<button class="btn btn-success btn-sm" name="submit"
 												type="submit" value="Update">Update</button>
@@ -327,7 +359,6 @@
 			"click",
 			"#updChamp",
 			function() {
-				alert($(this).data('id'));
 				$("input#champUpdId").attr("value", $(this).data('id'));
 				$("input#champUpdName").attr("value", $(this).data('fullname'));
 				$("input#champUpdShrtName").attr("value",

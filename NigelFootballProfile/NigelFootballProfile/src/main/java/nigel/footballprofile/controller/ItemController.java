@@ -66,7 +66,8 @@ public class ItemController {
 		List<Item> listItem = new ArrayList<Item>();
  		String[] listLang = {"E", "D"};
 		String[] listType = {"LEAGUE", "TOUR", "CUP", "WLOG", "TEAM", "CHAMP", 
-				"POS", "LEAGUE ROUND", "TOUR ROUND", "CUP ROUND"};
+				"POS", "LEAGUE ROUND", "TOUR ROUND", "CUP ROUND", "LANGUAGE", 
+				"ROUND FORMAT"};
 
 		if (!request.getParameter("type").equals("All")
 				&& !request.getParameter("lang").equals("All")) {
