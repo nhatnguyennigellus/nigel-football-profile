@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import nigel.footballprofile.entity.Championship;
 import nigel.footballprofile.entity.Item;
 import nigel.footballprofile.entity.Player;
+import nigel.footballprofile.entity.StandingsData;
 import nigel.footballprofile.entity.State;
 import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.service.AppConstant;
@@ -107,13 +108,14 @@ public class StateController {
 		Championship champ = profileService.getChampionshipById(champId);
 		Team team = profileService.getTeamById(teamId);
 
-		if (profileService.existedTeamInChamp(team, champ)) {
+		if (profileService.onlineInChamp(team, champ)) {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError",
 					"Existed participant!");
 			return "redirect:participant?champId=" + champ.getChampId();
 		}
 
+		
 		state.setTeam(team);
 		state.setChampionship(champ);
 		if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
@@ -124,7 +126,34 @@ public class StateController {
 			state.setStatuz(AppConstant.TOUR_GROUP_STAGE);
 		}
 
-		if (profileService.addState(state)) {
+		if (profileService.existedInChamp(team, champ) > 0) {
+			state.setStateId(profileService.existedInChamp(team, champ));
+			if (profileService.updateState(state)) {
+				String successMsg = "Modified participant successfully!";
+				request.getSession().removeAttribute("txtError");
+				request.getSession().setAttribute("success", successMsg);
+
+				profileService.addWorkLog(
+						AppConstant.WLOG_UPDATE,
+						"Modify state/participant ["
+								+ state.getTeam().getFullName() + ", "
+								+ state.getStatuz() + ", "
+								+ state.getChampionship().getFullName() + "]");
+			} else {
+				request.getSession().removeAttribute("success");
+				request.getSession().setAttribute("txtError", "Error occurs!");
+			}
+		}
+		else if (profileService.addState(state)) {
+			List<StandingsData> listGr = 
+					profileService.getGroupStanding(champ.getShortName(), "L");
+			
+			if (listGr.size() == champ.getParticipantNo()) {
+				request.getSession().removeAttribute("success");
+				request.getSession().setAttribute("txtError", "Enough participants!");
+				return "redirect:participant?champId=" + champ.getChampId();
+			} 
+			
 			String successMsg = "Added participant successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
@@ -154,8 +183,35 @@ public class StateController {
 								+ state.getStatuz() + ", "
 								+ state.getChampionship().getFullName()
 								+ "]");
-			}
+			} 
+			
+			
+			StandingsData data = new StandingsData();
+			data.setTeam(team);
+			data.setChampionship(champ);
+			data.setRank(listGr.size() + 1);
+			data.setGroup("L");
+			
+			if (profileService.addStandingsData(data)) {
+				successMsg += " Added teams to group successfully!";
+				request.getSession().removeAttribute("txtError");
+				request.getSession().setAttribute("success", successMsg);
 
+				StringBuilder wlogDesc = new StringBuilder();
+				wlogDesc.append("Updated standing for " + champ.getFullName() + ": [");
+				for (StandingsData sdata : listGr) {
+					if (sdata != listGr.get(listGr.size() - 1)) {
+						wlogDesc.append(sdata.getTeam().getFullName() + ", ");
+					} else {
+						wlogDesc.append(sdata.getTeam().getFullName() + "]");
+					}
+				}
+
+				profileService.addWorkLog(AppConstant.WLOG_SUBMIT_QUALIFIERS, wlogDesc.toString());
+			} else {
+				request.getSession().removeAttribute("success");
+				request.getSession().setAttribute("txtError", "Error occurs!");
+			}
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");

@@ -22,14 +22,10 @@
 						</button>
 					</a> <img alt="${champ.fullName }" width="25px"
 						src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
-
-				</h3>
-				<h4>
-					Group and Fixture&nbsp;<a
-						href="toAddGroup?champId=${champ.champId }"><button
+					<a href="toAddGroup?champId=${champ.champId }"><button
 							class="btn btn-success btn-sm" name="submit" type="button"
 							value="Add">Groups</button></a>
-				</h4>
+				</h3>
 
 			</div>
 		</div>
@@ -143,7 +139,7 @@
 									</tbody>
 								</table>
 							</c:if>
-							<c:if test="${C.size() > 0 and  round eq 'TRGRC' }">
+							<c:if test="${C.size() > 0 and round eq 'TRGRC' }">
 								<!-- Group A -->
 								<table class="table table-hover" id="tableStandings">
 									<thead>
