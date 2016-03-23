@@ -83,14 +83,20 @@ public class StandingController {
 		List<String> rounds = new ArrayList<String>();
 		List<String> groups = new ArrayList<String>();
 		Item item = profileService.getItemByItem(champ.getRounds(), champ.getLanguage());
+		if (item == null) {
+			request.getSession().removeAttribute("success");
+			request.getSession().setAttribute("txtError", "Error occurs!");
+			return "redirect:championship";
+		}
 		String desc = item.getDescription();
+
 		for (int i = 0; i < desc.length(); i += 5) {
 			rounds.add(desc.substring(i, i + 5));
 		}
 		model.addAttribute("rounds", rounds);
 		// Add round for league
 		List<Item> listRound = new ArrayList<Item>();
-		
+
 		// Add matches per round
 		for (String round : rounds) {
 			List<Match> listMatch = new ArrayList<Match>();
@@ -100,8 +106,7 @@ public class StandingController {
 			if (round.startsWith("TRGR")) {
 				String groupName = round.substring(round.length() - 1);
 				groups.add(groupName);
-			}
-			else if (round.startsWith("LRD")) {
+			} else if (round.startsWith("LRD")) {
 				if (groups.size() == 0)
 					groups.add("L");
 				Item rnd = profileService.getItemByItem(round, champ.getLanguage());
@@ -114,14 +119,16 @@ public class StandingController {
 			listSD = profileService.getGroupStanding(champ.getShortName(), group);
 			model.addAttribute(group, listSD);
 		}
-		
+
 		String next = "";
-		if (champ.getFormula().equals(AppConstant.CHAMP_FORM_TOUR)) {
-			next = "standing";
-		} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
+		if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
 			next = "league";
 			model.addAttribute("listRound", listRound);
+		} else {
+			next = "standing";
 		}
+		request.getSession().removeAttribute("txtError");
+		request.getSession().removeAttribute("success");
 		return next;
 	}
 

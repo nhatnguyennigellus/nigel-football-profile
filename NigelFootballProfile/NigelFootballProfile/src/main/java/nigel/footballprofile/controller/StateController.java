@@ -193,7 +193,7 @@ public class StateController {
 			data.setGroup("L");
 			
 			if (profileService.addStandingsData(data)) {
-				successMsg += " Added teams to group successfully!";
+				successMsg += " Added teams to standing successfully!";
 				request.getSession().removeAttribute("txtError");
 				request.getSession().setAttribute("success", successMsg);
 

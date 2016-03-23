@@ -157,16 +157,16 @@
 									<i class="glyphicon glyphicon-calendar fa-4x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">${MatchNo }</div>
-									<div>Match</div>
+									<div class="huge">${Items }</div>
+									<div>Item</div>
 								</div>
 							</div>
 						</div>
 
 						<div class="panel-body">
-							<a href="toMatch"> <span class="pull-left">View
-									Matches</span> <span class="pull-right"> <i
-									class="glyphicon glyphicon-circle-arrow-right"></i>
+							<a href="toItem"> <span class="pull-left">View
+									Items</span> <span class="pull-right"> <i
+									class="glyphicon glyphicon-info-sign"></i>
 							</span></a>
 						</div>
 

@@ -22,9 +22,10 @@
 						</button>
 					</a> <img alt="${champ.fullName }" width="25px"
 						src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
+					<c:if test="${champ.formula == 'FTOUR' }">
 					<a href="toAddGroup?champId=${champ.champId }"><button
 							class="btn btn-success btn-sm" name="submit" type="button"
-							value="Add">Groups</button></a>
+							value="Add">Groups</button></a></c:if>
 				</h3>
 
 			</div>

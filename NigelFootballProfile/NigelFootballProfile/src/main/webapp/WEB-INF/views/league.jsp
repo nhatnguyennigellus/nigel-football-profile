@@ -13,7 +13,7 @@
 <body>
 
 	<c:if test="${champ.fullName != null  }">
-		<div class="row">
+		<div class="row" id="top">
 			<div class="col-lg-8">
 				<h3>
 					<a href="toChampionship">
@@ -36,31 +36,17 @@
 		</div>
 	</c:if>
 	<div class="row" id="search" style="display: none;">
-		<div class="col-lg-12">
-			<div class="panel panel-info">
-				<div class="panel panel-body">
-					<form action="match" class="form-inline">
-						<div class="form-group" id="frmSearch">
-							<label for="team">Select round</label>
-							<div class="input-group ">
-								<span class="input-group-addon"> <span
-									class=" glyphicon glyphicon-search"></span>
-								</span> <select id="srcRnd" class="form-control input-sm" type="text"
-									name="srcRnd">
-									<option value="All">All</option>
-									<c:forEach items="${listRound }" var="round">
-										<option value="${round.item}">${round.description}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel panel-body">
 
-						<button type="submit" class="btn btn-info btn-sm"
-							id="submitSearch">
-							<span class="glyphicon glyphicon-search "></span> Search
-						</button>
-
-					</form>
+							<c:forEach items="${listRound }" var="round">
+								<a href="#${round.item }"><button type="button"
+										style="width: 90px" class="btn btn-danger btn-xs"
+										id="submitSearch">${round.description }</button></a>
+							</c:forEach>
+					</div>
 				</div>
 
 			</div>
@@ -92,56 +78,54 @@
 				</div>
 				<div class="panel panel-body">
 					<!-- STANDINGS -->
-						<c:if test="${L.size() > 0}">
-							<table class="table table-hover" id="tableStandings">
-								<thead>
-									<tr>
-										<th>&nbsp;</th>
-										<th>Team</th>
-										<th>M</th>
-										<th>W</th>
-										<th>D</th>
-										<th>L</th>
-										<th>GF</th>
-										<th>GA</th>
-										<th>GD</th>
-										<th>P</th>
-									</tr>
+					<c:if test="${L.size() > 0}">
+						<table class="table table-hover" id="tableStandings">
+							<thead>
+								<tr>
+									<th>&nbsp;</th>
+									<th>Team</th>
+									<th>M</th>
+									<th>W</th>
+									<th>D</th>
+									<th>L</th>
+									<th>GF</th>
+									<th>GA</th>
+									<th>GD</th>
+									<th>P</th>
+								</tr>
 
-								</thead>
-								<tbody>
+							</thead>
+							<tbody>
 
-									<c:forEach var="standing" items="${L }" varStatus="rank">
-										<tr
-										<c:if test="${rank.count == 1 }">class="danger"</c:if>
+								<c:forEach var="standing" items="${L }" varStatus="rank">
+									<tr <c:if test="${rank.count == 1 }">class="danger"</c:if>
 										<c:if test="${rank.count le 4 and rank.count ge 2 }">class="info"</c:if>
-										<c:if test="${rank.count le 6 and rank.count ge 5 }">class="warning"</c:if>
-										>
-											<td><b>${rank.count }</b></td>
-											<td>${standing.team.fullName }</td>
-											<td>${standing.played }</td>
-											<td>${standing.win}</td>
-											<td>${standing.draw }</td>
-											<td>${standing.loss}</td>
-											<td>${standing.forGoals}</td>
-											<td>${standing.againstGoals}</td>
-											<td>${standing.diffGoals}</td>
-											<td>${standing.points}</td>
-										</tr>
-									</c:forEach>
+										<c:if test="${rank.count le 6 and rank.count ge 5 }">class="warning"</c:if>>
+										<td><b>${rank.count }</b></td>
+										<td>${standing.team.fullName }</td>
+										<td>${standing.played }</td>
+										<td>${standing.win}</td>
+										<td>${standing.draw }</td>
+										<td>${standing.loss}</td>
+										<td>${standing.forGoals}</td>
+										<td>${standing.againstGoals}</td>
+										<td>${standing.diffGoals}</td>
+										<td>${standing.points}</td>
+									</tr>
+								</c:forEach>
 
-								</tbody>
-							</table>
-						</c:if>
-					</div>
+							</tbody>
+						</table>
+					</c:if>
+				</div>
 			</div>
 		</div>
-		
+
 		<!-- FIXTURES -->
-		
+
 		<div id="fixture" style="display: none;">
 			<c:forEach items="${rounds}" var="round">
-				<div class="panel panel-info">
+				<div class="panel panel-info" id="${ round}">
 					<div class="panel panel-heading">
 						<c:forEach var="it" items="${sessionScope.Items}">
 							<c:if
@@ -149,6 +133,11 @@
 								<i>${it.description }</i>
 							</c:if>
 						</c:forEach>
+						<button class="btn btn-xs"
+								style="float: right" name="submit" type="submit" value="Submit">
+							<a href="#top"><span class=" glyphicon glyphicon-chevron-up"></span></a>
+</button>
+							
 					</div>
 					<div class="panel panel-body">
 						<div class="col-lg-12">
@@ -409,15 +398,17 @@
 		return value >= param;
 	});
 	$(document).on("click", "#showSearch", function() {
-		$("#search").fadeIn();
-		$("#showSearch").hide();
+		if(document.getElementById('search').style.display == "none")
+			$("#search").fadeIn();
+		else 
+			$("#search").hide();
 	});
-	
+
 	$(document).on("click", "#showStanding", function() {
 		$("#standing").fadeIn();
 		$("#fixture").hide();
 	});
-	
+
 	$(document).on("click", "#showFixture", function() {
 		$("#fixture").fadeIn();
 		$("#standing").hide();

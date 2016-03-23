@@ -88,6 +88,8 @@
 											data-groupno="${champ.groupNo}"
 											data-partino="${champ.participantNo}"
 											data-partigroup="${champ.teamsPerGroup}"
+											data-language="${champ.language}"
+											data-rounds="${champ.rounds}"
 											data-shortname="${champ.shortName }" id="updChamp">
 												<button type="button" class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-edit"></span>
@@ -376,6 +378,18 @@
 				if ($(this).data('formula') == $(
 						"option#" + $(this).data('formula')).val()) {
 					$("option#" + $(this).data('formula')).attr("selected",
+							"selected");
+				}
+				
+				if ($(this).data('language') == $(
+						"option#G" + $(this).data('language')).val()) {
+					$("option#G" + $(this).data('language')).attr("selected",
+							"selected");
+				}
+				
+				if ($(this).data('rounds') == $(
+						"option#G" + $(this).data('rounds')).val()) {
+					$("option#G" + $(this).data('rounds')).attr("selected",
 							"selected");
 				}
 			});
