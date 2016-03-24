@@ -23,9 +23,10 @@
 					</a> <img alt="${champ.fullName }" width="25px"
 						src="<c:url value="${champ.logoUrl}" />" /> ${champ.fullName }&nbsp;
 					<c:if test="${champ.formula == 'FTOUR' }">
-					<a href="toAddGroup?champId=${champ.champId }"><button
-							class="btn btn-success btn-sm" name="submit" type="button"
-							value="Add">Groups</button></a></c:if>
+						<a href="toAddGroup?champId=${champ.champId }"><button
+								class="btn btn-success btn-sm" name="submit" type="button"
+								value="Add">Groups</button></a>
+					</c:if>
 				</h3>
 
 			</div>
@@ -59,6 +60,13 @@
 							<i>${it.description }</i>
 						</c:if>
 					</c:forEach>
+					<a href="#" data-toggle="modal" data-target="#modalImportStadium" 
+					data-champid="${champ.champId }" data-round="${round }"
+					style="float:right;" id="btnImpMatch">
+						<button type="submit" class="btn btn-xs btn-warning">
+							<span class=" glyphicon glyphicon-save-file"></span> Import
+						</button>
+					</a>
 				</div>
 				<div class="panel panel-body">
 					<c:if test="${round.startsWith('TRGR') eq true}">
@@ -577,6 +585,40 @@
 				</div>
 			</div>
 		</c:forEach>
+		<div class="modal fade" id="modalImportStadium" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">IMPORT MATCHES</h4>
+					</div>
+
+					<form method="POST" role="form" action="importMatches"
+						id="frmImportStadium" enctype="multipart/form-data">
+						<div class="modal-body">
+							<input type="hidden" id="champImpMatch" name="champId" />
+							<input type="hidden" id="roundImpMatch" name="round" />
+							<dl class="dl-horizontal form-group">
+								<dt>File Import:</dt>
+								<dd>
+									<input type="file" id="fileUpload" name="file">
+								</dd>
+							</dl>
+
+						</div>
+						<div class="modal-footer">
+							<input class="btn btn-success btn-sm" type="submit"
+								value="Upload">
+							<button type="button" class="btn btn-danger btn-sm"
+								data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -596,6 +638,11 @@
 		$("input#goalB").attr("value", $(this).data('goalb'));
 		$("label#teamA").html($(this).data('teama'));
 		$("label#teamB").html($(this).data('teamb'));
+	});
+	
+	$(document).on("click", "#btnImpMatch", function() {
+		$("input#champImpMatch").attr("value", $(this).data('champid'));
+		$("input#roundImpMatch").attr("value", $(this).data('round'));
 	});
 
 	$(function() {

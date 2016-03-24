@@ -61,7 +61,9 @@
 										<span aria-hidden="true">&times;</span>
 									</button>${success }
 									<strong><a href="match?srcChamp=${champ.champId }"
-										class="alert-link">Back to match list</a></strong>
+										class="alert-link">Back to Match List</a></strong> or 
+										<strong><a href="standing?srcChamp=${champ.champId }"
+										class="alert-link">Back to Fixture</a></strong>
 								</div>
 							</c:if>
 							<div class="row">

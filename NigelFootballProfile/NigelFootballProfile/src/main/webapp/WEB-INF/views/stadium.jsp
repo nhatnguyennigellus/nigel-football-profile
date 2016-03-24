@@ -52,6 +52,7 @@
 							<thead>
 								<tr>
 									<th>No</th>
+									<th>ID</th>
 									<th>Name</th>
 									<th>UEFA Name</th>
 									<th>Capacity</th>
@@ -64,6 +65,7 @@
 								<c:forEach var="stadium" items="${listStadium }" varStatus="no">
 									<tr>
 										<td>${no.count }</td>
+										<td>${stadium.stadiumId }</td>
 										<td>${stadium.name }</td>
 										<td>${stadium.uefaName}</td>
 										<td>${stadium.capacity}</td>

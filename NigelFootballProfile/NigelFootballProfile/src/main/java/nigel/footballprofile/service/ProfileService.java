@@ -357,6 +357,10 @@ public class ProfileService {
 	public Team getTeamById(String id) {
 		return teamDAO.getById(id);
 	}
+	
+	public Team getTeamByName(String name, String shrtName) {
+		return teamDAO.getByName(name, shrtName);
+	}
 
 	/**
 	 * 

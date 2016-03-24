@@ -1,5 +1,9 @@
 package nigel.footballprofile.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +34,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Controller handles Match's actions
@@ -150,6 +156,133 @@ public class MatchController {
 		return "addMatch";
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param request
+	 * @param model
+	 * @return
+	 *
+	 * Mar 24, 2016 4:55:26 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/importMatches", method = RequestMethod.POST)
+	public String importMatches(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request, Model model) {
+		request.getSession().removeAttribute("txtError");
+		request.getSession().removeAttribute("success");
+
+		int champId = Integer.parseInt(request.getParameter("champId"));
+		Championship champ = profileService.getChampionshipById(champId);
+		
+		boolean isOK = true;
+	
+		boolean errExist = false;
+		StringBuilder errorMsg = new StringBuilder();
+		int count = 0;
+		if (!file.isEmpty()) {
+			BufferedReader br = null;
+			String line = "";
+
+			try {
+				InputStream inputStream = file.getInputStream();
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = br.readLine()) != null) {
+					String[] stdData = line.split(",");
+					if (stdData.length != 4) {
+						continue;
+					}
+
+					Team teamA = new Team();
+					Team teamB = new Team();
+					if (profileService.getTeamByName("", stdData[0]) != null) {
+						teamA = profileService.getTeamByName("", stdData[0]);
+					} else {
+						isOK = false;
+						errorMsg.append("Team A Short Name not found! ");
+						continue;
+					}
+					
+					if (profileService.getTeamByName("", stdData[1]) != null) {
+						teamB = profileService.getTeamByName("", stdData[1]);
+					} else {
+						isOK = false;
+						errorMsg.append("Team B Short Name not found! ");
+						continue;
+					}
+
+					
+					Date dateTime = null;
+					try {
+						dateTime = DateUtil.stringToDate(stdData[2]);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					Stadium stadium = profileService.getStadiumById(stdData[3]);
+					String round = request.getParameter("round");
+
+					Match match = new Match();
+					match.setMatchId(IDGenerator.genMatchId(profileService.getMatchList()));
+					match.setDateTime(dateTime);
+					match.setPlayed(false);
+					match.setRound(round);
+					match.setGoalA(0);
+					match.setGoalB(0);
+
+					match.setStadium(stadium);
+					match.setChampionship(champ);
+
+					MatchTeam matchTeamA = new MatchTeam();
+					matchTeamA.setTeam(teamA);
+					matchTeamA.setSide("A");
+					matchTeamA.setMatch(match);
+					MatchTeam matchTeamB = new MatchTeam();
+					matchTeamB.setTeam(teamB);
+					matchTeamB.setSide("B");
+					matchTeamB.setMatch(match);
+					match.getMatchTeams().add(matchTeamA);
+					match.getMatchTeams().add(matchTeamB);
+					
+					if (profileService.addMatch(match)
+							&& profileService.addMatchTeam(matchTeamA)
+							&& profileService.addMatchTeam(matchTeamB)) {
+						count++;
+					} else {
+						isOK = false;
+					}
+				}
+			} catch (IOException e) {
+				errorMsg.append(" Import error! ");
+				isOK = false;
+			}
+		} else {
+			errorMsg.append(" File was empty! ");
+			isOK = false;
+		}
+		
+		String successMsg = "";
+		if (count > 0) {
+			String ctryMsg = (count > 1) ? " matches" : " match";
+			successMsg = "Imported " + count + ctryMsg + " successfully!";
+		}
+		if (!isOK) {
+			errorMsg.append(" Error occurs! ");
+			if (errExist) {
+				errorMsg.append("One or more existed stadia");
+			}
+			request.getSession().setAttribute("txtError", errorMsg.toString());
+		}
+
+		// Add Work Log
+		if (!successMsg.equals("")) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+
+			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
+		}
+		
+		return "redirect:standing?srcChamp=" + champ.getChampId();
+	}
 	/**
 	 * 
 	 * @param match
