@@ -60,9 +60,9 @@
 							<i>${it.description }</i>
 						</c:if>
 					</c:forEach>
-					<a href="#" data-toggle="modal" data-target="#modalImportStadium" 
-					data-champid="${champ.champId }" data-round="${round }"
-					style="float:right;" id="btnImpMatch">
+					<a href="#" data-toggle="modal" data-target="#modalImportStadium"
+						data-champid="${champ.champId }" data-round="${round }"
+						style="float: right;" id="btnImpMatch">
 						<button type="submit" class="btn btn-xs btn-warning">
 							<span class=" glyphicon glyphicon-save-file"></span> Import
 						</button>
@@ -544,8 +544,9 @@
 																			<div class="col-md-12">
 																				<form method="POST" role="form" action="updateScore"
 																					id="frmUpdateScore">
-
-																					<input id="matchId" class="form-control input-sm"
+																					<input id="from" class="form-control input-sm"
+																						name="from" value="Standing"/> <input
+																						id="matchId" class="form-control input-sm"
 																						name="matchId" type="hidden" /> <input
 																						id="champId" class="form-control input-sm"
 																						name="srcChamp" type="hidden" />
@@ -599,8 +600,8 @@
 					<form method="POST" role="form" action="importMatches"
 						id="frmImportStadium" enctype="multipart/form-data">
 						<div class="modal-body">
-							<input type="hidden" id="champImpMatch" name="champId" />
-							<input type="hidden" id="roundImpMatch" name="round" />
+							<input type="hidden" id="champImpMatch" name="champId" /> <input
+								type="hidden" id="roundImpMatch" name="round" />
 							<dl class="dl-horizontal form-group">
 								<dt>File Import:</dt>
 								<dd>
@@ -639,7 +640,7 @@
 		$("label#teamA").html($(this).data('teama'));
 		$("label#teamB").html($(this).data('teamb'));
 	});
-	
+
 	$(document).on("click", "#btnImpMatch", function() {
 		$("input#champImpMatch").attr("value", $(this).data('champid'));
 		$("input#roundImpMatch").attr("value", $(this).data('round'));

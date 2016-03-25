@@ -116,7 +116,7 @@ public class StandingController {
 		// Add group standings
 		List<StandingsData> listSD = new ArrayList<StandingsData>();
 		for (String group : groups) {
-			listSD = profileService.getGroupStanding(champ.getShortName(), group);
+			listSD = profileService.getGroupRanking(champ.getShortName(), group);
 			model.addAttribute(group, listSD);
 		}
 

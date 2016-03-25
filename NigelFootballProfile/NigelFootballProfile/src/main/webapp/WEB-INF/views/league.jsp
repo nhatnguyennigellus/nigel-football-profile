@@ -41,11 +41,11 @@
 				<div class="panel panel-info">
 					<div class="panel panel-body">
 
-							<c:forEach items="${listRound }" var="round">
-								<a href="#${round.item }"><button type="button"
-										style="width: 90px" class="btn btn-danger btn-xs"
-										id="submitSearch">${round.description }</button></a>
-							</c:forEach>
+						<c:forEach items="${listRound }" var="round">
+							<a href="#${round.item }"><button type="button"
+									style="width: 90px" class="btn btn-danger btn-xs"
+									id="submitSearch">${round.description }</button></a>
+						</c:forEach>
 					</div>
 				</div>
 
@@ -133,11 +133,18 @@
 								<i>${it.description }</i>
 							</c:if>
 						</c:forEach>
-						<button class="btn btn-xs"
-								style="float: right" name="submit" type="submit" value="Submit">
+						<a href="#" data-toggle="modal" data-target="#modalImportStadium"
+							data-champid="${champ.champId }" data-round="${round }"
+							style="float: right;" id="btnImpMatch">
+							<button type="submit" class="btn btn-xs btn-warning">
+								<span class=" glyphicon glyphicon-save-file"></span> Import
+							</button>
+						</a>
+						<button class="btn btn-xs " style="float: right" name="submit"
+							type="submit" value="Submit">
 							<a href="#top"><span class=" glyphicon glyphicon-chevron-up"></span></a>
-</button>
-							
+						</button>
+
 					</div>
 					<div class="panel panel-body">
 						<div class="col-lg-12">
@@ -343,6 +350,40 @@
 					</div>
 				</div>
 			</c:forEach>
+			<div class="modal fade" id="modalImportStadium" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">IMPORT MATCHES</h4>
+					</div>
+
+					<form method="POST" role="form" action="importMatches"
+						id="frmImportStadium" enctype="multipart/form-data">
+						<div class="modal-body">
+							<input type="hidden" id="champImpMatch" name="champId" />
+							<input type="hidden" id="roundImpMatch" name="round" />
+							<dl class="dl-horizontal form-group">
+								<dt>File Import:</dt>
+								<dd>
+									<input type="file" id="fileUpload" name="file">
+								</dd>
+							</dl>
+
+						</div>
+						<div class="modal-footer">
+							<input class="btn btn-success btn-sm" type="submit"
+								value="Upload">
+							<button type="button" class="btn btn-danger btn-sm"
+								data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		</div>
 	</div>
 </body>
@@ -355,6 +396,11 @@
 				'aTargets' : [ 0, 2 ]
 			} ]
 		});
+	});
+	
+	$(document).on("click", "#btnImpMatch", function() {
+		$("input#champImpMatch").attr("value", $(this).data('champid'));
+		$("input#roundImpMatch").attr("value", $(this).data('round'));
 	});
 	$(document).on("click", "#btnDetail", function() {
 		$("input#matchId").attr("value", $(this).data('id'));
@@ -398,9 +444,9 @@
 		return value >= param;
 	});
 	$(document).on("click", "#showSearch", function() {
-		if(document.getElementById('search').style.display == "none")
+		if (document.getElementById('search').style.display == "none")
 			$("#search").fadeIn();
-		else 
+		else
 			$("#search").hide();
 	});
 

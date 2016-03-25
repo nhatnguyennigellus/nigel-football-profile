@@ -357,7 +357,7 @@ public class ProfileService {
 	public Team getTeamById(String id) {
 		return teamDAO.getById(id);
 	}
-	
+
 	public Team getTeamByName(String name, String shrtName) {
 		return teamDAO.getByName(name, shrtName);
 	}
@@ -1116,6 +1116,19 @@ public class ProfileService {
 	public List<StandingsData> getGroupStanding(String champShortName, String group) {
 		return standingDAO.getByGroup(champShortName, group);
 	}
+	
+	/**
+	 * 
+	 * @param champShortName
+	 * @param group
+	 * @return
+	 *
+	 * Mar 25, 2016 8:11:00 PM
+	 * @author Nigellus
+	 */
+	public List<StandingsData> getGroupRanking(String champShortName, String group) {
+		return standingDAO.getRanking(champShortName, group);
+	}
 
 	/**
 	 * 
@@ -1373,5 +1386,91 @@ public class ProfileService {
 		}
 
 		return -1;
+	}
+
+	/**
+	 * 
+	 * @param champ
+	 * @param match
+	 *
+	 *            Mar 25, 2016 3:35:10 PM
+	 * @author Nigellus
+	 */
+	public void updateStandingData(Championship champ, Match match, Match oldMatch, boolean firstTime) {
+		String group = "";
+		if (match.getRound().startsWith("TRGR")) {
+			group = match.getRound().substring(match.getRound().length() - 1);
+		} else if (match.getRound().startsWith("LRD")) {
+			group = "L";
+		}
+
+		List<StandingsData> standings = this.getGroupStanding(champ.getShortName(), group);
+		String rsltA = "";
+		String rsltB = "";
+		String rsltAold = "";
+		String rsltBold = "";
+		rsltA = match.getGoalA() > match.getGoalB() ? "W" : (match.getGoalA() < match.getGoalB() ? "L" : "D");
+		rsltB = rsltA == "W" ? "L" : (rsltA == "L" ? "W" : "D");
+		rsltAold = oldMatch.isPlayed() ? (oldMatch.getGoalA() > oldMatch.getGoalB() ? "W"
+				: (oldMatch.getGoalA() < oldMatch.getGoalB() ? "L" : "D")) : "U";
+		rsltBold = rsltAold == "W" ? "L" : (rsltAold == "L" ? "W" : (rsltAold == "U" ? "U" : "D"));
+		Team teamA = this.getMatchTeamBySide("A", match).getTeam();
+		Team teamB = this.getMatchTeamBySide("B", match).getTeam();
+		for (StandingsData data : standings) {
+			boolean isChanged = false;
+			// Add GF, GA
+			int addGf = 0;
+			int addGa = 0;
+			// Update played matches no., W, L, D
+			int addW = 0;
+			int addL = 0;
+			int addD = 0;
+
+			if (data.getTeam().getTeamId().equals(teamA.getTeamId())) {
+				isChanged = true;
+				// Add GF, GA
+				addGf = match.getGoalA();
+				addGa = match.getGoalB();
+				// Update played matches no., W, L, D
+				addW = rsltA == "W" ? 1 : 0;
+				addL = rsltA == "L" ? 1 : 0;
+				addD = rsltA == "D" ? 1 : 0;
+
+				data.setForGoals(data.getForGoals() - oldMatch.getGoalA() + addGf);
+				data.setAgainstGoals(data.getAgainstGoals() - oldMatch.getGoalB() + addGa);
+				data.setWin(data.getWin() - ((rsltAold == "W") ? 1 : 0) + addW);
+				data.setLoss(data.getLoss() - ((rsltAold == "L") ? 1 : 0) + addL);
+				data.setDraw(data.getDraw() - ((rsltAold == "D") ? 1 : 0) + addD);
+			} else if (data.getTeam().getTeamId().equals(teamB.getTeamId())) {
+				isChanged = true;
+				// Add GF, GA
+				addGf = match.getGoalB();
+				addGa = match.getGoalA();
+				// Update played matches no., W, L, D
+				addW = rsltB == "W" ? 1 : 0;
+				addL = rsltB == "L" ? 1 : 0;
+				addD = rsltB == "D" ? 1 : 0;
+
+				data.setForGoals(data.getForGoals() - oldMatch.getGoalB() + addGf);
+				data.setAgainstGoals(data.getAgainstGoals() - oldMatch.getGoalA() + addGa);
+				data.setWin(data.getWin() - ((rsltBold == "W") ? 1 : 0) + addW);
+				data.setLoss(data.getLoss() - ((rsltBold == "L") ? 1 : 0) + addL);
+				data.setDraw(data.getDraw() - ((rsltBold == "D") ? 1 : 0) + addD);
+			}
+
+			data.setPoints(data.getWin() * 3 + data.getDraw());
+			data.setDiffGoals(data.getForGoals() - data.getAgainstGoals());
+			data.setPlayed(data.getWin() + data.getLoss() + data.getDraw());
+
+			/*
+			 * Update Standing Data if there is any change.
+			 */
+			if (isChanged) {
+				isChanged = false;
+				// Update Standing
+				this.updateStandingsData(data);
+			}
+		}
+
 	}
 }

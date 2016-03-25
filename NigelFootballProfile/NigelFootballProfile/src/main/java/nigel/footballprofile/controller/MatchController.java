@@ -55,7 +55,7 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Jan 10, 2016 9:47:53 PM
+	 * 		Jan 10, 2016 9:47:53 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toMatch")
@@ -72,32 +72,31 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Jan 10, 2016 9:56:04 PM
+	 * 		Jan 10, 2016 9:56:04 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/match")
 	public String toMatch(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("Items", profileService.getItemList());
+		session.removeAttribute("txtError");
+		session.removeAttribute("success");
 		List<Stadium> listStadium = profileService.getStadiumList();
 		List<Team> listTeam = profileService.getTeamList();
 		List<Match> listMatch = new ArrayList<Match>();
 		List<Championship> listChamp = profileService.getChampionshipList();
 		Championship champ = new Championship();
 
-		if (request.getParameter("srcChamp") == null
-				|| request.getParameter("srcChamp").equals("All")) {
+		if (request.getParameter("srcChamp") == null || request.getParameter("srcChamp").equals("All")) {
 			listMatch = profileService.getMatchList();
 			request.setAttribute("selectedId", "All");
 		} else {
-			champ = profileService.getChampionshipById(Integer.parseInt(request
-					.getParameter("srcChamp")));
+			champ = profileService.getChampionshipById(Integer.parseInt(request.getParameter("srcChamp")));
 
-			listMatch = profileService.getMatchListByChamp(Integer
-					.parseInt(request.getParameter("srcChamp")));
+			listMatch = profileService.getMatchListByChamp(Integer.parseInt(request.getParameter("srcChamp")));
 			request.setAttribute("selectedId", request.getParameter("srcChamp"));
 			model.addAttribute("champ", champ);
-			
+
 		}
 		model.addAttribute("listStadium", listStadium);
 		model.addAttribute("listTeam", listTeam);
@@ -116,7 +115,7 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Jan 18, 2016 10:17:12 PM
+	 * 		Jan 18, 2016 10:17:12 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toAddMatch")
@@ -136,14 +135,12 @@ public class MatchController {
 
 		if (champ != null) {
 			if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
-				
-					listItem = profileService
-							.getItemByType("LEAGUE ROUND", champ.getLanguage());
 
-			} else if (champ.getFormula().equals(
-					AppConstant.CHAMP_FORM_PLAY_OFF)) {
-				
-					listItem = profileService.getItemByType("CUP ROUND", champ.getLanguage());
+				listItem = profileService.getItemByType("LEAGUE ROUND", champ.getLanguage());
+
+			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_PLAY_OFF)) {
+
+				listItem = profileService.getItemByType("CUP ROUND", champ.getLanguage());
 			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_TOUR)) {
 				listItem = profileService.getItemByType("TOUR ROUND", champ.getLanguage());
 			}
@@ -163,20 +160,19 @@ public class MatchController {
 	 * @param model
 	 * @return
 	 *
-	 * Mar 24, 2016 4:55:26 PM
+	 * 		Mar 24, 2016 4:55:26 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/importMatches", method = RequestMethod.POST)
-	public String importMatches(@RequestParam("file") MultipartFile file,
-			HttpServletRequest request, Model model) {
+	public String importMatches(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
 		request.getSession().removeAttribute("txtError");
 		request.getSession().removeAttribute("success");
 
 		int champId = Integer.parseInt(request.getParameter("champId"));
 		Championship champ = profileService.getChampionshipById(champId);
-		
+
 		boolean isOK = true;
-	
+
 		boolean errExist = false;
 		StringBuilder errorMsg = new StringBuilder();
 		int count = 0;
@@ -202,7 +198,7 @@ public class MatchController {
 						errorMsg.append("Team A Short Name not found! ");
 						continue;
 					}
-					
+
 					if (profileService.getTeamByName("", stdData[1]) != null) {
 						teamB = profileService.getTeamByName("", stdData[1]);
 					} else {
@@ -211,14 +207,19 @@ public class MatchController {
 						continue;
 					}
 
-					
 					Date dateTime = null;
 					try {
 						dateTime = DateUtil.stringToDate(stdData[2]);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					Stadium stadium = profileService.getStadiumById(stdData[3]);
+					Stadium stadium = new Stadium();
+					if (stdData[3].equals("Home")) {
+						stadium = teamA.getStadium();
+					} else {
+						stadium = profileService.getStadiumById(stdData[3]);
+					}
+
 					String round = request.getParameter("round");
 
 					Match match = new Match();
@@ -242,9 +243,8 @@ public class MatchController {
 					matchTeamB.setMatch(match);
 					match.getMatchTeams().add(matchTeamA);
 					match.getMatchTeams().add(matchTeamB);
-					
-					if (profileService.addMatch(match)
-							&& profileService.addMatchTeam(matchTeamA)
+
+					if (profileService.addMatch(match) && profileService.addMatchTeam(matchTeamA)
 							&& profileService.addMatchTeam(matchTeamB)) {
 						count++;
 					} else {
@@ -259,7 +259,7 @@ public class MatchController {
 			errorMsg.append(" File was empty! ");
 			isOK = false;
 		}
-		
+
 		String successMsg = "";
 		if (count > 0) {
 			String ctryMsg = (count > 1) ? " matches" : " match";
@@ -280,9 +280,10 @@ public class MatchController {
 
 			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
 		}
-		
+
 		return "redirect:standing?srcChamp=" + champ.getChampId();
 	}
+
 	/**
 	 * 
 	 * @param match
@@ -291,20 +292,17 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Jan 18, 2016 11:26:47 PM
+	 * 		Jan 18, 2016 11:26:47 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/addMatch", method = RequestMethod.POST)
-	public String addMatch(@ModelAttribute("match") @Valid Match match,
-			BindingResult result, Model model, HttpServletRequest request) {
-		Team teamA = profileService.getTeamById(request.getParameter("teamA")
-				.toString());
-		Team teamB = profileService.getTeamById(request.getParameter("teamB")
-				.toString());
+	public String addMatch(@ModelAttribute("match") @Valid Match match, BindingResult result, Model model,
+			HttpServletRequest request) {
+		Team teamA = profileService.getTeamById(request.getParameter("teamA").toString());
+		Team teamB = profileService.getTeamById(request.getParameter("teamB").toString());
 		if (teamA.getTeamId().equals(teamB.getTeamId())) {
 			request.getSession().removeAttribute("success");
-			request.getSession().setAttribute("txtError",
-					"Team A must not be the same as Team B!");
+			request.getSession().setAttribute("txtError", "Team A must not be the same as Team B!");
 			return toAddMatch(model, request);
 		}
 
@@ -316,8 +314,7 @@ public class MatchController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Stadium stadium = profileService.getStadiumById(request
-				.getParameter("stadium"));
+		Stadium stadium = profileService.getStadiumById(request.getParameter("stadium"));
 		String round = request.getParameter("round");
 
 		match.setMatchId(IDGenerator.genMatchId(profileService.getMatchList()));
@@ -341,18 +338,16 @@ public class MatchController {
 		match.getMatchTeams().add(matchTeamA);
 		match.getMatchTeams().add(matchTeamB);
 
-		if (profileService.addMatch(match)
-				&& profileService.addMatchTeam(matchTeamA)
+		if (profileService.addMatch(match) && profileService.addMatchTeam(matchTeamA)
 				&& profileService.addMatchTeam(matchTeamB)) {
 			String successMsg = "Added match successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			profileService.addWorkLog(AppConstant.WLOG_ADD, "Added match ["
-					+ matchTeamA.getTeam().getFullName() + " - "
-					+ matchTeamB.getTeam().getFullName() + ", "
-					+ match.getStadium().getName() + ", " + match.getRound()
-					+ ", " + match.getChampionship().getFullName() + "]");
+			profileService.addWorkLog(AppConstant.WLOG_ADD,
+					"Added match [" + matchTeamA.getTeam().getFullName() + " - " + matchTeamB.getTeam().getFullName()
+							+ ", " + match.getStadium().getName() + ", " + match.getRound() + ", "
+							+ match.getChampionship().getFullName() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
@@ -367,7 +362,7 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Jan 29, 2016 8:08:14 AM
+	 * 		Jan 29, 2016 8:08:14 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toModifyMatch")
@@ -385,15 +380,12 @@ public class MatchController {
 		if (champ != null) {
 			if (champ.getFormula().equals(AppConstant.CHAMP_FORM_LEAGUE)) {
 				if (champ.getFullName().contains("Bundesliga")) {
-					listItem = profileService
-							.getItemByType("LEAGUE ROUND", "D");
+					listItem = profileService.getItemByType("LEAGUE ROUND", "D");
 				} else {
-					listItem = profileService
-							.getItemByType("LEAGUE ROUND", "E");
+					listItem = profileService.getItemByType("LEAGUE ROUND", "E");
 				}
 
-			} else if (champ.getFormula().equals(
-					AppConstant.CHAMP_FORM_PLAY_OFF)) {
+			} else if (champ.getFormula().equals(AppConstant.CHAMP_FORM_PLAY_OFF)) {
 				if (champ.getFullName().contains("DFB")) {
 					listItem = profileService.getItemByType("CUP ROUND", "D");
 				} else {
@@ -426,19 +418,16 @@ public class MatchController {
 	 * @param request
 	 * @return
 	 *
-	 *         Feb 1, 2016 11:05:26 PM
+	 * 		Feb 1, 2016 11:05:26 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/modifyMatch", method = RequestMethod.POST)
 	public String modifyMatch(Model model, HttpServletRequest request) {
-		Team teamA = profileService.getTeamById(request.getParameter("teamA")
-				.toString());
-		Team teamB = profileService.getTeamById(request.getParameter("teamB")
-				.toString());
+		Team teamA = profileService.getTeamById(request.getParameter("teamA").toString());
+		Team teamB = profileService.getTeamById(request.getParameter("teamB").toString());
 		if (teamA.getTeamId().equals(teamB.getTeamId())) {
 			request.getSession().removeAttribute("success");
-			request.getSession().setAttribute("txtError",
-					"Team A must not be the same as Team B!");
+			request.getSession().setAttribute("txtError", "Team A must not be the same as Team B!");
 			return toModifyMatch(model, request);
 		}
 
@@ -450,8 +439,7 @@ public class MatchController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Stadium stadium = profileService.getStadiumById(request
-				.getParameter("stadium"));
+		Stadium stadium = profileService.getStadiumById(request.getParameter("stadium"));
 		String round = request.getParameter("round");
 		match.setDateTime(dateTime);
 		match.setRound(round);
@@ -462,19 +450,15 @@ public class MatchController {
 		mteamA.setTeam(teamA);
 		mteamB.setTeam(teamB);
 
-		if (profileService.updateMatch(match)
-				&& profileService.updateMatchTeam(mteamA)
+		if (profileService.updateMatch(match) && profileService.updateMatchTeam(mteamA)
 				&& profileService.updateMatchTeam(mteamB)) {
 			String successMsg = "Modified match successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			profileService.addWorkLog(
-					AppConstant.WLOG_UPDATE,
-					"Modified match [" + mteamA.getTeam().getFullName() + " - "
-							+ mteamB.getTeam().getFullName() + ", "
-							+ match.getStadium().getName() + ", "
-							+ match.getRound() + ", "
+			profileService.addWorkLog(AppConstant.WLOG_UPDATE,
+					"Modified match [" + mteamA.getTeam().getFullName() + " - " + mteamB.getTeam().getFullName() + ", "
+							+ match.getStadium().getName() + ", " + match.getRound() + ", "
 							+ match.getChampionship().getFullName() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
@@ -483,24 +467,28 @@ public class MatchController {
 
 		return toModifyMatch(model, request);
 	}
-	
+
 	/**
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 *
-	 * Feb 2, 2016 8:55:51 PM
+	 * 		Feb 2, 2016 8:55:51 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/updateScore", method = RequestMethod.POST)
 	public String updateScore(Model model, HttpServletRequest request) {
 		String matchId = request.getParameter("matchId");
-		int champId =  Integer.parseInt(request.getParameter("srcChamp"));
+		int champId = Integer.parseInt(request.getParameter("srcChamp"));
 		int goalA = Integer.parseInt(request.getParameter("goalA"));
 		int goalB = Integer.parseInt(request.getParameter("goalB"));
 
+		boolean is1stTime = true;
 		Match match = profileService.getMatchById(matchId);
+		Match oldMatch = profileService.getMatchById(matchId);
+
+		is1stTime = match.isPlayed() ? false : true;
 		match.setGoalA(goalA);
 		match.setGoalB(goalB);
 		match.setPlayed(true);
@@ -510,25 +498,33 @@ public class MatchController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
 
-			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Updated "
-					+ "score for match " + match.toString() + " - " + goalA
-					+ ":" + goalB);
+			Championship champ = profileService.getChampionshipById(champId);
+
+			if (match.getRound().startsWith("LRD") || match.getRound().startsWith("TRGR")) {
+				profileService.updateStandingData(champ, match, oldMatch, is1stTime);
+			}
+
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE,
+					"Updated " + "score for match " + match.toString() + " - " + goalA + ":" + goalB);
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
-		
+
 		model.addAttribute("champ", profileService.getChampionshipById(champId));
-		return "redirect:match?srcChamp=" + champId;
+
+		String next = "";
+		next = request.getParameter("from") != null ? "standing" : "match";
+		return "redirect:" + next + "?srcChamp=" + champId;
 	}
-	
+
 	/**
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 *
-	 * Feb 26, 2016 23:23:13 AM
+	 * 		Feb 26, 2016 23:23:13 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/toScorer")
@@ -537,9 +533,9 @@ public class MatchController {
 			request.getSession().removeAttribute("txtError");
 			request.getSession().removeAttribute("success");
 		}
-		
+
 		String matchId = request.getParameter("matchId");
-		int champId =  Integer.parseInt(request.getParameter("champId"));
+		int champId = Integer.parseInt(request.getParameter("champId"));
 		Match match = profileService.getMatchById(matchId);
 		Championship champ = profileService.getChampionshipById(champId);
 		model.addAttribute("match", match);
@@ -548,24 +544,24 @@ public class MatchController {
 		Team teamB = profileService.getMatchTeamBySide("B", match).getTeam();
 		model.addAttribute("teamPlayerA", teamA.getTeamplayers());
 		model.addAttribute("teamPlayerB", teamB.getTeamplayers());
-		
+
 		return "modifyScorer";
 	}
-	
+
 	/**
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 *
-	 * Feb 27, 2016 8:08:11 AM
+	 * 		Feb 27, 2016 8:08:11 AM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/addScorer")
 	public String addScorer(Model model, HttpServletRequest request) {
 		String matchId = request.getParameter("matchId");
 		Match match = profileService.getMatchById(matchId);
-		
+
 		int time = Integer.parseInt(request.getParameter("time"));
 		int addedTime = Integer.parseInt(request.getParameter("addedTime"));
 		String side = request.getParameter("side");
@@ -573,13 +569,12 @@ public class MatchController {
 		boolean og = request.getParameter("og") != null;
 		boolean pen = request.getParameter("pen") != null;
 		Player player = new Player();
-		if(og) {
+		if (og) {
 			player = profileService.getPlayerById(request.getParameter("player" + side + oppo));
-		}
-		else {
+		} else {
 			player = profileService.getPlayerById(request.getParameter("player" + side));
 		}
-		
+
 		Scorer scorer = new Scorer();
 		scorer.setMatch(match);
 		scorer.setOwnGoal(og);
@@ -589,30 +584,29 @@ public class MatchController {
 		scorer.setTime(time);
 		scorer.setAddedTime(addedTime);
 		scorer.setStatus(true);
-		
+
 		model.addAttribute("addScr", "Y");
 		if (profileService.addScorer(scorer)) {
 			String successMsg = "Added scorer successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
-			
-			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Added scorer ["
-					+ scorer.toString() + "]");
+
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Added scorer [" + scorer.toString() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
-		
+
 		return redirectToScorer(model, request);
 	}
-	
+
 	/**
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 *
-	 * Feb 28, 2016 12:22:59 PM
+	 * 		Feb 28, 2016 12:22:59 PM
 	 * @author Nigellus
 	 */
 	@RequestMapping(value = "/removeScorer")
@@ -625,14 +619,13 @@ public class MatchController {
 			String successMsg = "Removed scorer successfully!";
 			request.getSession().removeAttribute("txtError");
 			request.getSession().setAttribute("success", successMsg);
-			
-			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Removed scorer ["
-					+ scorer.toString() + "]");
+
+			profileService.addWorkLog(AppConstant.WLOG_SUBMIT_SCORE, "Removed scorer [" + scorer.toString() + "]");
 		} else {
 			request.getSession().removeAttribute("success");
 			request.getSession().setAttribute("txtError", "Error occurs!");
 		}
-		
+
 		return redirectToScorer(model, request);
 	}
 }
