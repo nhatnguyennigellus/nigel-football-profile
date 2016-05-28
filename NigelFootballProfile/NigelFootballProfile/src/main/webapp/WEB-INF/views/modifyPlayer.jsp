@@ -198,14 +198,6 @@
 				birthdate : {
 					required : true,
 				},
-				weight : {
-					digits : true,
-					minStrict : 30
-				},
-				height : {
-					digits : true,
-					minStrict : 100
-				},
 				nationality : {
 					required : true,
 				}
@@ -217,23 +209,11 @@
 				birthdate : {
 					required : "Birthdate is required",
 				},
-				weight : {
-					digits : "Must be a number",
-					minStrict : "Must be above 30kg"
-				},
-				height : {
-					digits : "Must be a number",
-					minStrict : "Must be above 100cm"
-				},
 				nationality : {
 					required : "Please select one or more countries"
 				}
 			}
 		})
-	});
-
-	$.validator.addMethod('minStrict', function(value, el, param) {
-		return (value >= param && value != null) || value == null;
 	});
 
 	$.validator.setDefaults({

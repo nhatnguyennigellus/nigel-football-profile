@@ -545,7 +545,7 @@
 																				<form method="POST" role="form" action="updateScore"
 																					id="frmUpdateScore">
 																					<input id="from" class="form-control input-sm"
-																						name="from" value="Standing"/> <input
+																						name="from" value="Standing" type="hidden"/> <input
 																						id="matchId" class="form-control input-sm"
 																						name="matchId" type="hidden" /> <input
 																						id="champId" class="form-control input-sm"

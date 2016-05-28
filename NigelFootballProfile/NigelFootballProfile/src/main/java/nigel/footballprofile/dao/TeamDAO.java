@@ -146,7 +146,6 @@ public class TeamDAO {
 		return team;
 	}
 	
-
 	public boolean existedCoach(String coach) {
 		try {
 			TypedQuery<Team> query = em.createQuery(

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -15,6 +15,10 @@
 		Player <a href="toAddPlayer">
 			<button type="button" class="btn btn-success">
 				<span class=" glyphicon glyphicon-plus"></span> Add
+			</button>
+		</a><a href="#" data-toggle="modal" data-target="#modalImportPlayer">
+			<button type="submit" class="btn btn-info">
+				<span class=" glyphicon glyphicon-save-file"></span> Import
 			</button>
 		</a>&nbsp;
 		<button type="button" class="btn btn-primary" id="showSearch">
@@ -248,7 +252,39 @@
 					</div>
 				</div>
 
+				<div class="modal fade" id="modalImportPlayer" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">IMPORT PLAYER</h4>
+							</div>
 
+							<form method="POST" role="form" action="importPlayer"
+								id="frmImportStadium" enctype="multipart/form-data">
+								<div class="modal-body">
+
+									<dl class="dl-horizontal form-group">
+										<dt>File Import:</dt>
+										<dd>
+											<input type="file" id="fileUpload" name="file">
+										</dd>
+									</dl>
+
+								</div>
+								<div class="modal-footer">
+									<input class="btn btn-success btn-sm" type="submit"
+										value="Upload">
+									<button type="button" class="btn btn-danger btn-sm"
+										data-dismiss="modal">Close</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

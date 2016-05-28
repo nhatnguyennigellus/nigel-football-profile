@@ -1114,16 +1114,34 @@ public class ProfileService {
 	 * @return
 	 */
 	public List<StandingsData> getGroupStanding(String champShortName, String group) {
-		return standingDAO.getByGroup(champShortName, group);
+		List<Match> listMatches = this.getMatchListByGroup(this.getChampionshipByShortName(champShortName).getChampId(),
+				group);
+		
+		List<StandingsData> standing = standingDAO.getByGroup(champShortName, group); 
+
+		
+		return rankGroupForm1(listMatches, standing);
 	}
-	
+
+	public List<StandingsData> rankGroupForm1(List<Match> listMatches, List<StandingsData> standing) {
+		for (int i = 0; i < standing.size(); i++) {
+			
+		}
+		
+		// Set rank and sort
+		for (int i = 0; i < standing.size(); i++) {
+			standing.get(i).setRank(i + 1);
+		}
+		
+		return standing;
+	}
 	/**
 	 * 
 	 * @param champShortName
 	 * @param group
 	 * @return
 	 *
-	 * Mar 25, 2016 8:11:00 PM
+	 * 		Mar 25, 2016 8:11:00 PM
 	 * @author Nigellus
 	 */
 	public List<StandingsData> getGroupRanking(String champShortName, String group) {

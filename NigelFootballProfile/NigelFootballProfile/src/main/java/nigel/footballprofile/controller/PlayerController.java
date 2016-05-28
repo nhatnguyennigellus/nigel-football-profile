@@ -1,5 +1,9 @@
 package nigel.footballprofile.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +15,7 @@ import javax.validation.Valid;
 
 import nigel.footballprofile.entity.Country;
 import nigel.footballprofile.entity.Player;
+import nigel.footballprofile.entity.Stadium;
 import nigel.footballprofile.entity.Team;
 import nigel.footballprofile.entity.TeamPlayer;
 import nigel.footballprofile.service.AppConstant;
@@ -25,6 +30,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Controller handles Player's action
@@ -161,6 +168,105 @@ public class PlayerController {
 		return "player";
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param request
+	 * @param model
+	 * @return
+	 *
+	 * May 26, 2016 11:11:12 PM
+	 * @author Nigellus
+	 */
+	@RequestMapping(value = "/importPlayer", method = RequestMethod.POST)
+	public String importStadium(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request, Model model) {
+		request.getSession().removeAttribute("txtError");
+		request.getSession().removeAttribute("success");
+
+		boolean isOK = true;
+		boolean errExist = false;
+		StringBuilder errorMsg = new StringBuilder();
+		int count = 0;
+		if (!file.isEmpty()) {
+			BufferedReader br = null;
+			String line = "";
+
+			try {
+				InputStream inputStream = file.getInputStream();
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = br.readLine()) != null) {
+					String[] stdData = line.split(",");
+					if (stdData.length != 8) {
+						continue;
+					}
+
+					Player player = new Player();
+					player.setPlayerId(IDGenerator.genPlayerId(profileService.getPlayerList()));
+					player.setFirstName(stdData[0]);
+					player.setLastName(stdData[1]);
+					Date dateTime = null;
+					try {
+						dateTime = DateUtil.stringToDate(stdData[2] + " 00:00:00");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					player.setBirthdate(dateTime);
+					player.setPosition(stdData[3]);
+					List<Country> natlty = new ArrayList<Country>();
+					natlty.add(profileService.getCountryByShortname(stdData[4]));
+					player.setNationalities(new HashSet<Country>(natlty));
+					
+					TeamPlayer tpNatl = null;
+					if(!stdData[5].equals("") && !stdData[6].equals("") &&
+							!stdData[7].equals("")) {
+						tpNatl = new TeamPlayer();
+						tpNatl.setPlayer(player);
+						tpNatl.setTeam(profileService.getTeamByName("", stdData[5]));
+						tpNatl.setCaptain(stdData[7].equals("Y") ? true : false);
+						tpNatl.setKitNumber(Integer.parseInt(stdData[6]));
+						tpNatl.setStatus(true);						
+					}
+					if (!profileService.addPlayer(player)) {
+						isOK = false;
+					} else {
+						if(tpNatl != null &&
+								!profileService.addTeamPlayer(tpNatl))
+							isOK = false;
+						count++;
+					}
+				}
+			} catch (IOException e) {
+				errorMsg.append(" File was empty! ");
+				isOK = false;
+			}
+		} else {
+			errorMsg.append(" File was empty! ");
+			isOK = false;
+		}
+
+		String successMsg = "";
+		if (count > 0) {
+			String ctryMsg = (count > 1) ? " player" : " players";
+			successMsg = "Imported " + count + ctryMsg + " successfully!";
+		}
+		if (!isOK) {
+			errorMsg.append(" Error occurs! ");
+			if (errExist) {
+				errorMsg.append("One or more existed players");
+			}
+			request.getSession().setAttribute("txtError", errorMsg.toString());
+		}
+
+		// Add Work Log
+		if (!successMsg.equals("")) {
+			request.getSession().removeAttribute("txtError");
+			request.getSession().setAttribute("success", successMsg);
+
+			profileService.addWorkLog(AppConstant.WLOG_IMPORT, successMsg);
+		}
+		return "redirect:player";
+	}
 	/**
 	 * 
 	 * @param model
